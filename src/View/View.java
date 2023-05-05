@@ -5,6 +5,7 @@
 package View;
 
 //import Controller.PessoaController;
+import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
 import controller.PessoaController;
@@ -48,11 +49,14 @@ public class View {
                     
                 case 2:
                     Pessoa pessoa = (Pessoa) PessoaController.cadastraPessoa();
-//                    Pessoa pessoa = new Pessoa();;
-//                    res = PessoaController.cadastraPessoas(pessoa);
-//                    System.out.println("Cadastrado com sucesso
-//                    System.out.println(pessoa.getLogin());;
-//                    System.out.println(pessoa.getSenha());
+                    
+                    Pessoa[] pessoas = PessoaController.listarPessoas();
+                    
+                    for(Pessoa p: pessoas){
+                        if(p != null){
+                            System.out.println(p.toString()+"\n\n");
+                        }
+                    }
                     break;
                     
                 case 0:
@@ -68,9 +72,22 @@ public class View {
     }
 
     private static void inSystem() {
+        int opc = -1;
         System.out.println("Escolha o que deseja fazer:");
-        System.out.println("Escolha o que deseja fazer:");
-        System.out.println("Escolha o que deseja fazer:");
+        System.out.println("1- Cadastrar novo médico:");
+        System.out.println("2- Atribuir nova função para usuario cadastrado:");
+//        System.out.println("2- cadastrar novo médico:");;
+//        System.out.println("2- cadastrar novo médico:");
+//        System.out.println("2- cadastrar novo médico:");
+//        System.out.println("2- cadastrar novo médico:");
+        opc = Integer.parseInt(scan.nextLine());
+        
+        switch(opc){
+            case 1:
+                Medico medico = new Medico(new Pessoa());
+                break;
+        }
+        
         System.out.println("Escolha o que deseja fazer:");
     }
 }

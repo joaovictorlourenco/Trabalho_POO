@@ -12,7 +12,8 @@ import java.util.Scanner;
  * @author yn719471
  */
 public class Pessoa {
-    private long id;
+    protected long id;
+    private static long serial;
     private String nome;
     private String endereco;
     private String cpf;
@@ -27,6 +28,7 @@ public class Pessoa {
     Scanner scan = new Scanner(System.in);
     
         public Pessoa() {
+            serial++;
             System.out.println("digite seu nome:");
             String nome = scan.nextLine();
             this.setNome(nome);
@@ -34,7 +36,7 @@ public class Pessoa {
             
             System.out.println("digite seu endereço:");
             String end = scan.nextLine();
-            this.setEndereco(cpf);
+            this.setEndereco(end);
 //            System.out.println(this.endereco);
             
             System.out.println("digite seu CPF:");
@@ -44,7 +46,7 @@ public class Pessoa {
             
             System.out.println("digite seu telefone:");
             String tel = scan.nextLine();
-            this.setTelefone(telefone);
+            this.setTelefone(tel);
 //            System.out.println(this.telefone);
             
             System.out.println("digite seu login:");
@@ -59,7 +61,7 @@ public class Pessoa {
             
             this.setDataCriacao(new Date());
             this.tipoUsuario = 1;
-            
+            this.id = serial;
 //            0 = ADM(dono da franquia?)
 //            1 = paciente
 //            2 = medico  
@@ -149,7 +151,14 @@ public class Pessoa {
 	}
 
     public void novoLogin(Pessoa pessoa) {
-        System.out.println("Insira um login que não esteja em uso:");
+        System.out.println("Insira um login que nao esteja em uso:");
         this.login = scan.nextLine();
     }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", cpf=" + cpf + ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + ", tipoUsuario=" + tipoUsuario + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
+    }
+    
+    
 }

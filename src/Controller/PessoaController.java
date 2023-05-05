@@ -1,8 +1,8 @@
 package controller;
 
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+//import java.util.Date;
+//import java.util.Scanner;
 
 import Model.Pessoa;
 
@@ -10,7 +10,7 @@ public class PessoaController {
     public static Pessoa[] pessoas = new Pessoa[100];
     public static int count = 0;
 
-    Scanner scan = new Scanner(System.in);
+//    Scanner scan = new Scanner(System.in);
     
     public static boolean login(String login, String senha) {
         boolean res = PessoaController.verifyLogin(login, senha);
@@ -26,10 +26,6 @@ public class PessoaController {
                 }
             }
         }
-//        if(cadastrado == true){;
-//            System.out.println("Login em uso... insira outro login:");
-//            pessoa.setLogin(scan.nextLine());
-//        }
         return cadastrado;
     }
     
@@ -97,6 +93,7 @@ public class PessoaController {
     }
 
     public static Pessoa[] listarPessoas() {
+//        return pessoas;
         return Arrays.copyOf(PessoaController.pessoas, PessoaController.count);
     }
 
