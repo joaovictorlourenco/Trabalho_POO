@@ -8,7 +8,7 @@ package View;
  *
  * @author jv232
  */
-public class Trabalho_de_POO {
+public class View {
 
     /**
      * @param args the command line arguments
