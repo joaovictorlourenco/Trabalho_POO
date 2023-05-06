@@ -5,12 +5,13 @@
 package Model;
 
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  *
  * @author yn719471
  */
-public class Medico {
+public class Medico extends Pessoa {
     private long id_pessoa;
     private String crm;
     private Pessoa pessoa;
@@ -20,11 +21,15 @@ public class Medico {
 //    private int franquia;
 //    private int unidade;
     
+    Scanner scan = new Scanner(System.in);
+    
     public Medico(Pessoa p) {
         this.id_pessoa = p.id;
+        this.pessoa = p;
+        
         System.out.println("digite o CRM");
-        String crm = scan.nextLine();
-        this.setCrm(crm);
+        String CRM = scan.nextLine();
+        this.setCrm(CRM);
 
         System.out.println("digite a especialidade");
         String espec = scan.nextLine();

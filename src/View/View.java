@@ -5,6 +5,7 @@
 package View;
 
 //import Controller.PessoaController;
+import Controller.MedicoController;
 import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
@@ -39,9 +40,9 @@ public class View {
                     String login = scan.nextLine();
                     System.out.println("Digite sua senha:");
                     String senha = scan.nextLine();
-                    res = PessoaController.login(login, senha);
-                    if(res == true){
-                        logado();
+                    Pessoa logPessoa = PessoaController.login(login, senha);
+                    if(logPessoa != null){
+                        logado(logPessoa);
                     } else {
                         System.out.println("login ou senha incorreta");
                     }
@@ -54,7 +55,7 @@ public class View {
                     
                     for(Pessoa p: pessoas){
                         if(p != null){
-                            System.out.println(p.toString()+"\n\n");
+                            System.out.println(p.toString()+"\n");
                         }
                     }
                     break;
@@ -66,28 +67,42 @@ public class View {
         }while(opcLog != 0);
     }
 
-    private static void logado() {
+    private static void logado(Pessoa pessoa) {
         System.out.println("Logado com sucesso");
-        inSystem();
+        inSystem(pessoa);
     }
 
-    private static void inSystem() {
+    private static void inSystem(Pessoa pessoa) {
+        Scanner scan = new Scanner(System.in);
         int opc = -1;
-        System.out.println("Escolha o que deseja fazer:");
-        System.out.println("1- Cadastrar novo médico:");
-        System.out.println("2- Atribuir nova função para usuario cadastrado:");
-//        System.out.println("2- cadastrar novo médico:");;
-//        System.out.println("2- cadastrar novo médico:");
-//        System.out.println("2- cadastrar novo médico:");
-//        System.out.println("2- cadastrar novo médico:");
-        opc = Integer.parseInt(scan.nextLine());
         
-        switch(opc){
-            case 1:
-                Medico medico = new Medico(new Pessoa());
-                break;
+        while(opc != 0){
+            System.out.println("Escolha o que deseja fazer:");
+            System.out.println("0- Para deslogar:");
+            System.out.println("1- Cadastrar novo médico:");
+            System.out.println("2- Atribuir nova função para usuario cadastrado:");
+
+            opc = Integer.parseInt(scan.nextLine());
+        
+            switch(opc){
+                case 1:
+                    Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
+                    Medico medico = new Medico(med);
+                    
+                    medico = MedicoController.cadastraMedico(medico);
+                    
+                    
+                    Medico[] medicos = MedicoController.listarMedicos();
+                    
+                    for(Medico m: medicos){
+                        if(m != null){
+                            System.out.println(m.toString()+"\n");
+                        }
+                    }
+                    break;
+            }            
         }
         
-        System.out.println("Escolha o que deseja fazer:");
+//        System.out.println("Escolha o que deseja fazer:");
     }
 }
