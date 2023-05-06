@@ -74,6 +74,7 @@ public class View {
 
     private static void inSystem(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
+        System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
         int opc = -1;
         
         while(opc != 0){
@@ -102,7 +103,5 @@ public class View {
                     break;
             }            
         }
-        
-//        System.out.println("Escolha o que deseja fazer:");
     }
 }

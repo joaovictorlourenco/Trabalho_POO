@@ -21,11 +21,9 @@ public class Medico extends Pessoa {
 //    private int franquia;
 //    private int unidade;
     
-    Scanner scan = new Scanner(System.in);
-    
     public Medico(Pessoa p) {
         this.id_pessoa = p.id;
-        this.pessoa = p;
+        this.setPessoa(p);
         
         System.out.println("digite o CRM");
         String CRM = scan.nextLine();

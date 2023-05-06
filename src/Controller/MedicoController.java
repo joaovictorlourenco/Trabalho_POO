@@ -55,20 +55,21 @@ public class MedicoController {
         }
     }
 
-    public static boolean removePessoas(int id) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == id) {
-                PessoaController.pessoas[i] = null;
-                for (int j = i; j < PessoaController.count - 1; j++) {
-                    PessoaController.pessoas[j] = PessoaController.pessoas[j + 1];
+    public static boolean removeMedicos(int id) {
+        for (int i = 0; i < MedicoController.count; i++) {
+            if (MedicoController.medicos[i].getId() == id) {
+                MedicoController.medicos[i] = null;
+                for (int j = i; j < MedicoController.count - 1; j++) {
+                    MedicoController.medicos[j] = MedicoController.medicos[j + 1];
                 }
-                PessoaController.count--;
+                MedicoController.count--;
                 return true;
             }
         }
         return false;
     }
-
+    
+/*=================== À Fazer ======================*/
     public static Pessoa buscarPorId(int id) {
         for (int i = 0; i < PessoaController.count; i++) {
             if (PessoaController.pessoas[i].getId() == id) {
@@ -77,30 +78,30 @@ public class MedicoController {
         }
         return null;
     }
-
-    public static boolean editarPessoas(Pessoa pessoa) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == pessoa.getId()) {
-                PessoaController.pessoas[i] = pessoa;
-                return true;
-            }
-        }
-        return false;
-    }
+/*=================== À Fazer ======================*/
+//    public static boolean editarMedicos(Medic pessoa) {;
+//        for (int i = 0; i < PessoaController.count; i++) {
+//            if (PessoaController.pessoas[i].getId() == pessoa.getId()) {
+//                PessoaController.pessoas[i] = pessoa;
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public static Medico[] listarMedicos() {
 //        return pessoas;
         return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
     }
 
-    public static Pessoa buscarPessoaPorCpf(String cpf) {
-        for(int i = 0; i < count; i++) {
-            if (pessoas[i].getCpf().equals(cpf)) {
-                return pessoas[i];
-            }
-        }
-        return null;
-    }
+//    public static Pessoa buscarPessoaPorCpf(String cpf) {
+//        for(int i = 0; i < count; i++) {
+//            if (pessoas[i].getCpf().equals(cpf)) {
+//                return pessoas[i];
+//            }
+//        }
+//        return null;
+//    }
     
     public static int proximaPosicaoLivre() {
         for (int i = 0; i < MedicoController.medicos.length; i++) {
@@ -111,17 +112,17 @@ public class MedicoController {
         return -1;
     }
         
-    public static boolean verifyLogin(String login, String senha){
-        for(Pessoa pessoa: pessoas){
-           if(pessoa.getLogin().equals(login)) {
-                if(pessoa.getSenha().equals(senha)){
-                    return true;
-                } else {
-                    return false;
-                }
-           }
-        }
-        return false;
-    }
+//    public static boolean verifyLogin(String login, String senha){
+//        for(Pessoa pessoa: pessoas){
+//           if(pessoa.getLogin().equals(login)) {
+//                if(pessoa.getSenha().equals(senha)){
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//           }
+//        }
+//        return false;
+//    }
 
 }

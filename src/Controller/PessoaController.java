@@ -12,9 +12,9 @@ public class PessoaController {
 
 //    Scanner scan = new Scanner(System.in);
     
-    public static boolean login(String login, String senha) {
-        boolean res = PessoaController.verifyLogin(login, senha);
-        return res;
+    public static Pessoa login(String login, String senha) {
+        Pessoa p = PessoaController.verifyLogin(login, senha);
+        return p;
     }
     
     public static boolean cadastrado(Pessoa pessoa){
@@ -115,17 +115,16 @@ public class PessoaController {
         return -1;
     }
         
-    public static boolean verifyLogin(String login, String senha){
+//    public static boolean verifyLogin(String login, String senha){
+    public static Pessoa verifyLogin(String login, String senha){
         for(Pessoa pessoa: pessoas){
            if(pessoa.getLogin().equals(login)) {
                 if(pessoa.getSenha().equals(senha)){
-                    return true;
-                } else {
-                    return false;
+                    return pessoa;
                 }
            }
         }
-        return false;
+        return null;
     }
 
 }
