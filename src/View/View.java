@@ -23,11 +23,11 @@ public class View {
         boolean res = false;
         int opcLog;
         Scanner scan = new Scanner(System.in);
-        System.out.println("Bem vindo ao sistema de gerenciamento de clinicas !!");
+        System.out.println("Bem vindo ao sistema de gerenciamento de clinicas !!!");
 
         
         do{
-            System.out.println("Digite 1 para logar, 2 para cadastrar ou 0 para sair");
+            System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
             opcLog = Integer.parseInt(scan.nextLine());
             
             while(opcLog != 1 && opcLog != 2 && opcLog != 0){
@@ -75,13 +75,13 @@ public class View {
     private static void inSystem(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
-        int opc = -1;
+        int opc;
         
-        while(opc != 0){
+        do{
             System.out.println("Escolha o que deseja fazer:");
-            System.out.println("0- Para deslogar:");
-            System.out.println("1- Cadastrar novo médico:");
-            System.out.println("2- Atribuir nova função para usuario cadastrado:");
+            System.out.println("0 - Deslogar:");
+            System.out.println("1 - Cadastrar novo medico:");
+            System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
 
             opc = Integer.parseInt(scan.nextLine());
         
@@ -92,16 +92,21 @@ public class View {
                     
                     medico = MedicoController.cadastraMedico(medico);
                     
-                    
                     Medico[] medicos = MedicoController.listarMedicos();
-                    
                     for(Medico m: medicos){
                         if(m != null){
                             System.out.println(m.toString()+"\n");
                         }
                     }
+
+                    Pessoa[] pessoas = PessoaController.listarPessoas();
+                    for(Pessoa p: pessoas){
+                        if(p != null){
+                            System.out.println(p.toString()+"\n");
+                        }
+                    }
                     break;
             }            
-        }
+        }while(opc != 0);
     }
 }

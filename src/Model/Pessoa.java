@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -20,135 +21,160 @@ public class Pessoa {
     private String telefone;
     private String login;
     private String senha;
-    private int tipoUsuario;
+    private int [] tipoUsuario = new int[4];
     private Date dataCriacao;
     private Date dataModificacao;
     
     
     Scanner scan = new Scanner(System.in);
     
-        public Pessoa() {
-            serial++;
-            System.out.println("digite seu nome:");
-            String nome = scan.nextLine();
-            this.setNome(nome);
+    public Pessoa() {
+        serial++;
+        System.out.println("digite seu nome:");
+        String nome = scan.nextLine();
+        this.setNome(nome);
 //            System.out.println(this.nome);
-            
-            System.out.println("digite seu endereço:");
-            String end = scan.nextLine();
-            this.setEndereco(end);
+
+        System.out.println("digite seu endereço:");
+        String end = scan.nextLine();
+        this.setEndereco(end);
 //            System.out.println(this.endereco);
-            
-            System.out.println("digite seu CPF:");
-            String cpf = scan.nextLine();
-            this.setCpf(cpf);
+
+        System.out.println("digite seu CPF:");
+        String cpf = scan.nextLine();
+        this.setCpf(cpf);
 //            System.out.println(this.cpf);
-            
-            System.out.println("digite seu telefone:");
-            String tel = scan.nextLine();
-            this.setTelefone(tel);
+
+        System.out.println("digite seu telefone:");
+        String tel = scan.nextLine();
+        this.setTelefone(tel);
 //            System.out.println(this.telefone);
-            
-            System.out.println("digite seu login:");
-            String login = scan.nextLine();
-            this.setLogin(login);
+
+        System.out.println("digite seu login:");
+        String login = scan.nextLine();
+        this.setLogin(login);
 //            System.out.println(this.login);
-            
-            System.out.println("digite seu sua senha:");
-            String senha = scan.nextLine();
-            this.setSenha(senha);
+
+        System.out.println("digite seu sua senha:");
+        String senha = scan.nextLine();
+        this.setSenha(senha);
 //            System.out.println(this.senha);
-            
-            this.setDataCriacao(new Date());
-            this.tipoUsuario = 1;
-            this.id = serial;
-//            0 = ADM(dono da franquia?)
-//            1 = paciente
-//            2 = medico  
-//            3 = dono da franquia
-//            4 = dono da unidade
 
+        this.setDataCriacao(new Date());
+        setTipoUsuario(1);
+        this.id = serial;
+  
+/*
+  ------------Permissões
+              1 = paciente
+              2 = medico  
+              3 = dono da franquia
+              4 = dono da unidade
+*/ 
+
+    }
+
+    public long getId() {
+            return id;
+    }
+
+    public void setId(int id) {
+            this.id = id;
+    }
+
+    public String getNome() {
+            return nome;
+    }
+
+    private void setNome(String nome) {
+            this.nome = nome;
+    }
+
+    public String getEndereco() {
+            return endereco;
+    }
+
+    private void setEndereco(String endereco) {
+            this.endereco = endereco;
+    }
+
+    public String getCpf() {
+            return cpf;
+    }
+
+    private void setCpf(String cpf) {
+            this.cpf = cpf;
+    }
+
+    public String getTelefone() {
+            return telefone;
+    }
+
+    private void setTelefone(String telefone) {
+            this.telefone = telefone;
+    }
+
+    public String getLogin() {
+            return login;
+    }
+
+    private void setLogin(String login) {
+            this.login = login;
+    }
+
+    public String getSenha() {
+            return senha;
+    }
+
+    private void setSenha(String senha) {
+            this.senha = senha;
+    }
+
+    public int[] getTipoUsuario() {
+            return Arrays.copyOf(this.tipoUsuario, this.tipoUsuario.length);
+    }
+
+    public void setTipoUsuario(int tipoUsuario) {
+        switch(tipoUsuario){
+            case 1:
+                this.tipoUsuario[0] = 1;
+                break;
+            case 2:
+                this.tipoUsuario[1] = 2;
+                break;
+            case 3:
+                this.tipoUsuario[2] = 3;
+                break;
+            case 4:
+                this.tipoUsuario[3] = 4;
+                break;
         }
+//            for (int i = 0; i < this.tipoUsuario.length; i++) {
+//                if (this.tipoUsuario[i] == tipoUsuario) {
+//                    this.tipoUsuario[i] = tipoUsuario;
+//                    break;
+//                }else if(this.tipoUsuario[i] == 0) {
+//                    this.tipoUsuario[i] = tipoUsuario;
+//                    break;
+//                }
+//            }
+    }
 
-	public long getId() {
-		return id;
-	}
+    public Date getDataCriacao() {
+            return dataCriacao;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setDataCriacao(Date dataCriacao) {
+            this.dataCriacao = dataCriacao;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Date getDataModificacao() {
+            return dataModificacao;
+    }
 
-	private void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	private void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	private void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	private void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	private void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	private void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public int getTipoUsuario() {
-		return tipoUsuario;
-	}
-
-	public void setTipoUsuario(int tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}
-
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public Date getDataModificacao() {
-		return dataModificacao;
-	}
-
-	public void setDataModificacao(Date dataModificacao) {
-		this.dataModificacao = dataModificacao;
-	}
+    public void setDataModificacao(Date dataModificacao) {
+            this.dataModificacao = dataModificacao;
+    }
 
     public void novoLogin(Pessoa pessoa) {
         System.out.println("Insira um login que nao esteja em uso:");
@@ -157,8 +183,6 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", cpf=" + cpf + ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + ", tipoUsuario=" + tipoUsuario + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
-    }
-    
-    
+        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", cpf=" + cpf + ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + ", tipoUsuario=" + Arrays.toString(tipoUsuario) + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
+    }    
 }

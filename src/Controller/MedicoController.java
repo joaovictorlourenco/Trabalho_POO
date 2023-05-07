@@ -21,19 +21,6 @@ public class MedicoController {
     public static int count = 0;
     
     public static Medico cadastraMedico(Medico m) {
-//        Pessoa pessoa = new Pessoa();
-//        boolean cadastrado = cadastrado(medico);
-//        
-//        if(cadastrado == true) {
-//            System.out.println("Médico já cadastrado");
-//            System.out.println("Deseja fazer alguma alteração nesse registro?");
-//        }
-//        
-//        while(cadastrado == true){
-//            pessoa.novoLogin(pessoa);
-//            cadastrado = cadastrado(pessoa);
-//        }
-
         boolean res = salvaMedicos(m);
         
         if(res == true){
@@ -69,11 +56,10 @@ public class MedicoController {
         return false;
     }
     
-/*=================== À Fazer ======================*/
-    public static Pessoa buscarPorId(int id) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == id) {
-                return PessoaController.pessoas[i];
+    public static Medico buscarPorId(int id) {
+        for (int i = 0; i < MedicoController.count; i++) {
+            if (MedicoController.medicos[i].getId() == id) {
+                return MedicoController.medicos[i];
             }
         }
         return null;
