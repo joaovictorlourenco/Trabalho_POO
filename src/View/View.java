@@ -4,6 +4,7 @@
  */
 package View;
 
+<<<<<<< HEAD
 //import Controller.PessoaController;
 import Controller.MedicoController;
 import Model.Medico;
@@ -16,10 +17,19 @@ import controller.PessoaController;
  * @author yn719471
  */
 public class View {
+=======
+/**
+ *
+ * @author jv232
+ */
+public class View {
+
+>>>>>>> main
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+<<<<<<< HEAD
         boolean res = false;
         int opcLog;
         Scanner scan = new Scanner(System.in);
@@ -105,4 +115,14 @@ public class View {
         
 //        System.out.println("Escolha o que deseja fazer:");
     }
+=======
+        
+           
+           
+        
+        
+        
+    }
+    
+>>>>>>> main
 }

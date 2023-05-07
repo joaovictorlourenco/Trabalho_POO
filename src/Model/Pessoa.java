@@ -12,8 +12,12 @@ import java.util.Scanner;
  * @author yn719471
  */
 public class Pessoa {
+<<<<<<< HEAD
     protected long id;
     private static long serial;
+=======
+    private long id;
+>>>>>>> main
     private String nome;
     private String endereco;
     private String cpf;
@@ -28,7 +32,10 @@ public class Pessoa {
     Scanner scan = new Scanner(System.in);
     
         public Pessoa() {
+<<<<<<< HEAD
             serial++;
+=======
+>>>>>>> main
             System.out.println("digite seu nome:");
             String nome = scan.nextLine();
             this.setNome(nome);
@@ -36,7 +43,11 @@ public class Pessoa {
             
             System.out.println("digite seu endereço:");
             String end = scan.nextLine();
+<<<<<<< HEAD
             this.setEndereco(end);
+=======
+            this.setEndereco(cpf);
+>>>>>>> main
 //            System.out.println(this.endereco);
             
             System.out.println("digite seu CPF:");
@@ -46,7 +57,11 @@ public class Pessoa {
             
             System.out.println("digite seu telefone:");
             String tel = scan.nextLine();
+<<<<<<< HEAD
             this.setTelefone(tel);
+=======
+            this.setTelefone(telefone);
+>>>>>>> main
 //            System.out.println(this.telefone);
             
             System.out.println("digite seu login:");
@@ -61,7 +76,11 @@ public class Pessoa {
             
             this.setDataCriacao(new Date());
             this.tipoUsuario = 1;
+<<<<<<< HEAD
             this.id = serial;
+=======
+            
+>>>>>>> main
 //            0 = ADM(dono da franquia?)
 //            1 = paciente
 //            2 = medico  
@@ -149,6 +168,7 @@ public class Pessoa {
 	public void setDataModificacao(Date dataModificacao) {
 		this.dataModificacao = dataModificacao;
 	}
+<<<<<<< HEAD
 
     public void novoLogin(Pessoa pessoa) {
         System.out.println("Insira um login que nao esteja em uso:");
@@ -161,4 +181,12 @@ public class Pessoa {
     }
     
     
+=======
+        
+        public String novoLogin(Pessoa pessoa){
+            System.out.println("Insira um novo login que não esteja em uso:");
+            this.login = scan.nextLine();
+            return login;
+        }
+>>>>>>> main
 }
