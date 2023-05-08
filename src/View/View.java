@@ -30,7 +30,7 @@ public class View {
         Pessoa p = PessoaController.buscarPorId(2);
         Medico m = new Medico(p, "CRM", "Especialidade");
         m = MedicoController.cadastraMedico(m);
- ////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
         System.out.println("Bem vindo ao sistema de gerenciamento de clinicas !!!");
@@ -74,7 +74,7 @@ public class View {
 
     ///// Função para o chamar o MENU para o usuario CONECTADO
     private static void logado(Pessoa pessoa) {
-        System.out.println("Logado com sucesso");
+        System.out.println("=============== Success ==============");
         inSystem(pessoa);
     }
 
@@ -181,21 +181,6 @@ public class View {
         
         listaMedicos();
         listaPessoas();
-        
-//
-//        Medico[] medicos = MedicoController.listarMedicos();
-//        for(Medico m: medicos){
-//            if(m != null){
-//                System.out.println(m.toString()+"\n");
-//            }
-//        }
-
-//        Pessoa[] pessoas = PessoaController.listarPessoas();
-//        for(Pessoa p: pessoas){
-//            if(p != null){
-//                System.out.println(p.toString()+"\n");
-//            }
-//        }
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,12 +192,7 @@ public class View {
         int papel;
         System.out.println("A seguir escolha um usuario cadastrado da lista abaixo e insira seu respectivo id para alteração:");
         listaPessoas();
-//        Pessoa[] pessoas = PessoaController.listarPessoas();
-//        for(Pessoa p: pessoas){
-//            if(p != null){
-//                System.out.println(p.toString()+"\n");
-//            }
-//        }
+
         toConvert = scan.nextLine();
         i = Integer.parseInt(toConvert);
         
@@ -268,35 +248,40 @@ public class View {
     }
 }
 
+/*
+***
+***
+do{
+    System.out.println("Escolha o que deseja fazer:");
+    System.out.println("0 - Deslogar:");
+    System.out.println("1 - Cadastrar novo medico:");
+    System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
 
-//        do{
-//            System.out.println("Escolha o que deseja fazer:");
-//            System.out.println("0 - Deslogar:");
-//            System.out.println("1 - Cadastrar novo medico:");
-//            System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-//
-//            opc = Integer.parseInt(scan.nextLine());
-//        
-//            switch(opc){
-//                case 1:
-//                    Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
-//                    Medico medico = new Medico(med);
-//                    
-//                    medico = MedicoController.cadastraMedico(medico);
-//                    
-//                    Medico[] medicos = MedicoController.listarMedicos();
-//                    for(Medico m: medicos){
-//                        if(m != null){
-//                            System.out.println(m.toString()+"\n");
-//                        }
-//                    }
-//
-//                    Pessoa[] pessoas = PessoaController.listarPessoas();
-//                    for(Pessoa p: pessoas){
-//                        if(p != null){
-//                            System.out.println(p.toString()+"\n");
-//                        }
-//                    }
-//                    break;
-//            }            
-//        }while(opc != 0);
+    opc = Integer.parseInt(scan.nextLine());
+
+    switch(opc){
+        case 1:
+            Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
+            Medico medico = new Medico(med);
+
+            medico = MedicoController.cadastraMedico(medico);
+
+            Medico[] medicos = MedicoController.listarMedicos();
+            for(Medico m: medicos){
+                if(m != null){
+                    System.out.println(m.toString()+"\n");
+                }
+            }
+
+            Pessoa[] pessoas = PessoaController.listarPessoas();
+            for(Pessoa p: pessoas){
+                if(p != null){
+                    System.out.println(p.toString()+"\n");
+                }
+            }
+            break;
+    }            
+}while(opc != 0);
+***
+***
+*/
