@@ -87,7 +87,7 @@ public class View {
         // menu para donos de franquia =========================================
         if(permissao[3] == 4){
             do{
-                System.out.println("---------- DONO DE FRANQUIA ----------");
+                System.out.println("---------- DONO DE FRANQUIA/ADM ----------");
                 System.out.println("Escolha o que deseja fazer:");
                 System.out.println("0 - Deslogar:");
                 System.out.println("1 - Cadastrar novo medico:");
