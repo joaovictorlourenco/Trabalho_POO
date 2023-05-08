@@ -57,6 +57,12 @@ public class Medico extends Pessoa {
         this.pessoa.setTipoUsuario(2);
     }
 
+    public long getId_pessoa() {
+        return id_pessoa;
+    }
+
+    
+    
     public String getCrm() {
         return crm;
     }

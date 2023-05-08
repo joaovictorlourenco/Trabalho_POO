@@ -1,5 +1,6 @@
 package controller;
 
+import Controller.MedicoController;
 import java.util.Arrays;
 //import java.util.Date;
 //import java.util.Scanner;
@@ -76,11 +77,17 @@ public class PessoaController {
     public static boolean removePessoas(int id) {
         for (int i = 0; i < PessoaController.count; i++) {
             if (PessoaController.pessoas[i].getId() == id) {
+                int[] tipoUsuario = PessoaController.pessoas[i].getTipoUsuario();
+                if(tipoUsuario[1] == 2){
+                    boolean res = MedicoController.removeMedicos(id);
+                }
+                
                 PessoaController.pessoas[i] = null;
                 for (int j = i; j < PessoaController.count - 1; j++) {
                     PessoaController.pessoas[j] = PessoaController.pessoas[j + 1];
                 }
                 PessoaController.count--;
+               
                 return true;
             }
         }

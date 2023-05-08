@@ -103,7 +103,7 @@ public class View {
                         alteraTipoUser();
                         break;
                     case 3:
-                        deletaPessoa();
+                        deletaPessoa(pessoa);
                         break;
                 }                   
             }while(opc != 0);
@@ -184,6 +184,7 @@ public class View {
         listaPessoas();
     }
     
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Função que altera o papel de algum usuario(Somente donos de franquia e de unidades de franquia podem realizar alterações)
     public static void alteraTipoUser() {
@@ -248,10 +249,48 @@ public class View {
         }
     }
 
-    private static void deletaPessoa() {
+    private static void deletaPessoa(Pessoa p) {
+        Scanner scan = new Scanner(System.in);
+        boolean res; int i;
         System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+        listaPessoas();
         String toConvert = scan.nextLine();
-        int i = Integer.parseInt(toConvert);        
+        i = Integer.parseInt(toConvert);
+        if(p.getId() == i){
+            System.out.println("nao eh possivel deletar");
+        }else{
+            res = PessoaController.removePessoas(i);
+            while(res == false && (i != 0) && (p.getId() != i)){
+                System.out.println("Erro ao buscar Pessoa");
+                System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
+                listaPessoas();
+                toConvert = scan.nextLine();
+                i = Integer.parseInt(toConvert);
+                if(p.getId() == i){
+                    System.out.println("não é possivel deletar");
+                }else{
+                    res = PessoaController.removePessoas(i);
+                }
+            }
+        }
+        listaPessoas();
+        listaMedicos();
+
+        
+//        Scanner scan = new Scanner(System.in);
+//        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+//        listaPessoas();
+//        String toConvert = scan.nextLine();
+//        int i = Integer.parseInt(toConvert);
+//        Pessoa p = PessoaController.buscarPorId(i);
+//        while(p == null){
+//            System.out.println("Erro ao buscar Pessoa");
+//            System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+//            listaPessoas();
+//            toConvert = scan.nextLine();
+//            i = Integer.parseInt(toConvert);
+//            p = PessoaController.buscarPorId(i);
+//        }
     }
 }
 

@@ -39,7 +39,7 @@ public class MedicoController {
 
     public static boolean removeMedicos(int id) {
         for (int i = 0; i < MedicoController.count; i++) {
-            if (MedicoController.medicos[i].getId() == id) {
+            if (MedicoController.medicos[i].getId_pessoa() == id) {
                 MedicoController.medicos[i] = null;
                 for (int j = i; j < MedicoController.count - 1; j++) {
                     MedicoController.medicos[j] = MedicoController.medicos[j + 1];
