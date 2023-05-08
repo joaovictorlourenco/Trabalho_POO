@@ -21,13 +21,25 @@ public class Pessoa {
     private String telefone;
     private String login;
     private String senha;
-    private int [] tipoUsuario = new int[4];
+    private final int [] tipoUsuario = new int[4];
     private Date dataCriacao;
     private Date dataModificacao;
     
     
     Scanner scan = new Scanner(System.in);
-    
+    public Pessoa(String nome, String end, String cpf, String tel, String login, String senha, int tipoUsuario) {
+        serial++;
+        this.id = serial;
+        this.setNome(nome);
+        this.setEndereco(end);
+        this.setCpf(cpf);
+        this.setTelefone(tel);
+        this.setSenha(senha);
+        this.setLogin(login);
+        this.setTipoUsuario(1);
+        this.setTipoUsuario(tipoUsuario);
+        this.setDataCriacao(new Date());
+    }
     public Pessoa() {
         serial++;
         System.out.println("digite seu nome:");
@@ -68,8 +80,8 @@ public class Pessoa {
   ------------Permissões
               1 = paciente
               2 = medico  
-              3 = dono da franquia
-              4 = dono da unidade
+              3 = dono da UNIDADE
+              4 = dono da FRANQUIA
 */ 
 
     }
@@ -78,9 +90,9 @@ public class Pessoa {
             return id;
     }
 
-    public void setId(int id) {
-            this.id = id;
-    }
+//    public void setId(int id) {
+//            this.id = id;
+//    }
 
     public String getNome() {
             return nome;
@@ -185,4 +197,32 @@ public class Pessoa {
     public String toString() {
         return "Pessoa{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", cpf=" + cpf + ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + ", tipoUsuario=" + Arrays.toString(tipoUsuario) + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
     }    
+
+    public void alteraTipoUsuario(int papel, int i) {
+        if(i == 0){
+            switch(papel){
+                case 2:
+                    this.tipoUsuario[1] = 0;
+                    break;
+                case 3:
+                    this.tipoUsuario[2] = 0;
+                    break;
+                case 4:
+                    this.tipoUsuario[3] = 0;
+                    break;
+            }
+        }else if(i == 1){
+            switch(papel){
+                case 2:
+                    this.tipoUsuario[1] = 2;
+                    break;
+                case 3:
+                    this.tipoUsuario[2] = 3;
+                    break;
+                case 4:
+                    this.tipoUsuario[3] = 4;
+                    break;
+            }
+        }
+    }
 }

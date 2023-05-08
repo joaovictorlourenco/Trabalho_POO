@@ -22,9 +22,21 @@ public class View {
     public static void main(String[] args) {
         boolean res = false;
         int opcLog;
+//////////////////////////////////////////////////////////////////////////////////////        
+        /// cast dos primeiros usuarios para testes e demonstrações........
+        for(int indice = 0; indice < 4; indice++){
+            PessoaController.preCadastroPessoa(indice);
+        }
+        Pessoa p = PessoaController.buscarPorId(2);
+        Medico m = new Medico(p, "CRM", "Especialidade");
+        m = MedicoController.cadastraMedico(m);
+ ////////////////////////////////////////////////////////////////////////////////////
+        
         Scanner scan = new Scanner(System.in);
         System.out.println("Bem vindo ao sistema de gerenciamento de clinicas !!!");
-
+        
+        listaPessoas();
+        listaMedicos();
         
         do{
             System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
@@ -50,14 +62,7 @@ public class View {
                     
                 case 2:
                     Pessoa pessoa = (Pessoa) PessoaController.cadastraPessoa();
-                    
-                    Pessoa[] pessoas = PessoaController.listarPessoas();
-                    
-                    for(Pessoa p: pessoas){
-                        if(p != null){
-                            System.out.println(p.toString()+"\n");
-                        }
-                    }
+                    listaPessoas();
                     break;
                     
                 case 0:
@@ -67,46 +72,231 @@ public class View {
         }while(opcLog != 0);
     }
 
+    ///// Função para o chamar o MENU para o usuario CONECTADO
     private static void logado(Pessoa pessoa) {
         System.out.println("Logado com sucesso");
         inSystem(pessoa);
     }
 
+    ///////// MENU DO SISTEMA ///////////////////
     private static void inSystem(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
         int opc;
+        int[] permissao = pessoa.getTipoUsuario();
+        // menu para donos de franquia =========================================
+        if(permissao[3] == 4){
+            do{
+                System.out.println("---------- DONO DE FRANQUIA ----------");
+                System.out.println("Escolha o que deseja fazer:");
+                System.out.println("0 - Deslogar:");
+                System.out.println("1 - Cadastrar novo medico:");
+                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+                
+                opc = Integer.parseInt(scan.nextLine());
+                switch(opc){
+                    case 1:
+                        criandoMedico();
+                        break;
+                    case 2:
+                        alteraTipoUser();
+                        break;
+                    case 3:
+                        break;
+                }                   
+            }while(opc != 0);
+        }
+        // menu de donos de unidade de franquia =========================================
+        else if(permissao[2] == 3){
+            do{
+                System.out.println("---------- DONO DE UNIDADE DE FRANQUIA ----------");
+                System.out.println("Escolha o que deseja fazer:");
+                System.out.println("0 - Deslogar:");
+                System.out.println("1 - Cadastrar novo medico:");
+                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+                
+                opc = Integer.parseInt(scan.nextLine());
+                switch(opc){
+                    case 1:
+                        criandoMedico();
+                        break;
+                    case 2:
+                        alteraTipoUser();
+                        break;
+                    case 3:
+                        break;
+                }            
+                
+            }while(opc != 0);
+        }
+        // menu de medicos ====================================================
+        else if(permissao[1] == 2){
+            do{
+                System.out.println("---------- MEDICO ----------");
+                System.out.println("Escolha o que deseja fazer:");
+                System.out.println("0 - Deslogar:");
+                System.out.println("1 - Cadastrar novo medico:");
+                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+                
+                opc = Integer.parseInt(scan.nextLine());
+                switch(opc){
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }          
+            }while(opc != 0);
+        }
+        //menu de pacientes =========================================
+        else {
+            do{
+                System.out.println("-------- PACIENTE -------");
+                System.out.println("Escolha o que deseja fazer:");
+                System.out.println("0 - Deslogar:");
+                System.out.println("1 - Cadastrar novo medico:");
+                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+                
+                opc = Integer.parseInt(scan.nextLine());
+                switch(opc){
+                    case 1:
+                        criandoMedico();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }                         
+            }while(opc != 0);
+        }
+    }
+    
+    /////////////////////////////////////
+    ////////////////////////////////////
+    private static void criandoMedico() {
+        Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
+        Medico medico = new Medico(med);
+        medico = MedicoController.cadastraMedico(medico);
         
-        do{
-            System.out.println("Escolha o que deseja fazer:");
-            System.out.println("0 - Deslogar:");
-            System.out.println("1 - Cadastrar novo medico:");
-            System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-
-            opc = Integer.parseInt(scan.nextLine());
+        listaMedicos();
+        listaPessoas();
         
-            switch(opc){
-                case 1:
-                    Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
-                    Medico medico = new Medico(med);
-                    
-                    medico = MedicoController.cadastraMedico(medico);
-                    
-                    Medico[] medicos = MedicoController.listarMedicos();
-                    for(Medico m: medicos){
-                        if(m != null){
-                            System.out.println(m.toString()+"\n");
-                        }
-                    }
+//
+//        Medico[] medicos = MedicoController.listarMedicos();
+//        for(Medico m: medicos){
+//            if(m != null){
+//                System.out.println(m.toString()+"\n");
+//            }
+//        }
 
-                    Pessoa[] pessoas = PessoaController.listarPessoas();
-                    for(Pessoa p: pessoas){
-                        if(p != null){
-                            System.out.println(p.toString()+"\n");
-                        }
-                    }
-                    break;
-            }            
-        }while(opc != 0);
+//        Pessoa[] pessoas = PessoaController.listarPessoas();
+//        for(Pessoa p: pessoas){
+//            if(p != null){
+//                System.out.println(p.toString()+"\n");
+//            }
+//        }
+    }
+    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Função que altera o papel de algum usuario(Somente donos de franquia e de unidades de franquia podem realizar alterações)
+    public static void alteraTipoUser() {
+        Scanner scan = new Scanner(System.in);
+        String toConvert;
+        int i;
+        int papel;
+        System.out.println("A seguir escolha um usuario cadastrado da lista abaixo e insira seu respectivo id para alteração:");
+        listaPessoas();
+//        Pessoa[] pessoas = PessoaController.listarPessoas();
+//        for(Pessoa p: pessoas){
+//            if(p != null){
+//                System.out.println(p.toString()+"\n");
+//            }
+//        }
+        toConvert = scan.nextLine();
+        i = Integer.parseInt(toConvert);
+        
+        Pessoa p = PessoaController.buscarPorId(i);
+        
+        if(p == null) {
+            System.out.println("id inválido");
+        }else {
+            System.out.println("1 - para adicionar papel");
+            System.out.println("0 - para remover papel");
+            toConvert = scan.nextLine();
+            i = Integer.parseInt(toConvert);
+//            i = Integer.parseInt(scan.nextLine());
+            while(i != 0 && i != 1){
+                System.out.println("Digite uma opção válida");
+                toConvert = scan.nextLine();
+                i = Integer.parseInt(toConvert);
+            }
+            System.out.println("Insira o tipo de papel a remover/alterar:");
+            System.out.println("2 - Papel de medico");
+            System.out.println("3 - Papel de dono de unidade de franquia");
+            System.out.println("4 - Papel de dono de franquia");
+            toConvert = scan.nextLine();
+            papel = Integer.parseInt(toConvert);
+            while(papel != 2 && papel != 3 && papel != 4){
+                System.out.println("Digite uma opção válida");
+                toConvert = scan.nextLine();
+                papel = Integer.parseInt(toConvert);
+            }
+            
+            p.alteraTipoUsuario(papel, i);
+        }
+    }
+
+    //// Listar Pessoas
+    private static void listaPessoas() {
+        Pessoa[] pessoas = PessoaController.listarPessoas();
+        for(Pessoa p: pessoas){
+            if(p != null){
+                System.out.println(p.toString());
+            }
+        }
+    }
+
+    //// Listar Medicos
+    private static void listaMedicos() {
+        Medico[] medicos = MedicoController.listarMedicos();
+        for(Medico m: medicos){
+            if(m != null){
+                System.out.println(m.toString());
+            }
+        }
     }
 }
+
+
+//        do{
+//            System.out.println("Escolha o que deseja fazer:");
+//            System.out.println("0 - Deslogar:");
+//            System.out.println("1 - Cadastrar novo medico:");
+//            System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+//
+//            opc = Integer.parseInt(scan.nextLine());
+//        
+//            switch(opc){
+//                case 1:
+//                    Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
+//                    Medico medico = new Medico(med);
+//                    
+//                    medico = MedicoController.cadastraMedico(medico);
+//                    
+//                    Medico[] medicos = MedicoController.listarMedicos();
+//                    for(Medico m: medicos){
+//                        if(m != null){
+//                            System.out.println(m.toString()+"\n");
+//                        }
+//                    }
+//
+//                    Pessoa[] pessoas = PessoaController.listarPessoas();
+//                    for(Pessoa p: pessoas){
+//                        if(p != null){
+//                            System.out.println(p.toString()+"\n");
+//                        }
+//                    }
+//                    break;
+//            }            
+//        }while(opc != 0);

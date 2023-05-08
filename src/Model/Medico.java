@@ -21,6 +21,17 @@ public class Medico extends Pessoa {
 //    private int franquia;
 //    private int unidade;
     
+    
+    /// builder para cast de pré cadastro 
+    public Medico(Pessoa p, String CRM, String espec) {
+        this.id_pessoa = p.id;
+        this.setPessoa(p);
+        this.setCrm(CRM);
+        this.setEspecialidade(espec);
+        this.setDataCriacao(new Date());
+    }
+    
+    //// builder de cadastro de medico
     public Medico(Pessoa p) {
         this.id_pessoa = p.id;
         this.setPessoa(p);
@@ -69,18 +80,22 @@ public class Medico extends Pessoa {
         this.especialidade = especialidade;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Date getDataModificacao() {
         return dataModificacao;
     }
 
+    @Override
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }

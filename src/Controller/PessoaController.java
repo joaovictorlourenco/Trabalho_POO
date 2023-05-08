@@ -29,6 +29,20 @@ public class PessoaController {
         return cadastrado;
     }
     
+    public static void preCadastroPessoa(int indice) {
+        Pessoa pessoa = new Pessoa("nome"+(indice+1), "endereco"+(indice+1), "CPF"+(indice+1), "Telefone"+(indice+1), "login"+(indice+1),
+                        "senha"+(indice+1), indice+1);
+        
+        boolean res = salvaPessoas(pessoa);
+        
+        if(res == true){
+            count++;
+            System.out.println("Cadastrado com sucesso");
+        } else {
+            System.out.println("Ocorreu um erro");
+        }
+    }
+    
     public static Pessoa cadastraPessoa() {
         Pessoa pessoa = new Pessoa();
         boolean cadastrado = cadastrado(pessoa);

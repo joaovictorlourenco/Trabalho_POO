@@ -5,11 +5,6 @@
 package Controller;
 
 import Model.Medico;
-import Model.Pessoa;
-import controller.PessoaController;
-import static controller.PessoaController.cadastrado;
-import static controller.PessoaController.count;
-import static controller.PessoaController.pessoas;
 import java.util.Arrays;
 
 /**
