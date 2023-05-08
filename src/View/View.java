@@ -10,6 +10,7 @@ import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
 import controller.PessoaController;
+import java.util.Arrays;
 
 /**
  *
@@ -85,18 +86,23 @@ public class View {
         int opc;
         int[] permissao = pessoa.getTipoUsuario();
         // menu para donos de franquia =========================================
-        if(permissao[3] == 4){
+        System.out.println("Escolha o que deseja fazer");
+        System.out.println("0 - Deslogar");
+        System.out.println("1 - Cadastrar novo medico");
+        System.out.println("2 - Atribuir nova funcao para usuario cadastrado");
+        System.out.println("3 - Deletar Pessoa");
+        System.out.println("4 - Criar uma Franquia");
+                   
+            System.out.println(Arrays.toString(permissao));
             do{
-                System.out.println("---------- DONO DE FRANQUIA/ADM ----------");
-                System.out.println("Escolha o que deseja fazer:");
-                System.out.println("0 - Deslogar:");
-                System.out.println("1 - Cadastrar novo medico:");
-                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-                System.out.println("3 - Deletar Pessoa:");
-                
+            
                 opc = Integer.parseInt(scan.nextLine());
                 switch(opc){
                     case 1:
+                        if(permissao[0] == 1){
+                        
+                        }
+                        
                         criandoMedico();
                         break;
                     case 2:
@@ -105,72 +111,22 @@ public class View {
                     case 3:
                         deletaPessoa(pessoa);
                         break;
+                    case 4: 
+                        Franquia();
+                    case 5:
+                        System.out.println("falta implementar");
+                    default:
+                        System.out.println("Não existe essa opção");
+                        opc = -1;
                 }                   
             }while(opc != 0);
         }
-        // menu de donos de unidade de franquia =========================================
-        else if(permissao[2] == 3){
-            do{
-                System.out.println("---------- DONO DE UNIDADE DE FRANQUIA ----------");
-                System.out.println("Escolha o que deseja fazer:");
-                System.out.println("0 - Deslogar:");
-                System.out.println("1 - Cadastrar novo medico:");
-                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-                
-                opc = Integer.parseInt(scan.nextLine());
-                switch(opc){
-                    case 1:
-                        criandoMedico();
-                        break;
-                    case 2:
-                        alteraTipoUser();
-                        break;
-                    case 3:
-                        break;
-                }            
-            }while(opc != 0);
-        }
-        // menu de medicos ====================================================
-        else if(permissao[1] == 2){
-            do{
-                System.out.println("---------- MEDICO ----------");
-                System.out.println("Escolha o que deseja fazer:");
-                System.out.println("0 - Deslogar:");
-                System.out.println("1 - Cadastrar novo medico:");
-                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-                
-                opc = Integer.parseInt(scan.nextLine());
-                switch(opc){
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }          
-            }while(opc != 0);
-        }
-        //menu de pacientes =========================================
-        else {
-            do{
-                System.out.println("-------- PACIENTE -------");
-                System.out.println("Escolha o que deseja fazer:");
-                System.out.println("0 - Deslogar:");
-                System.out.println("1 - Cadastrar novo medico:");
-                System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-                
-                opc = Integer.parseInt(scan.nextLine());
-                switch(opc){
-                    case 1:
-                        criandoMedico();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }                         
-            }while(opc != 0);
-        }
+    
+    //franquia
+    private static void Franquia() {
+        
+        
+        
     }
     
     /////////////////////////////////////
