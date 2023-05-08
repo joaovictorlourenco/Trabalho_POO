@@ -260,7 +260,7 @@ public class View {
             System.out.println("nao eh possivel deletar");
         }else{
             res = PessoaController.removePessoas(i);
-            while(res == false && (i != 0) && (p.getId() != i)){
+            while(res == false && (i != 0) || (p.getId() != i)){
                 System.out.println("Erro ao buscar Pessoa");
                 System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
                 listaPessoas();
