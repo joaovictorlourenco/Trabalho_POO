@@ -24,8 +24,8 @@ public class Medico extends Pessoa {
     
     /// builder para cast de pré cadastro 
     public Medico(Pessoa p, String CRM, String espec) {
-        this.id_pessoa = p.id;
 //        this.pessoa = new Pessoa(p.getNome(), p.getEndereco(), p.getCpf(), p.getTelefone(), p.getLogin(), p.getSenha(), 2);
+        this.id_pessoa = p.id;
         this.setPessoa(p);
         this.setCrm(CRM);
         this.setEspecialidade(espec);

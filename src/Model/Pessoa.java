@@ -77,7 +77,7 @@ public class Pessoa {
         this.id = serial;
   
 /*
-  ------------Permissões
+ ------------ Permissões
               1 = paciente
               2 = medico  
               3 = dono da UNIDADE

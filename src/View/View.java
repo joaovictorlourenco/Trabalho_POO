@@ -92,6 +92,7 @@ public class View {
                 System.out.println("0 - Deslogar:");
                 System.out.println("1 - Cadastrar novo medico:");
                 System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
+                System.out.println("3 - Deletar Pessoa:");
                 
                 opc = Integer.parseInt(scan.nextLine());
                 switch(opc){
@@ -102,6 +103,7 @@ public class View {
                         alteraTipoUser();
                         break;
                     case 3:
+                        deletaPessoa();
                         break;
                 }                   
             }while(opc != 0);
@@ -126,7 +128,6 @@ public class View {
                     case 3:
                         break;
                 }            
-                
             }while(opc != 0);
         }
         // menu de medicos ====================================================
@@ -245,6 +246,12 @@ public class View {
                 System.out.println(m.toString());
             }
         }
+    }
+
+    private static void deletaPessoa() {
+        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+        String toConvert = scan.nextLine();
+        int i = Integer.parseInt(toConvert);        
     }
 }
 
