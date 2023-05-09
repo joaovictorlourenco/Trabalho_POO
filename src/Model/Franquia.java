@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
@@ -35,6 +36,7 @@ public class Franquia {
         this.setCnpj(cnpj);
         this.setDataCriacao(new Date());
         
+        
     }
     
     public Franquia(){
@@ -46,10 +48,16 @@ public class Franquia {
         System.out.println("digite o nome da Franquia:");
         this.setNome(scan.nextLine());
         
-        System.out.println("digite");
+        System.out.println("digite a cidade da matriz");
+        this.setCidade(scan.nextLine());
         
+        System.out.println("digite o Endereco");
+        this.setEndereço(scan.nextLine());
         
+        System.out.println("digite o Cnpj");
+        this.setCnpj(scan.nextLine());
         
+        this.setDataCriacao(new Date());
     }
     
 //    public static FranquiaUnidade[] FranquiaUnidade(){
@@ -135,7 +143,7 @@ public class Franquia {
 
     @Override
     public String toString() {
-        return "Franquia{" + "id=" + id + ", nome=" + nome + ", cnpj=" + cnpj + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + ", scan=" + scan + '}';
+        return "Franquia{" + "id=" + id + ", nome=" + nome + ", cnpj=" + cnpj + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + "unidades=" + Arrays.toString(unidades) + '}';
     }
     
  

@@ -7,6 +7,7 @@ package View;
 //import Controller.PessoaController;
 import Controller.FranquiaController;
 import Controller.MedicoController;
+import Model.Franquia;
 import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
@@ -100,8 +101,9 @@ public class View {
                 opc = Integer.parseInt(scan.nextLine());
                 switch(opc){
                     case 1:
+                        //exemplo de permissão
                         if(permissao[0] == 1){
-                        
+                            System.out.println("Tenho permissão");
                         }
                         
                         criandoMedico();
@@ -113,7 +115,8 @@ public class View {
                         deletaPessoa(pessoa);
                         break;
                     case 4: 
-                        CriandoFranquia();
+                        menuFranquia();
+                        break;
                     case 5:
                         System.out.println("falta implementar");
                     default:
@@ -124,9 +127,22 @@ public class View {
         }
     
     //franquia
+    
+    private static void menuFranquia(){
+        System.out.println("==============Franquia==============");
+        System.out.println("0 - Voltar");
+        System.out.println("1 - Cadastrar nova Franquia");
+        System.out.println("2 - Deletar Franquia");
+        System.out.println("3 - Atualizar Franquia");
+        
+        listarFranquias();
+//        CriandoFranquia();
+        
+    }
+    
     private static void CriandoFranquia() {
         
-        Franquia NewFranquia = FranquiaController.
+        Franquia NewFranquia = FranquiaController.cadastraFranquia();
         
     }
     
@@ -184,6 +200,21 @@ public class View {
             
             p.alteraTipoUsuario(papel, i);
         }
+    }
+    ////listar Franquias
+    
+    private static void listarFranquias(){
+    
+        Franquia[] Franquias = FranquiaController.Franquias;
+        
+        for(Franquia Franquia: Franquias){
+            
+            if(Franquia != null){
+                System.out.println(Franquia.toString());
+            }
+            
+        }
+    
     }
 
     //// Listar Pessoas
