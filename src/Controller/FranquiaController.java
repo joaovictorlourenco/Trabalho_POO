@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.Franquia;
+import java.util.Arrays;
 
 
 /**
@@ -13,33 +14,42 @@ import Model.Franquia;
  */
 public class FranquiaController {
     
-    public static Franquia[] Franquia = new Franquia[100];
+    public static Franquia[] Franquias = new Franquia[100];
     public static int count = 0;
     
-  public static Franquia cadastraFranquia() {
+  public static Franquia cadastraFranquia(Franquia franquia) {
       
         Franquia Franquia = new Franquia();
-        
-        boolean res = SalvaFranquia(Franquia);
 
-        if(res === true){
-            
+        boolean res = SalvaFranquia(Franquia);
+        System.out.println(Arrays.toString(Franquias));
+        if(res == true){
+            count++;
+            System.out.println("Cadastrado com sucesso");
+        } else {
+            System.out.println("Ocorreu um erro");
         }
         
-        
-        
-//        boolean res = salvaPessoas(pessoa);
-//        
-//        if(res == true){
-//            count++;
-//            System.out.println("Cadastrado com sucesso");
-//        } else {
-//            System.out.println("Ocorreu um erro");
-//        }
-//        return(pessoa);
-      return null;
+        return (Franquia);
     }
   
-  public 
+    public static boolean SalvaFranquia(Franquia franquia) {
+        int prox = proximaPosicaoLivre();
+            if (prox != -1) {
+                Franquias[prox] = franquia;
+                return true;
+            } else {
+                return false;
+            }
+    }
+    
+    public static int proximaPosicaoLivre() {
+        for (int i = 0; i < FranquiaController.Franquias.length; i++) {
+            if (Franquias[i] == null) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
 }

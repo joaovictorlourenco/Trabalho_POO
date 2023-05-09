@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class Franquia {
     
-    private long id;
+    protected long id;
     private static long serial;
     private String nome; 
     private String cnpj; 
@@ -23,6 +23,7 @@ public class Franquia {
     private long id_responsavel; 
     private Date dataCriacao; 
     private Date dataModificacao;
+    private FranquiaUnidade[] unidades;
     
     Scanner scan = new Scanner(System.in);
     public Franquia(String nome, String cnpj, String cidade, String endereço) {
@@ -45,11 +46,17 @@ public class Franquia {
         System.out.println("digite o nome da Franquia:");
         this.setNome(scan.nextLine());
         
-        
+        System.out.println("digite");
         
         
         
     }
+    
+//    public static FranquiaUnidade[] FranquiaUnidade(){
+//            
+//        unidades = new FranquiaUnidade[];
+//        return ;
+//    }
 
     public long getId() {
         return id;

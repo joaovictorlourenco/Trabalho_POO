@@ -5,6 +5,7 @@
 package View;
 
 //import Controller.PessoaController;
+import Controller.FranquiaController;
 import Controller.MedicoController;
 import Model.Medico;
 import java.util.Scanner;
@@ -112,7 +113,7 @@ public class View {
                         deletaPessoa(pessoa);
                         break;
                     case 4: 
-                        Franquia();
+                        CriandoFranquia();
                     case 5:
                         System.out.println("falta implementar");
                     default:
@@ -123,9 +124,9 @@ public class View {
         }
     
     //franquia
-    private static void Franquia() {
+    private static void CriandoFranquia() {
         
-        
+        Franquia NewFranquia = FranquiaController.
         
     }
     
