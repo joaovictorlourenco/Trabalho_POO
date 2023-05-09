@@ -23,6 +23,7 @@ public class View {
     public static void main(String[] args) {
         boolean res = false;
         int opcLog;
+        String toConvert;
 //////////////////////////////////////////////////////////////////////////////////////        
         /// cast dos primeiros usuarios para testes e demonstrações........
         for(int indice = 0; indice < 4; indice++){
@@ -34,14 +35,16 @@ public class View {
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
-        System.out.println("Bem vindo ao sistema de gerenciamento de clinicas !!!");
+        System.out.println("######## Bem vindo ao sistema de gerenciamento de clinicas ########\n\n");
         
         listaPessoas();
+        System.out.println(" ");
         listaMedicos();
         
         do{
             System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
-            opcLog = Integer.parseInt(scan.nextLine());
+            toConvert = scan.nextLine();
+            opcLog = Integer.parseInt(toConvert);
             
             switch (opcLog){
                 case 1:
@@ -86,51 +89,68 @@ public class View {
     private static void inSystem(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
+        String toConvert;
         int opc;
         int[] permissao = pessoa.getTipoUsuario();
-        // menu para donos de franquia =========================================
-        System.out.println("Escolha o que deseja fazer");
-        System.out.println("0 - Deslogar");
-        System.out.println("1 - Cadastrar novo medico");
-        System.out.println("2 - Atribuir nova funcao para usuario cadastrado");
-        System.out.println("3 - Deletar Pessoa");
-        System.out.println("4 - Criar uma Franquia");
-                   
-            System.out.println(Arrays.toString(permissao));
-            do{
+        
+        System.out.println("============ Permissoes do usuario logado ================");
+        System.out.println("=============>" + Arrays.toString(permissao));
+        System.out.println("==========================================================");
+
+        do{
+            System.out.println("Escolha o que deseja fazer");
+            System.out.println("0 - Deslogar");
+            System.out.println("1 - Cadastrar novo medico");
+//            System.out.println("x - Cadastrar novo medico");
+//            System.out.println("xx - Cadastrar novo medico");
+//            System.out.println("xxx - Cadastrar novo medico");
+            if(permissao[3] == 4 || permissao[2] == 3){
+                System.out.println("2 - Atribuir/Remover papel para usuario cadastrado");
+                System.out.println("3 - Deletar Pessoa");
+            }
+            if(permissao[3] == 4){
+                System.out.println("4 - Criar uma Franquia");
+            }
+
+            toConvert = scan.nextLine();
+            opc = Integer.parseInt(toConvert);
             
-                opc = Integer.parseInt(scan.nextLine());
-                switch(opc){
-                    case 1:
-                        if(permissao[0] == 1){
-                        
-                        }
-                        
+            switch(opc){
+                case 1:
+                    if(permissao[3] == 4 || permissao[2] == 3){
                         criandoMedico();
-                        break;
-                    case 2:
+                    }
+                    break;
+                case 2:
+                    if(permissao[3] == 4 || permissao[2] == 3){
                         alteraTipoUser();
-                        break;
-                    case 3:
+                    }
+                    break;
+                case 3:
+                    if(permissao[3] == 4 || permissao[2] == 3){
                         deletaPessoa(pessoa);
-                        break;
-                    case 4: 
-                        Franquia();
-                        break;
-                    case 5:
-                        System.out.println("falta implementar");
-                    default:
-                        System.out.println("Não existe essa opção");
-                        opc = -1;
-                }
-            }while(opc != 0);
-        }
+                    }
+                    break;
+                case 4: 
+                    if(permissao[3] == 4){
+                        franquia();
+                    }
+                    break;
+                case 5:
+                    System.out.println("falta implementar");
+                    break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
+                    break;
+            }                   
+        }while(opc != 0);
+    }
     
     //franquia
-    private static void Franquia() {
-        
-        System.out.println("To aqui dentro");
-        
+    private static void franquia() {
+        System.out.println("funçao franquia!!!!!!!");
+        System.out.println("=============================");
     }
     
     /////////////////////////////////////
@@ -214,13 +234,15 @@ public class View {
         boolean res; int i;
         System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
         listaPessoas();
+        listaMedicos();
         String toConvert = scan.nextLine();
         i = Integer.parseInt(toConvert);
-        if(p.getId() == i){
-            System.out.println("nao eh possivel deletar");
-        }else{
+//        if(p.getId() == i){
+//            System.out.println("nao eh possivel deletar");
+//        }else 
+        if(p.getId() != i){
             res = PessoaController.removePessoas(i);
-            while(res == false && (i != 0) && (p.getId() != i)){
+            while(res == false && (i != 0)){
                 System.out.println("Erro ao buscar Pessoa");
                 System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
                 listaPessoas();
@@ -232,6 +254,8 @@ public class View {
                     res = PessoaController.removePessoas(i);
                 }
             }
+        }else {
+            System.out.println("nao eh possivel deletar");
         }
         listaPessoas();
         listaMedicos();

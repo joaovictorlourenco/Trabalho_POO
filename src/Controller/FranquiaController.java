@@ -20,12 +20,12 @@ public class FranquiaController {
       
         Franquia Franquia = new Franquia();
         
-        boolean res = SalvaFranquia(Franquia);
-
-        if(res === true){
-            
-        }
-        
+//        boolean res = SalvaFranquia(Franquia);
+//
+//        if(res === true){
+//            
+//        }
+//        
         
         
 //        boolean res = salvaPessoas(pessoa);
@@ -39,7 +39,7 @@ public class FranquiaController {
 //        return(pessoa);
       return null;
     }
-  
-  public 
+//  
+//  public 
     
 }
