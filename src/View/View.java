@@ -54,16 +54,11 @@ public class View {
             while(opcLog != 1 && opcLog != 2 && opcLog != 0){
                 do{
                     System.out.println("Digite uma opção válida");
-//                    System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
                     toConvert = scan.nextLine();
                     res = isInt(toConvert);
                 }while(res != true);
-//                lerInput(toConvert);
                 opcLog = Integer.parseInt(toConvert);
             }
-//            System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
-//            toConvert = scan.nextLine();
-//            opcLog = Integer.parseInt(toConvert);
             
             switch (opcLog){
                 case 1:
@@ -110,6 +105,7 @@ public class View {
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
         String toConvert;
         int opc;
+        boolean res;
         int[] permissao = pessoa.getTipoUsuario();
         
         System.out.println("============ Permissoes do usuario logado ================");
@@ -131,7 +127,10 @@ public class View {
                 System.out.println("4 - Criar uma Franquia");
             }
 
-            toConvert = scan.nextLine();
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
             opc = Integer.parseInt(toConvert);
             
             switch(opc){
@@ -173,6 +172,7 @@ public class View {
     private static void menuFranquia(){
         Scanner scan = new Scanner(System.in);
         int opc = -1;
+        boolean res;
         String toConvert;
         
         do{
@@ -185,9 +185,13 @@ public class View {
             System.out.println("4 - Atribuir unidade para Franquia");
         
             listarFranquias();
-            
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            opc = Integer.parseInt(toConvert);
                
-            opc = Integer.parseInt( scan.nextLine());
+//            opc = Integer.parseInt( scan.nextLine());
             
             switch(opc){
                 
@@ -247,12 +251,16 @@ public class View {
     public static void alteraTipoUser() {
         Scanner scan = new Scanner(System.in);
         String toConvert;
+        boolean res;
         int i;
         int papel;
         System.out.println("A seguir escolha um usuario cadastrado da lista abaixo e insira seu respectivo id para alteração:");
         listaPessoas();
 
-        toConvert = scan.nextLine();
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
         i = Integer.parseInt(toConvert);
         
         Pessoa p = PessoaController.buscarPorId(i);
@@ -262,23 +270,35 @@ public class View {
         }else {
             System.out.println("1 - para adicionar papel");
             System.out.println("0 - para remover papel");
-            toConvert = scan.nextLine();
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
             i = Integer.parseInt(toConvert);
 //            i = Integer.parseInt(scan.nextLine());
             while(i != 0 && i != 1){
                 System.out.println("Digite uma opção válida");
-                toConvert = scan.nextLine();
+                do{
+                    toConvert = scan.nextLine();
+                    res = isInt(toConvert);
+                }while(res != true);
                 i = Integer.parseInt(toConvert);
             }
             System.out.println("Insira o tipo de papel a remover/alterar:");
             System.out.println("2 - Papel de medico");
             System.out.println("3 - Papel de dono de unidade de franquia");
             System.out.println("4 - Papel de dono de franquia");
-            toConvert = scan.nextLine();
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
             papel = Integer.parseInt(toConvert);
             while(papel != 2 && papel != 3 && papel != 4){
                 System.out.println("Digite uma opção válida");
-                toConvert = scan.nextLine();
+                do{
+                    toConvert = scan.nextLine();
+                    res = isInt(toConvert);
+                }while(res != true);
                 papel = Integer.parseInt(toConvert);
             }
             
@@ -323,23 +343,30 @@ public class View {
 
     private static void deletaPessoa(Pessoa p) {
         Scanner scan = new Scanner(System.in);
-        boolean res; int i;
+        boolean res; int i; String toConvert;
         System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
         listaPessoas();
         listaMedicos();
-        String toConvert = scan.nextLine();
+        
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
         i = Integer.parseInt(toConvert);
-//        if(p.getId() == i){
-//            System.out.println("nao eh possivel deletar");
-//        }else 
+
         if(p.getId() != i){
             res = PessoaController.removePessoas(i);
             while(res == false && (i != 0)){
                 System.out.println("Erro ao buscar Pessoa");
                 System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
                 listaPessoas();
-                toConvert = scan.nextLine();
+                
+                do{
+                    toConvert = scan.nextLine();
+                    res = isInt(toConvert);
+                }while(res != true);
                 i = Integer.parseInt(toConvert);
+              
                 if(p.getId() == i){
                     System.out.println("não é possivel deletar");
                 }else{
@@ -351,46 +378,11 @@ public class View {
         }
         listaPessoas();
         listaMedicos();
-
-        
-//        Scanner scan = new Scanner(System.in);
-//        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
-//        listaPessoas();
-//        String toConvert = scan.nextLine();
-//        int i = Integer.parseInt(toConvert);
-//        Pessoa p = PessoaController.buscarPorId(i);
-//        while(p == null){
-//            System.out.println("Erro ao buscar Pessoa");
-//            System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
-//            listaPessoas();
-//            toConvert = scan.nextLine();
-//            i = Integer.parseInt(toConvert);
-//            p = PessoaController.buscarPorId(i);
-//        }
     }
     
-//    private static boolean lerInput(String toConvert) {
-//        Scanner scan = new Scanner(System.in);
-//        toConvert = scan.nextLine();
-//        boolean res = isInt(toConvert);
-//        while(res == false){
-////            System.out.println("Insira apenas números");
-//            lerInput(toConvert);
-//        }
-//        return toConvert;
-//    }
     
     private static boolean isInt(String toConvert) {
         return toConvert != null && toConvert.matches("[0-9]*");
-
-//        try{
-//            Integer.valueOf(toConvert);
-//            return true;
-//        }catch(NumberFormatException n){
-//            System.out.println("Insira apenas números");
-//            return false;
-//        }
-//        return true;
     }
 }
 
