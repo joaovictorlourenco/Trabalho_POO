@@ -4,13 +4,14 @@
  */
 package Controller;
 
+import Model.Franquia;
 import Model.FranquiaUnidade;
 
 /**
  *
  * @author jv232
  */
-public class FranquiaUnidadeController {
+public class FranquiaUnidadeController extends Franquia {
     
     public static FranquiaUnidade[] pessoas = new FranquiaUnidade[100];
     public static int count = 0;

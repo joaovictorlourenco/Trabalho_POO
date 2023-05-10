@@ -66,4 +66,9 @@ public class FranquiaController {
         return false;
     }
     
+    public static Franquia[] listarFranquias() {
+//        return pessoas;
+        return Arrays.copyOf(FranquiaController.Franquias, FranquiaController.count);
+    }
+    
 }

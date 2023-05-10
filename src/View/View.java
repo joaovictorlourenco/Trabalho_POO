@@ -118,6 +118,10 @@ public class View {
             opc = Integer.parseInt(toConvert);
             
             switch(opc){
+                case 0:
+                    System.out.println("Deslogando....");
+                    opc = 0;
+                    break;
                 case 1:
                     if(permissao[3] == 4 || permissao[2] == 3){
                         criandoMedico();
@@ -150,20 +154,62 @@ public class View {
     //franquia
    
     private static void menuFranquia(){
-        System.out.println("==============Franquia==============");
-        System.out.println("0 - Voltar");
-        System.out.println("1 - Cadastrar nova Franquia");
-        System.out.println("2 - Deletar Franquia");
-        System.out.println("3 - Atualizar Franquia");
+        Scanner scan = new Scanner(System.in);
+        int opc = -1;
+        String toConvert;
         
-        listarFranquias();
-//       CriandoFranquia();
+        do{
+            
+            System.out.println("==============Franquia==============");
+            System.out.println("0 - Voltar");
+            System.out.println("1 - Cadastrar nova Franquia");
+            System.out.println("2 - Deletar Franquia");
+            System.out.println("3 - Editar Franquia");
+            System.out.println("4 - Atribuir unidade para Franquia");
+        
+            listarFranquias();
+            
+               
+            opc = Integer.parseInt( scan.nextLine());
+            
+            switch(opc){
+                
+                case 0:
+                    opc = 0;
+                    break;
+                case 1:
+                    CriandoFranquia();
+                    break;
+                case 2:
+                    DeletandoFranquia();
+                    break;
+                case 3:
+                    EditarFranquia();
+                    
+            }
+            
+            
+        }while(opc != 0);
         
     }
+    
+    //       chamando metodo de criar
     
     private static void CriandoFranquia() {
         
         Franquia NewFranquia = FranquiaController.cadastraFranquia();
+        
+    }
+    //       chamando metodo deletar
+    private static void DeletandoFranquia(){
+        
+        
+        
+    }
+    //       chamando metodo de editar
+    private static void EditarFranquia(){
+        
+        
         
     }
     
@@ -226,7 +272,7 @@ public class View {
     
     private static void listarFranquias(){
     
-        Franquia[] Franquias = FranquiaController.Franquias;
+        Franquia[] Franquias = FranquiaController.listarFranquias();
         
         for(Franquia Franquia: Franquias){
             
