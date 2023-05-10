@@ -45,17 +45,16 @@ public class View {
             System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
             opcLog = Integer.parseInt(scan.nextLine());
             
-            while(opcLog != 1 && opcLog != 2 && opcLog != 0){
-                System.out.println("Digite uma opção válida");
-                opcLog = Integer.parseInt(scan.nextLine());
-            }
             switch (opcLog){
                 case 1:
                     System.out.println("Digite seu login:");
                     String login = scan.nextLine();
+                    
                     System.out.println("Digite sua senha:");
                     String senha = scan.nextLine();
+                    
                     Pessoa logPessoa = PessoaController.login(login, senha);
+                    
                     if(logPessoa != null){
                         logado(logPessoa);
                     } else {
@@ -71,6 +70,10 @@ public class View {
                 case 0:
                     System.out.println("Finalizando......");
                     break;
+                default: 
+                    System.out.println("Não existe essa opção");
+                    
+                    
             }
         }while(opcLog != 0);
     }
@@ -122,7 +125,7 @@ public class View {
                     default:
                         System.out.println("Não existe essa opção");
                         opc = -1;
-                }                   
+                }
             }while(opc != 0);
         }
     
