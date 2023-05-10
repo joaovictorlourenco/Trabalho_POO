@@ -127,7 +127,7 @@ public class View {
         }
     
     //franquia
-    
+   
     private static void menuFranquia(){
         System.out.println("==============Franquia==============");
         System.out.println("0 - Voltar");
