@@ -25,7 +25,7 @@ public class View {
     public static void main(String[] args) {
         boolean res = false;
         int opcLog;
-        String toConvert;
+        String toConvert = "";
 //////////////////////////////////////////////////////////////////////////////////////        
         /// cast dos primeiros usuarios para testes e demonstrações........
         for(int indice = 0; indice < 4; indice++){
@@ -44,9 +44,26 @@ public class View {
         listaMedicos();
         
         do{
-            System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
-            toConvert = scan.nextLine();
+            do{
+                System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            
             opcLog = Integer.parseInt(toConvert);
+            while(opcLog != 1 && opcLog != 2 && opcLog != 0){
+                do{
+                    System.out.println("Digite uma opção válida");
+//                    System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
+                    toConvert = scan.nextLine();
+                    res = isInt(toConvert);
+                }while(res != true);
+//                lerInput(toConvert);
+                opcLog = Integer.parseInt(toConvert);
+            }
+//            System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
+//            toConvert = scan.nextLine();
+//            opcLog = Integer.parseInt(toConvert);
             
             switch (opcLog){
                 case 1:
@@ -305,7 +322,32 @@ public class View {
 //            p = PessoaController.buscarPorId(i);
 //        }
     }
+    
+//    private static boolean lerInput(String toConvert) {
+//        Scanner scan = new Scanner(System.in);
+//        toConvert = scan.nextLine();
+//        boolean res = isInt(toConvert);
+//        while(res == false){
+////            System.out.println("Insira apenas números");
+//            lerInput(toConvert);
+//        }
+//        return toConvert;
+//    }
+    
+    private static boolean isInt(String toConvert) {
+        return toConvert != null && toConvert.matches("[0-9]*");
+
+//        try{
+//            Integer.valueOf(toConvert);
+//            return true;
+//        }catch(NumberFormatException n){
+//            System.out.println("Insira apenas números");
+//            return false;
+//        }
+//        return true;
+    }
 }
+
 
 /*
 ***
