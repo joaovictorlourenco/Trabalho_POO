@@ -4,10 +4,13 @@
  */
 package Model;
 
+import controller.PessoaController;
+import static controller.PessoaController.listarPessoas;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
+import javax.swing.text.html.HTMLEditorKit;
 
 /**
  *
@@ -22,9 +25,9 @@ public class Franquia {
     private String cidade; 
     private String endereço; 
     private long id_responsavel; 
+    private FranquiaUnidade[] unidades;
     private Date dataCriacao; 
     private Date dataModificacao;
-    private FranquiaUnidade[] unidades;
     
     Scanner scan = new Scanner(System.in);
     public Franquia(String nome, String cnpj, String cidade, String endereço) {
@@ -35,7 +38,6 @@ public class Franquia {
         this.setEndereço(endereço);
         this.setCnpj(cnpj);
         this.setDataCriacao(new Date());
-        
         
     }
     
@@ -50,6 +52,18 @@ public class Franquia {
         
         System.out.println("digite a cidade da matriz");
         this.setCidade(scan.nextLine());
+       
+        listarPessoas();
+        
+        Pessoa[] pessoas = PessoaController.listarPessoas();
+        for(Pessoa p: pessoas){
+            if(p != null){
+                System.out.println(p.toString());
+            }
+        }
+        
+        System.out.println("Dentre os seguintes usuarios quem será o responsavel(digite o id)");
+        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
         
         System.out.println("digite o Endereco");
         this.setEndereço(scan.nextLine());
