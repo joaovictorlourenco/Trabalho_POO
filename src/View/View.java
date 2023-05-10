@@ -173,7 +173,6 @@ public class View {
     private static void menuFranquia(){
         Scanner scan = new Scanner(System.in);
         int opc = -1;
-        String toConvert;
         
         do{
             
@@ -185,7 +184,6 @@ public class View {
             System.out.println("4 - Atribuir unidade para Franquia");
         
             listarFranquias();
-            
                
             opc = Integer.parseInt( scan.nextLine());
             
@@ -204,7 +202,6 @@ public class View {
                     EditarFranquia();
                     
             }
-            
             
         }while(opc != 0);
         
