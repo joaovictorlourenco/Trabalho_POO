@@ -3,20 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/View/View.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Controller/FranquiaController.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Controller/PessoaController.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Model/FranquiaUnidade.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Controller/FranquiaUnidadeController.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Controller/MedicoController.java</file>
-            <file>file:/D:/NetBeansProjects/Trabalho_de_POO/src/Model/Franquia.java</file>
-=======
-            <file>file:/D:/Trabalho_POO/src/Model/Medico.java</file>
-            <file>file:/D:/Trabalho_POO/src/Controller/MedicoController.java</file>
-            <file>file:/D:/Trabalho_POO/src/Model/Pessoa.java</file>
-            <file>file:/D:/Trabalho_POO/src/View/View.java</file>
->>>>>>> d51bffe6718e4d94ba38be40827a68a1c66d5bc1
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/ConsultaController.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/View/View.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Model/Pessoa.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Model/Consulta.java</file>
         </group>
     </open-files>
 </project-private>

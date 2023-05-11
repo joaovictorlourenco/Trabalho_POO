@@ -5,6 +5,7 @@
 package View;
 
 //import Controller.PessoaController;
+import Controller.ConsultaController;
 import Controller.FranquiaController;
 import Controller.MedicoController;
 import Model.Franquia;
@@ -12,7 +13,11 @@ import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
 import controller.PessoaController;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  *
@@ -126,6 +131,8 @@ public class View {
             if(permissao[3] == 4){
                 System.out.println("4 - Criar uma Franquia");
             }
+            System.out.println("5 - Menu Consultas");
+
 
             do{
                 toConvert = scan.nextLine();
@@ -161,6 +168,7 @@ public class View {
                     break;
                 case 5:
                     System.out.println("falta implementar");
+                    menuConsulta(pessoa);
                 default:
                     System.out.println("Não existe essa opção");
                     opc = -1;
@@ -383,43 +391,123 @@ public class View {
     private static boolean isInt(String toConvert) {
         return toConvert != null && toConvert.matches("[0-9]*");
     }
+    
+//////////*******Consulta*******///////////
+    /////////////////////////////////
+    private static void menuConsulta(Pessoa p) {
+        Scanner scan = new Scanner(System.in);
+        LocalDate dtAtual = LocalDate.now();
+        Date convertData;
+        int opc = -1;
+        String[] dataConsulta;
+        String[] horaConsulta;
+        int dia;
+        int mes;
+        int ano;
+        int idMed;
+        boolean res;
+        String toConvert;
+        do{
+            System.out.println("####### Consultas #######");
+            System.out.println("0 - Sair do menu de consulta");
+            System.out.println("1 - Marcar Consulta");
+            System.out.println("2 - Alterar Consulta");
+            System.out.println("3 - Cancelar Consulta");
+            System.out.println("4 - Listar Consultas");
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            opc = Integer.parseInt(toConvert);
+            
+            switch (opc){
+                case 0:
+                    opc = 0;
+                    break;
+                    
+                case 1:
+                    System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
+                    listaMedicos();
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    
+                    idMed = Integer.parseInt(toConvert);
+                    res = MedicoController.medicoExiste(idMed);
+                    if(res == false){
+                        System.out.println("id inválido");
+                        break;
+                    }
+                    
+                    System.out.println("Insira o DIA e MES de sua consulta no seguinte formato");
+                    System.out.println("DIA/MES/ANO");
+                    toConvert = scan.nextLine();
+                    dataConsulta = toConvert.split("/");
+                    res = isInt(dataConsulta[0]);
+                    if(res == false){
+                        System.out.println("Data Informada NAO VALIDA");
+                        break;                        
+                    }
+                    dia = Integer.parseInt(dataConsulta[0]);
+                    
+                    res = isInt(dataConsulta[1]);
+                    if(res == false){
+                        System.out.println("DATA Informada NAO VALIDA");
+                        break;                        
+                    }
+                    mes = Integer.parseInt(dataConsulta[1]);
+                    
+                    res = isInt(dataConsulta[2]);
+                    if(res == false){
+                        System.out.println("DATA Informada NAO VALIDA");
+                        break;                        
+                    }
+                    ano = Integer.parseInt(dataConsulta[1]);
+                    
+                    LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
+                    convertData = Date.from(dtConsulta.atStartOfDay().toInstant(ZoneOffset.UTC));
+//                    convertData = Date.from(dtConsulta);
+                    
+                    if(!dtConsulta.isAfter(dtAtual)){
+                        System.out.println("DATA INVÁLIDA (HORARIO PRECISA SER POSTERIOR A DATA ATUAL)");
+                    }
+                    
+                    System.out.println("Insira o HORARIO da sua consulta entre 8H - 19H");
+                    System.out.println("No seguinte formato: hh:mm:ss");
+                    toConvert = scan.nextLine();
+                    horaConsulta = toConvert.split(":");
+                    
+                    res = isInt(horaConsulta[0]);
+                    if(res == false){
+                        System.out.println("HORA Informada NAO VALIDA");
+                        break;         
+                    }
+                    res = isInt(horaConsulta[1]);
+                    if(res == false){
+                        System.out.println("HORA Informada NAO VALIDA");
+                        break;         
+                    }
+                    res = isInt(horaConsulta[2]);
+                    if(res == false){
+                        System.out.println("HORA Informada NAO VALIDA");
+                        break;         
+                    }
+                    
+                    LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),Integer.parseInt(horaConsulta[2]));
+                    break;
+                    
+                case 2:
+                    opc = 0;
+                    break;
+                case 3:
+                    opc = 0;
+                    break;
+                case 4:
+                    opc = 0;
+                    break;
+            }
+            
+        }while(opc != 0);
+    }
 }
-
-
-/*
-***
-***
-do{
-    System.out.println("Escolha o que deseja fazer:");
-    System.out.println("0 - Deslogar:");
-    System.out.println("1 - Cadastrar novo medico:");
-    System.out.println("2 - Atribuir nova funcao para usuario cadastrado:");
-
-    opc = Integer.parseInt(scan.nextLine());
-
-    switch(opc){
-        case 1:
-            Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
-            Medico medico = new Medico(med);
-
-            medico = MedicoController.cadastraMedico(medico);
-
-            Medico[] medicos = MedicoController.listarMedicos();
-            for(Medico m: medicos){
-                if(m != null){
-                    System.out.println(m.toString()+"\n");
-                }
-            }
-
-            Pessoa[] pessoas = PessoaController.listarPessoas();
-            for(Pessoa p: pessoas){
-                if(p != null){
-                    System.out.println(p.toString()+"\n");
-                }
-            }
-            break;
-    }            
-}while(opc != 0);
-***
-***
-*/
