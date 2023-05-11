@@ -161,15 +161,6 @@ public class Pessoa {
                 this.tipoUsuario[3] = 4;
                 break;
         }
-//            for (int i = 0; i < this.tipoUsuario.length; i++) {
-//                if (this.tipoUsuario[i] == tipoUsuario) {
-//                    this.tipoUsuario[i] = tipoUsuario;
-//                    break;
-//                }else if(this.tipoUsuario[i] == 0) {
-//                    this.tipoUsuario[i] = tipoUsuario;
-//                    break;
-//                }
-//            }
     }
 
     public Date getDataCriacao() {
