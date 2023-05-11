@@ -6,8 +6,10 @@ package View;
 
 //import Controller.PessoaController;
 import Controller.FranquiaController;
+import Controller.FranquiaUnidadeController;
 import Controller.MedicoController;
 import Model.Franquia;
+import Model.FranquiaUnidade;
 import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
@@ -37,7 +39,7 @@ public class View {
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
-        System.out.println("######## Bem vindo ao sistema de gerenciamento de clinicas ########\n\n");
+        System.out.println("\n\n######## Bem vindo ao sistema de gerenciamento de clinicas ########\n\n");
         
         listaPessoas();
         System.out.println(" ");
@@ -177,12 +179,12 @@ public class View {
         
         do{
             
-            System.out.println("==============Franquia==============");
+            System.out.println("\n\n==============Franquia==============");
             System.out.println("0 - Voltar");
             System.out.println("1 - Cadastrar nova Franquia");
             System.out.println("2 - Deletar Franquia");
             System.out.println("3 - Editar Franquia");
-            System.out.println("4 - Atribuir unidade para Franquia");
+            System.out.println("4 - Menu De Unidade de Franquia");
         
             listarFranquias();
             do{
@@ -206,11 +208,57 @@ public class View {
                     break;
                 case 3:
                     EditarFranquia();
+                    break;
+                case 4:
+                    CriandoFranquiaUnidade();
+                    break;
                     
             }
             
         }while(opc != 0);
         
+    }
+    
+    //          unidade de franquia
+    private static void CriandoFranquiaUnidade() {
+         Scanner scan = new Scanner(System.in);
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        
+        do{
+            System.out.println("\n\n============Unidade de franquia===============");
+            System.out.println("0 - Voltar");
+            System.out.println("1 - Cadastrar nova Unidade de Franquia");
+            System.out.println("2 - Deletar Unidade de Franquia");
+            System.out.println("3 - Editar Unidade de Franquia");
+            listarUnidadesFranquia();
+
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+                opc = Integer.parseInt(toConvert);
+            
+        
+            switch(opc){
+                
+                case 0:
+                    opc = 0;
+                    break;
+                case 1: 
+                    FranquiaUnidade NewFranquiaUnidade = FranquiaUnidadeController.cadastraFranquiaUnidades();
+                    break;
+                case 2:
+                    DeletandoUnidadeFranquia();
+                    break;
+                case 3: 
+                    System.out.println("Falta implementar");
+                }
+            
+        }while(opc != 0);
+       
+    
     }
     
     //       chamando metodo de criar
@@ -220,8 +268,66 @@ public class View {
         Franquia NewFranquia = FranquiaController.cadastraFranquia();
         
     }
-    //       chamando metodo deletar
+    
+        ////listar Franquias
+    
+    private static void listarFranquias(){
+    
+        Franquia[] Franquias = FranquiaController.listarFranquias();
+        
+        for(Franquia Franquia: Franquias){
+            
+            if(Franquia != null){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(Franquia);
+                System.out.println("-------------------------------------------------------");
+            }
+            
+        }
+    
+    }
     private static void DeletandoFranquia(){
+    
+        
+        
+    }
+    
+    //listando unidades de franquia
+    private static void listarUnidadesFranquia(){
+        
+        FranquiaUnidade[] FranquiasUnidades = FranquiaUnidadeController.listarUnidadesFranquia();
+       
+        for(FranquiaUnidade Unidade: FranquiasUnidades){
+            
+            if(Unidade != null){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(Unidade);
+                System.out.println("-------------------------------------------------------");
+            }
+            
+        }
+    
+    }
+    //       chamando metodo deletar
+    private static void DeletandoUnidadeFranquia(){
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
+        
+        
+        System.out.println("Insira o id de uma das UNIDADES presentes na lista abaixo que deseja excluir:");
+        listarUnidadesFranquia();
+        
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+            opc = Integer.parseInt(toConvert);
+        
+        FranquiaUnidade unidadeDeletar = FranquiaUnidadeController.buscarPorId(opc);
+
+        res = FranquiaUnidadeController.removeFranquiaUnidade(opc);
         
         
         
@@ -304,28 +410,15 @@ public class View {
             p.alteraTipoUsuario(papel, i);
         }
     }
-    ////listar Franquias
-    
-    private static void listarFranquias(){
-    
-        Franquia[] Franquias = FranquiaController.listarFranquias();
-        
-        for(Franquia Franquia: Franquias){
-            
-            if(Franquia != null){
-                System.out.println(Franquia.toString());
-            }
-            
-        }
-    
-    }
 
     //// Listar Pessoas
     private static void listaPessoas() {
         Pessoa[] pessoas = PessoaController.listarPessoas();
         for(Pessoa p: pessoas){
             if(p != null){
-                System.out.println(p.toString());
+                System.out.println("-------------------------------------------------------");
+                System.out.println(p);
+                System.out.println("-------------------------------------------------------");
             }
         }
     }
@@ -335,7 +428,9 @@ public class View {
         Medico[] medicos = MedicoController.listarMedicos();
         for(Medico m: medicos){
             if(m != null){
-                System.out.println(m.toString());
+                System.out.println("-------------------------------------------------------");
+                System.out.println(m);
+                System.out.println("-------------------------------------------------------");
             }
         }
     }

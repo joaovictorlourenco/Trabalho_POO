@@ -22,7 +22,6 @@ public class FranquiaController {
         Franquia Franquia = new Franquia();
 
         boolean res = SalvaFranquia(Franquia);
-        System.out.println(Arrays.toString(Franquias));
         if(res == true){
             count++;
             System.out.println("Cadastrado com sucesso");
