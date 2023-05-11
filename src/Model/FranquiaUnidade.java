@@ -4,44 +4,82 @@
  */
 package Model;
 
+import Controller.FranquiaController;
+import static Controller.FranquiaController.Franquias;
+import static Controller.FranquiaController.listarFranquias;
+import controller.PessoaController;
+import static controller.PessoaController.listarPessoas;
+import static controller.PessoaController.pessoas;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  *
  * @author jv232
  */
-public class FranquiaUnidade extends Franquia{
+public class FranquiaUnidade {
     
     protected long id; 
     private static long serial;
-    private long franquia; 
+    private long id_franquia; 
     private String cidade;
     private String endereço;
     private long id_responsavel;
     private Date dataCriacao; 
     private Date dataModificacao;
 
-    public FranquiaUnidade(long id, long franquia, String cidade, String endereço, long id_responsavel, Date dataCriacao, Date dataModificacao) {
-        this.id = id;
-        this.franquia = franquia;
-        this.cidade = cidade;
-        this.endereço = endereço;
-        this.id_responsavel = id_responsavel;
-        this.dataCriacao = dataCriacao;
-        this.dataModificacao = dataModificacao;
-    }
+    public FranquiaUnidade() {
+        
+        Scanner scan = new Scanner(System.in);
+        
+        serial++;
+        
+        this.id = serial;
+        
+        
+        for(Franquia Franquia: Franquias){
+            
+            if(Franquia != null){
+                System.out.println(Franquia.toString());
+            }
+            
+        }
+        
+        System.out.println("Qual será sua Franquia(digite o id)");
+        this.setId_franquia(Integer.parseInt(scan.nextLine()));
+        
+        
+        System.out.println("Cidade da Unidade:");
+        this.setCidade(scan.nextLine());
+        
+        
+        System.out.println("Endereco da Unidade:");
+        this.setEndereço(scan.nextLine());
+        
 
+        for(Pessoa p: pessoas){
+            if(p != null){
+                System.out.println(p.toString());
+            }
+        }
+      
+        System.out.println("\nDentre os seguintes usuarios quem será o responsavel(digite o id)");
+        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
+        
+        
+        this.setDataCriacao(new Date());
+    }
     
     public long getId() {
         return id;
     }
  
     public long getFranquia() {
-        return franquia;
+        return id_franquia;
     }
 
     public void setFranquia(long franquia) {
-        this.franquia = franquia;
+        this.id_franquia = id_franquia;
     }
 
     public String getCidade() {
@@ -60,6 +98,14 @@ public class FranquiaUnidade extends Franquia{
         this.endereço = endereço;
     }
 
+    public void setId_franquia(long id_franquia) {
+        this.id_franquia = id_franquia;
+    }
+
+    public void setId_responsavel(long id_responsavel) {
+        this.id_responsavel = id_responsavel;
+    }
+    
     public long getId_responsavel() {
         return id_responsavel;
     }
@@ -78,6 +124,11 @@ public class FranquiaUnidade extends Franquia{
 
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
+    }
+
+    @Override
+    public String toString() {
+        return "FranquiaUnidade{" + "id=" + id + ", franquia=" + id_franquia + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
     }
  
     
