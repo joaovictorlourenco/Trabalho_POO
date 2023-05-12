@@ -74,15 +74,6 @@ public class MedicoController {
 //        return pessoas;
         return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
     }
-
-//    public static Pessoa buscarPessoaPorCpf(String cpf) {
-//        for(int i = 0; i < count; i++) {
-//            if (pessoas[i].getCpf().equals(cpf)) {
-//                return pessoas[i];
-//            }
-//        }
-//        return null;
-//    }
     
     public static int proximaPosicaoLivre() {
         for (int i = 0; i < MedicoController.medicos.length; i++) {
@@ -93,17 +84,13 @@ public class MedicoController {
         return -1;
     }
         
-//    public static boolean verifyLogin(String login, String senha){
-//        for(Pessoa pessoa: pessoas){
-//           if(pessoa.getLogin().equals(login)) {
-//                if(pessoa.getSenha().equals(senha)){
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//           }
-//        }
-//        return false;
-//    }
+    public static boolean medicoExiste(int id) {
+       for(Medico m: medicos){
+           if(m.getId() == id){
+               return true;
+           }
+       }
+       return false;
+    }
 
 }
