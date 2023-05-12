@@ -321,28 +321,82 @@ public class View {
     }
     //       chamando metodo deletar
     private static void DeletandoUnidadeFranquia(){
+        int opcDe = -1;
         int opc = -1;
         boolean res;
         String toConvert;
         Scanner scan = new Scanner(System.in);
         
+        do{
         
-        System.out.println("Insira o id de uma das UNIDADES presentes na lista abaixo que deseja excluir:");
-        listarUnidadesFranquia();
+            System.out.println("Insira o id de uma das UNIDADES presentes na lista abaixo que deseja excluir:");
+            listarUnidadesFranquia();
         
         do{
             toConvert = scan.nextLine();
             res = isInt(toConvert);
         }while(res != true);
+        
             opc = Integer.parseInt(toConvert);
         
-        FranquiaUnidade unidadeDeletar = FranquiaUnidadeController.buscarPorId(opc);
+        
+        do{
+            
+            FranquiaUnidade unidadeDeletar = FranquiaUnidadeController.buscarPorId(opc);
+            System.out.println("Essa é a unidade que deseja EXCLUIR?");
+            System.out.println("1 - sim");
+            System.out.println("2 - não");
+            System.out.println("------------------------------------------");
+            System.out.println(unidadeDeletar);
 
-        res = FranquiaUnidadeController.removeFranquiaUnidade(opc);
+            opcDe = Integer.parseInt(scan.nextLine());
+     
+            switch(opcDe){
+            
+                case 1: 
+                    boolean resDeletado;
+                    resDeletado = DeletaFranquiaUnidade(unidadeDeletar);
+                    if(resDeletado == true){
+                        System.out.println("Deletado com sucesso");
+                    }else{
+                        
+                        System.out.println("Ocorreu algum erro");
+                        
+                    }
+                    opcDe = 0;
+                    opc = 0;
+                    break;
+                case 0:
+                    opcDe = 0;opc = 0;
+                    opc = 0;
+                    break;
+            
+            }
+        
+            
+        }while(opcDe != 0);
+        
+    }while(opc != 0);
+        
+ 
+        
+//        res = FranquiaUnidadeController.removeFranquiaUnidade(unidadeDeletar);
         
         
         
     }
+    
+    private static boolean DeletaFranquiaUnidade(FranquiaUnidade unidadeDeletar){
+        
+        boolean res;
+        res = FranquiaUnidadeController.removeFranquiaUnidade((int) unidadeDeletar.getId());
+        System.out.println(res);
+        System.out.println((int) unidadeDeletar.getId());
+        
+        return res;
+        
+    }
+    
     //       chamando metodo de editar
     private static void EditarFranquia(){
         
