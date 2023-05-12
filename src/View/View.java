@@ -235,11 +235,14 @@ public class View {
         String toConvert;
         
         do{
+            opc = -1;
             System.out.println("\n\n============Unidade de franquia===============");
             System.out.println("0 - Voltar");
             System.out.println("1 - Cadastrar nova Unidade de Franquia");
             System.out.println("2 - Deletar Unidade de Franquia");
             System.out.println("3 - Editar Unidade de Franquia");
+            System.out.println("4 - Atribuir uma unidade a Uma Franquia");
+           
             listarUnidadesFranquia();
 
             do{
@@ -261,7 +264,10 @@ public class View {
                     DeletandoUnidadeFranquia();
                     break;
                 case 3: 
-                    System.out.println("Falta implementar");
+                    EditarFranquiaUnidade();
+                    break;
+                case 4: 
+                    AtribuirUnidadeFranquia();
                 }
             
         }while(opc != 0);
@@ -364,7 +370,7 @@ public class View {
                     opc = 0;
                     break;
                 case 0:
-                    opcDe = 0;opc = 0;
+                    opcDe = 0;
                     opc = 0;
                     break;
             
@@ -374,11 +380,87 @@ public class View {
         }while(opcDe != 0);
         
     }while(opc != 0);
+       
+    }
+    private static boolean EditarFranquiaUnidade(){
+
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
         
- 
+        listarUnidadesFranquia();
+        System.out.println("---------------------------------------");
+        System.out.println("\nDigite o id que deseja editar");
         
-//        res = FranquiaUnidadeController.removeFranquiaUnidade(unidadeDeletar);
+        do{
+           toConvert = scan.nextLine();
+           res = isInt(toConvert);
+       }while(res != true);
         
+        int id = Integer.parseInt(toConvert);
+        
+        FranquiaUnidade Editar = FranquiaUnidadeController.buscarPorId(id);
+        
+        do { 
+            opc = -1;
+            System.out.println("------------------------------------------");
+            System.out.println("\n" + Editar);
+            System.out.println("\n Qual Campo Gostaria de alterar?");
+            System.out.println("0 - Voltar");
+            System.out.println("1 - Franquia Atribuida ");
+            System.out.println("2 - Cidade ");
+            System.out.println("3 - Endereço ");
+            System.out.println("4 - Responsavel ");
+            
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+        
+            opc = Integer.parseInt(toConvert);
+        
+            switch(opc){
+                
+                case 0:
+                    opc = 0;
+                    break;
+                case 1:
+                    listarFranquias();
+                    System.out.println("Franquia atual(digite id): " + Editar.getFranquia());
+                    Editar.setId_franquia(scan.nextInt());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 2:
+                    System.out.println("Cidade atual: " + Editar.getCidade());
+                    Editar.setEndereço(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 3:
+                    System.out.println("Endereco atual: " + Editar.getEndereço());
+                    Editar.setEndereço(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 4:
+                    listaPessoas();
+                    System.out.println("Responsavel atual(digite id): " + Editar.getId_responsavel());
+                    Editar.setId_responsavel(scan.nextLong());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                    
+            }
+            
+            
+        } while (opc != 0);
+        
+        return false;
+        
+    }
+    private static void AtribuirUnidadeFranquia(){
         
         
     }
