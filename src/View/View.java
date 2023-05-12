@@ -6,9 +6,12 @@ package View;
 
 //import Controller.PessoaController;
 import Controller.ConsultaController;
+import static Controller.ConsultaController.consultaExiste;
 import Controller.FranquiaController;
 import Controller.FranquiaUnidadeController;
+import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.MedicoController;
+import Model.Consulta;
 import Model.Franquia;
 import Model.FranquiaUnidade;
 import Model.Medico;
@@ -442,6 +445,17 @@ public class View {
             }
         }
     }
+    
+    private static void listaConsultas() {
+        Consulta[] consultas = ConsultaController.listarConsultas();
+        for(Consulta c: consultas){
+            if(c != null){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(c);
+                System.out.println("-------------------------------------------------------");
+            }
+        }        
+    }
 
     private static void deletaPessoa(Pessoa p) {
         Scanner scan = new Scanner(System.in);
@@ -500,6 +514,7 @@ public class View {
         int mes;
         int ano;
         int idMed;
+        int idUnidFranq;
         boolean res;
         String toConvert;
         do{
@@ -521,6 +536,20 @@ public class View {
                     break;
                     
                 case 1:
+                    System.out.println("Insira o id da unidade que irá consultar");
+                    listarUnidadesFranquia();
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    
+                    idUnidFranq = Integer.parseInt(toConvert);
+                    res = unidadeExiste(idUnidFranq);
+                    if(res == false){
+                        System.out.println("id inválido");
+                        break;
+                    }
+                    
                     System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
                     listaMedicos();
                     do{
@@ -588,21 +617,51 @@ public class View {
                         System.out.println("HORA Informada NAO VALIDA");
                         break;         
                     }
-                    
                     LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),Integer.parseInt(horaConsulta[2]));
+                    
+                    ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertData, hora, idUnidFranq);
+                    
+                    listaConsultas();
                     break;
                     
                 case 2:
                     opc = 0;
                     break;
                 case 3:
-                    opc = 0;
+                    int[] permissoes = p.getTipoUsuario(); 
+                    
+                    System.out.println("########################################################################");
+                    System.out.println("Insira o id da consulta que deseja cancelar");
+                    if(permissoes[3] == 4 || permissoes[2] == 3){
+                        listaConsultas();
+                    }else if(permissoes[1] == 2){
+                        listaConsultas();
+                    }else{
+                        listaConsultas();
+                    }
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    
+                    int idConsulta = Integer.parseInt(toConvert);
+                    res = consultaExiste(idConsulta);
+                    if(res == false){
+                        System.out.println("id inválido");
+                        break;
+                    } else {
+                        res = ConsultaController.removeConsultas(idConsulta);
+                    }
+                    if(res == false){
+                        System.out.println("Erro ao deletar consulta");
+                    }else {
+                        System.out.println("Consulta deletada com sucesso");
+                    }
                     break;
                 case 4:
-                    opc = 0;
+                    listaConsultas();
                     break;
             }
-            
         }while(opc != 0);
     }
 }

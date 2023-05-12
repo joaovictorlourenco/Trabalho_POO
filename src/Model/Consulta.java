@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -15,7 +16,7 @@ public class Consulta {
     protected long id;
     private static long serial;
     private Date dataConsulta;
-    private Date horario;
+    private LocalTime horario;
     private int estado;
     private int idMedico;
     private int idPessoa;
@@ -40,7 +41,7 @@ public class Consulta {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId() {
         serial++;
         this.id = serial;
     }
@@ -53,12 +54,12 @@ public class Consulta {
         this.dataConsulta = dataConsulta;
     }
 
-    public Date getHorario() {
+    public LocalTime getHorario() {
         return horario;
     }
 
-    public void setHorario(Date horario) {
-        this.horario = horario;
+    public void setHorario(LocalTime hora) {
+        this.horario = hora;
     }
 
     public int getEstado() {

@@ -130,9 +130,5 @@ public class FranquiaUnidade {
     public String toString() {
         return "FranquiaUnidade{" + "id=" + id + ", franquia=" + id_franquia + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
     }
- 
-    
-    
-    
-    
+
 }

@@ -78,20 +78,28 @@ public class FranquiaUnidadeController{
         return false;
     }
      
-        public static FranquiaUnidade buscarPorId(int id) {
-            
-            for (int i = 0; i < FranquiaUnidadeController.count; i++) {
+    public static FranquiaUnidade buscarPorId(int id) {
 
-                if (FranquiaUnidadeController.Unidades[i].getId() == id) {
+        for (int i = 0; i < FranquiaUnidadeController.count; i++) {
 
-                    return FranquiaUnidadeController.Unidades[i];
+            if (FranquiaUnidadeController.Unidades[i].getId() == id) {
 
-                }
+                return FranquiaUnidadeController.Unidades[i];
 
             }
-            
-            return null;
+
         }
+
+        return null;
+    }
     
+    public static boolean unidadeExiste(int id) {
+       for(FranquiaUnidade fu: Unidades){
+           if(fu.getId() == id){
+               return true;
+           }
+       }
+       return false;
+    }
     
 }
