@@ -20,6 +20,7 @@ import Model.Pessoa;
 import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Date;
@@ -663,7 +664,7 @@ public class View {
                     ano = Integer.parseInt(dataConsulta[2]);
                     
                     LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-                    convertData = Date.from(dtConsulta.atStartOfDay().toInstant(ZoneOffset.UTC));
+                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 //                    convertData = Date.from(dtConsulta);
                     
                     if(dtConsulta.isAfter(dtAtual) == false){
@@ -692,6 +693,7 @@ public class View {
 //                        break;         
 //                    }
                     LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
+                    
                     
                     ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertData, hora, idUnidFranq);
                     

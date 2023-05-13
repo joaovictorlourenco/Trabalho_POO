@@ -120,6 +120,12 @@ public class Consulta {
 
     @Override
     public String toString() {
-        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + estado + ", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
+        String state = "";
+        if(estado == 1) state = "Vazio";
+        if(estado == 2) state = "Agendado";
+        if(estado == 3) state = "Cancelado";
+        if(estado == 4) state = "Realizado";
+//        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
+        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta.getDate() +"/"+ (dataConsulta.getMonth()+1) +"/"+ (dataConsulta.getYear()+1900)+ ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
     } 
 }  

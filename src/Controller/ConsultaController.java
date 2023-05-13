@@ -25,10 +25,11 @@ public class ConsultaController {
         consulta.setDataConsulta(data);
         consulta.setHorario(hora);
         consulta.setId();
+        consulta.setIdPessoa(idPes);
         consulta.setIdMedico(idMed);
         consulta.setUnidade(idUnidade);
         consulta.setValor(200);
-        consulta.setDataCriacao(data);
+        consulta.setDataCriacao(new Date());
         boolean res = salvaConsultas(consulta);
         if(res == true){
             count++;
