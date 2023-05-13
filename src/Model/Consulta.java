@@ -13,7 +13,7 @@ import java.util.Calendar;
  * @author yn719471
  */
 public class Consulta {
-    protected long id;
+    private long id;
     private static long serial;
     private Date dataConsulta;
     private LocalTime horario;
