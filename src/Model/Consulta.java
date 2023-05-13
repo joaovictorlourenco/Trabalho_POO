@@ -117,9 +117,9 @@ public class Consulta {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+
+    @Override
+    public String toString() {
+        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + estado + ", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
+    } 
 }  
-
-
-
-
-

@@ -139,11 +139,13 @@ public class PessoaController {
 //    public static boolean verifyLogin(String login, String senha){
     public static Pessoa verifyLogin(String login, String senha){
         for(Pessoa pessoa: pessoas){
-           if(pessoa.getLogin().equals(login)) {
-                if(pessoa.getSenha().equals(senha)){
-                    return pessoa;
+            if(pessoa != null){
+                if(pessoa.getLogin().equals(login)) {
+                     if(pessoa.getSenha().equals(senha)){
+                         return pessoa;
+                     }
                 }
-           }
+            }
         }
         return null;
     }

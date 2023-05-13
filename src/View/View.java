@@ -522,7 +522,7 @@ public class View {
         for(Consulta c: consultas){
             if(c != null){
                 System.out.println("-------------------------------------------------------");
-                System.out.println(c);
+                System.out.println(c.toString());
                 System.out.println("-------------------------------------------------------");
             }
         }        
@@ -637,41 +637,42 @@ public class View {
                         break;
                     }
                     
-                    System.out.println("Insira o DIA e MES de sua consulta no seguinte formato");
-                    System.out.println("DIA/MES/ANO");
+                    System.out.println("Insira o DIA, MES e ANO de sua consulta no seguinte formato");
+                    System.out.println("DD/MM/YYYY");
                     toConvert = scan.nextLine();
                     dataConsulta = toConvert.split("/");
                     res = isInt(dataConsulta[0]);
                     if(res == false){
-                        System.out.println("Data Informada NAO VALIDA");
+                        System.out.println("DATA do dia Informada NAO VALIDA");
                         break;                        
                     }
                     dia = Integer.parseInt(dataConsulta[0]);
                     
                     res = isInt(dataConsulta[1]);
                     if(res == false){
-                        System.out.println("DATA Informada NAO VALIDA");
+                        System.out.println("DATA do mes Informada NAO VALIDA");
                         break;                        
                     }
                     mes = Integer.parseInt(dataConsulta[1]);
                     
                     res = isInt(dataConsulta[2]);
                     if(res == false){
-                        System.out.println("DATA Informada NAO VALIDA");
+                        System.out.println("DATA do ano Informada NAO VALIDA");
                         break;                        
                     }
-                    ano = Integer.parseInt(dataConsulta[1]);
+                    ano = Integer.parseInt(dataConsulta[2]);
                     
                     LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
                     convertData = Date.from(dtConsulta.atStartOfDay().toInstant(ZoneOffset.UTC));
 //                    convertData = Date.from(dtConsulta);
                     
-                    if(!dtConsulta.isAfter(dtAtual)){
-                        System.out.println("DATA INVÁLIDA (HORARIO PRECISA SER POSTERIOR A DATA ATUAL)");
+                    if(dtConsulta.isAfter(dtAtual) == false){
+                        System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
+                        break;
                     }
                     
                     System.out.println("Insira o HORARIO da sua consulta entre 8H - 19H");
-                    System.out.println("No seguinte formato: hh:mm:ss");
+                    System.out.println("No seguinte formato: hh:mm");
                     toConvert = scan.nextLine();
                     horaConsulta = toConvert.split(":");
                     
@@ -685,12 +686,12 @@ public class View {
                         System.out.println("HORA Informada NAO VALIDA");
                         break;         
                     }
-                    res = isInt(horaConsulta[2]);
-                    if(res == false){
-                        System.out.println("HORA Informada NAO VALIDA");
-                        break;         
-                    }
-                    LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),Integer.parseInt(horaConsulta[2]));
+//                    res = isInt(horaConsulta[2]);
+//                    if(res == false){
+//                        System.out.println("HORA Informada NAO VALIDA");
+//                        break;         
+//                    }
+                    LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                     
                     ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertData, hora, idUnidFranq);
                     
