@@ -31,6 +31,7 @@ public class ConsultaController {
         consulta.setDataCriacao(data);
         boolean res = salvaConsultas(consulta);
         if(res == true){
+            count++;
             consulta.setEstado(2);
         } else{
             System.out.println("Erro ao cadastrar a consulta");

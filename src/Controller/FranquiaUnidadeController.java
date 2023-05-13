@@ -17,6 +17,30 @@ public class FranquiaUnidadeController{
     public static FranquiaUnidade[] Unidades = new FranquiaUnidade[100];
     public static int count = 0;
     
+    public static FranquiaUnidade preCadastraFranquiaUnidades(long idFranquia, long idResponsavel) {
+
+      FranquiaUnidade FranquiaUnidade = new FranquiaUnidade(idFranquia, idResponsavel);
+      FranquiaUnidade[] arrayUni = new FranquiaUnidade[1];
+      arrayUni[0] = FranquiaUnidade;
+
+      boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
+      
+      Franquia f = FranquiaController.buscaPorId((int)idFranquia);
+      
+//      System.out.println(FranquiaUnidade);
+      if(res == true){
+          count++;
+          if(f != null) {
+            f.preSetUnidadesFranquia(arrayUni);
+            System.out.println("Cadastrado com sucesso");
+          }
+      } else {
+          System.out.println("Ocorreu um erro");
+      }
+
+      return (FranquiaUnidade);
+    }
+    
     public static FranquiaUnidade cadastraFranquiaUnidades() {
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade();

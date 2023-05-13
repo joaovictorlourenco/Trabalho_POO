@@ -28,6 +28,17 @@ public class FranquiaUnidade {
     private Date dataCriacao; 
     private Date dataModificacao;
 
+    public FranquiaUnidade(long idFranquia, long idResponsavel) {
+        serial++;
+        this.id = serial;
+
+        this.setId_franquia(idFranquia);
+        this.setCidade("cidade");
+        this.setEndereço("endereco");
+        this.setId_responsavel(idResponsavel);
+        this.setDataCriacao(new Date());
+    }
+    
     public FranquiaUnidade() {
         
         Scanner scan = new Scanner(System.in);

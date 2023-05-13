@@ -31,15 +31,16 @@ public class Franquia {
     private Date dataModificacao;
     
     Scanner scan = new Scanner(System.in);
-    public Franquia(String nome, String cnpj, String cidade, String endereço) {
+    public Franquia(String nome, long idResponsavel) {
         serial++;
         this.id = serial;
         this.setNome(nome);
-        this.setCidade(cidade);
-        this.setEndereço(endereço);
-        this.setCnpj(cnpj);
+        this.setCidade("cidade");
+        this.setEndereço("endereco");
+        this.setCnpj("CNPJ");
         this.setDataCriacao(new Date());
-        
+        this.setId_responsavel(idResponsavel);
+
     }
     
     public Franquia(){
@@ -153,6 +154,22 @@ public class Franquia {
         } else {
             // Se a variável não tiver valor, simplesmente atribua o novo valor
             this.unidadesFranquia = unidadesFranquia;
+        }
+    }
+
+    public void preSetUnidadesFranquia(FranquiaUnidade[] unidadeFranquia) {
+        if (this.unidadesFranquia != null) {
+            FranquiaUnidade[] novoArray = new FranquiaUnidade[this.unidadesFranquia.length + unidadesFranquia.length];
+            
+            System.arraycopy(this.unidadesFranquia, 0, novoArray, 0, this.unidadesFranquia.length);
+            System.arraycopy(unidadesFranquia, 0, novoArray, this.unidadesFranquia.length, unidadesFranquia.length);
+            
+            this.unidadesFranquia = novoArray;
+//            System.out.println(Arrays.toString(this.uni));
+            
+        } else {
+            // Se a variável não tiver valor, simplesmente atribua o novo valor
+            this.unidadesFranquia = unidadeFranquia;
         }
     }
 

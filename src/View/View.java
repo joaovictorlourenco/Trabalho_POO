@@ -40,10 +40,23 @@ public class View {
         /// cast dos primeiros usuarios para testes e demonstrações........
         for(int indice = 0; indice < 4; indice++){
             PessoaController.preCadastroPessoa(indice);
+            
         }
         Pessoa p = PessoaController.buscarPorId(2);
         Medico m = new Medico(p, "CRM", "Especialidade");
         m = MedicoController.cadastraMedico(m);
+        
+        /// cast de franquias para testes e demonstrações........
+        for(int indice = 1; indice <= 4; indice++){
+            FranquiaController.preCadastraFranquia("Franquia"+indice, 4);
+        }
+        
+        
+        /// cast de unidades de franquias para testes e demonstrações........
+        for(int indice = 1; indice <= 4; indice++){
+            FranquiaUnidadeController.preCadastraFranquiaUnidades(indice, 3);
+        }
+        
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
@@ -52,6 +65,10 @@ public class View {
         listaPessoas();
         System.out.println(" ");
         listaMedicos();
+        System.out.println(" ");
+        listarFranquias();
+        System.out.println(" ");
+        listarUnidadesFranquia();
         
         do{
             do{
@@ -560,8 +577,10 @@ public class View {
     private static void menuConsulta(Pessoa p) {
         Scanner scan = new Scanner(System.in);
         LocalDate dtAtual = LocalDate.now();
+        int[] permissoes;
         Date convertData;
         int opc = -1;
+        int idConsulta;
         String[] dataConsulta;
         String[] horaConsulta;
         int dia;
@@ -679,10 +698,7 @@ public class View {
                     break;
                     
                 case 2:
-                    opc = 0;
-                    break;
-                case 3:
-                    int[] permissoes = p.getTipoUsuario(); 
+                    permissoes = p.getTipoUsuario(); 
                     
                     System.out.println("########################################################################");
                     System.out.println("Insira o id da consulta que deseja cancelar");
@@ -698,7 +714,36 @@ public class View {
                         res = isInt(toConvert);
                     }while(res != true);
                     
-                    int idConsulta = Integer.parseInt(toConvert);
+                    idConsulta = Integer.parseInt(toConvert);
+                    res = consultaExiste(idConsulta);
+                    if(res == false){
+                        System.out.println("id inválido");
+                        break;
+                    } else {
+                        //inserir logica de alterar consulta aqui.......
+                        //////
+//                        res = ConsultaController.removeConsultas(idConsulta);
+                    }
+                    opc = 0;
+                    break;
+                case 3:
+                    permissoes = p.getTipoUsuario(); 
+                    
+                    System.out.println("########################################################################");
+                    System.out.println("Insira o id da consulta que deseja cancelar");
+                    if(permissoes[3] == 4 || permissoes[2] == 3){
+                        listaConsultas();
+                    }else if(permissoes[1] == 2){
+                        listaConsultas();
+                    }else{
+                        listaConsultas();
+                    }
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    
+                    idConsulta = Integer.parseInt(toConvert);
                     res = consultaExiste(idConsulta);
                     if(res == false){
                         System.out.println("id inválido");
