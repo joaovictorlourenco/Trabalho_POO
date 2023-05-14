@@ -12,6 +12,7 @@ import Controller.FranquiaUnidadeController;
 import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
 import Controller.MedicoController;
+import Controller.ProcedimentoController;
 import Model.Consulta;
 import Model.Franquia;
 import Model.FranquiaUnidade;
@@ -160,6 +161,8 @@ public class View {
             if(permissao[1] == 2){
                 System.out.println("6 - Menu Informações de Consulta");
             }
+            System.out.println("7 - Menu Procedimentos");
+
 
             do{
                 toConvert = scan.nextLine();
@@ -198,6 +201,9 @@ public class View {
                     break;
                 case 6:
                     menuInfoConsulta(pessoa, permissao);
+                    break;
+                case 7:
+                    menuProcedimento(pessoa, permissao);
                     break;
                 default:
                     System.out.println("Não existe essa opção");
@@ -805,7 +811,6 @@ public class View {
                             res = isInt(toConvert);
                         }while(res != true);
                         idConsulta = Integer.parseInt(toConvert);
-            //                        System.out.println("Informe o id da Consulta");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -822,7 +827,6 @@ public class View {
                                 }
                             }
                         }
-            //                        InfoConsultaController.cadastraInfoConsulta(pessoa.getId(), idConsulta, descricao);
                     }else{
                         System.out.println("Você não possui permissão");
                     }  
@@ -887,5 +891,116 @@ public class View {
                 }
             }
         }
+    }
+
+    private static void menuProcedimento(Pessoa pessoa, int[] permissao) {
+        Scanner scan = new Scanner(System.in);
+        String toConvert; 
+        String nome; 
+        String laudo; 
+        LocalDate dtAtual = LocalDate.now();
+        Date convertData;
+        String[] dataConsulta;
+        String[] horaConsulta;
+        int dia;
+        int mes;
+        int ano;
+        boolean res;  
+        int opc = 0;
+        do{
+            System.out.println("Informe a opcao que deseja");
+            System.out.println("0 - Sair do menu de Procedimentos");
+            if(permissao[1] == 2){
+                System.out.println("1 - Criar novo Procedimento");
+                System.out.println("2 - Criar Procedimento a partir de uma consulta");
+                System.out.println("3 - Alterar Procedimento");
+                System.out.println("4 - Deletar Procedimento");
+            }
+            System.out.println("5 - Listar Procedimento");
+            
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            opc = Integer.parseInt(toConvert);
+            switch(opc){
+                case 0:
+                    System.out.println("Saindo do menu de Procedimento");
+                    break;
+                case 1:    
+                    if(permissao[1] == 2){
+                        System.out.println("Insira o nome do Procedimento");
+                        nome = scan.nextLine();
+
+                        System.out.println("Insira o laudo do Procedimento");
+                        laudo = scan.nextLine();
+
+                        System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
+                        System.out.println("DD/MM/YYYY");
+                        toConvert = scan.nextLine();
+                        dataConsulta = toConvert.split("/");
+                        res = isInt(dataConsulta[0]);
+                        if(res == false){
+                            System.out.println("DATA do dia Informada NAO VALIDA");
+                            break;                        
+                        }
+                        dia = Integer.parseInt(dataConsulta[0]);
+
+                        res = isInt(dataConsulta[1]);
+                        if(res == false){
+                            System.out.println("DATA do mes Informada NAO VALIDA");
+                            break;                        
+                        }
+                        mes = Integer.parseInt(dataConsulta[1]);
+
+                        res = isInt(dataConsulta[2]);
+                        if(res == false){
+                            System.out.println("DATA do ano Informada NAO VALIDA");
+                            break;                        
+                        }
+                        ano = Integer.parseInt(dataConsulta[2]);
+
+                        LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
+                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                        if(dtConsulta.isAfter(dtAtual) == false){
+                            System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
+                            break;
+                        }
+
+                        System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
+                        System.out.println("No seguinte formato: HH:mm");
+                        toConvert = scan.nextLine();
+                        horaConsulta = toConvert.split(":");
+
+                        res = isInt(horaConsulta[0]);
+                        if(res == false){
+                            System.out.println("HORA Informada NAO VALIDA");
+                            break;  
+                        }
+                        res = isInt(horaConsulta[1]);
+                        if(res == false){
+                            System.out.println("HORA Informada NAO VALIDA");
+                            break;         
+                        }
+                        LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
+                        ProcedimentoController.cadastraProcedimento(nome, convertData, hora, laudo);
+                    }
+                    break;
+                case 2:
+                    if(permissao[1] == 2){
+                    }
+                    break;
+                case 3:
+                    if(permissao[1] == 2){
+                    }
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        }while(opc != 0);
+        
     }
 }

@@ -54,7 +54,7 @@ public class InfoConsultaController {
     }
 
     public static boolean removeInfoConsultas(int id) {
-        for (int i = 0; i < FranquiaUnidadeController.count; i++) {
+        for (int i = 0; i < InfoConsultaController.count; i++) {
 
             if (InfoConsultaController.infoConsultas[i].getIdInfoConsulta() == id) {
 
