@@ -17,6 +17,19 @@ public class FranquiaController {
     public static Franquia[] Franquias = new Franquia[100];
     public static int count = 0;
     
+  public static void preCadastraFranquia(String nome, long idResponsavel) {
+      
+        Franquia Franquia = new Franquia(nome, idResponsavel);
+
+        boolean res = SalvaFranquia(Franquia);
+        if(res == true){
+            count++;
+            System.out.println("Cadastrado com sucesso");
+        } else {
+            System.out.println("Ocorreu um erro");
+        }
+    }
+    
   public static Franquia cadastraFranquia() {
       
         Franquia Franquia = new Franquia();
@@ -68,6 +81,17 @@ public class FranquiaController {
     public static Franquia[] listarFranquias() {
 //        return pessoas;
         return Arrays.copyOf(FranquiaController.Franquias, FranquiaController.count);
+    }
+    
+    public static Franquia buscaPorId(int id) {
+        for(Franquia f: Franquias){
+            if(f!=null){
+                if(f.getId() == id){
+                    return f;
+                }
+            }
+        }        
+        return null;
     }
     
 }

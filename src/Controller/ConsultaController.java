@@ -20,11 +20,23 @@ public class ConsultaController {
     
     
     
-    public static void cadastraConsulta(int idMed, int idPes, int idUnit, Date data, Date hora) {
+    public static void cadastraConsulta(int idMed, int idPes, Date data, LocalTime hora, int idUnidade) {
         Consulta consulta = new Consulta();
         consulta.setDataConsulta(data);
         consulta.setHorario(hora);
-//        consulta.setHorario(dataConsulta);
+        consulta.setId();
+        consulta.setIdPessoa(idPes);
+        consulta.setIdMedico(idMed);
+        consulta.setUnidade(idUnidade);
+        consulta.setValor(200);
+        consulta.setDataCriacao(new Date());
+        boolean res = salvaConsultas(consulta);
+        if(res == true){
+            count++;
+            consulta.setEstado(2);
+        } else{
+            System.out.println("Erro ao cadastrar a consulta");
+        }                
     }
 
     public static boolean salvaConsultas(Consulta c) {
@@ -39,7 +51,7 @@ public class ConsultaController {
 
     public static boolean removeConsultas(int id) {
         for (int i = 0; i < ConsultaController.count; i++) {
-            if (ConsultaController.consultas[i].getId()== id) {
+            if (ConsultaController.consultas[i].getId() == id) {
                 ConsultaController.consultas[i] = null;
                 for (int j = i; j < MedicoController.count - 1; j++) {
                     ConsultaController.consultas[j] = ConsultaController.consultas[j + 1];
@@ -72,5 +84,14 @@ public class ConsultaController {
             }
         }
         return -1;
+    }
+    
+    public static boolean consultaExiste(int id) {
+       for(Consulta c: consultas){
+           if(c.getId() == id){
+               return true;
+           }
+       }
+       return false;
     }
 }

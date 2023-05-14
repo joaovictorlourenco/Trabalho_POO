@@ -86,8 +86,10 @@ public class MedicoController {
         
     public static boolean medicoExiste(int id) {
        for(Medico m: medicos){
-           if(m.getId() == id){
-               return true;
+           if(m != null){
+                if(m.getId_pessoa() == id){
+                    return true;
+                }
            }
        }
        return false;

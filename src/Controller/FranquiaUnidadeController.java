@@ -17,6 +17,30 @@ public class FranquiaUnidadeController{
     public static FranquiaUnidade[] Unidades = new FranquiaUnidade[100];
     public static int count = 0;
     
+    public static FranquiaUnidade preCadastraFranquiaUnidades(long idFranquia, long idResponsavel) {
+
+      FranquiaUnidade FranquiaUnidade = new FranquiaUnidade(idFranquia, idResponsavel);
+      FranquiaUnidade[] arrayUni = new FranquiaUnidade[1];
+      arrayUni[0] = FranquiaUnidade;
+
+      boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
+      
+      Franquia f = FranquiaController.buscaPorId((int)idFranquia);
+      
+//      System.out.println(FranquiaUnidade);
+      if(res == true){
+          count++;
+          if(f != null) {
+            f.preSetUnidadesFranquia(arrayUni);
+            System.out.println("Cadastrado com sucesso");
+          }
+      } else {
+          System.out.println("Ocorreu um erro");
+      }
+
+      return (FranquiaUnidade);
+    }
+    
     public static FranquiaUnidade cadastraFranquiaUnidades() {
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade();
@@ -78,20 +102,28 @@ public class FranquiaUnidadeController{
         return false;
     }
      
-        public static FranquiaUnidade buscarPorId(int id) {
-            
-            for (int i = 0; i < FranquiaUnidadeController.count; i++) {
+    public static FranquiaUnidade buscarPorId(int id) {
 
-                if (FranquiaUnidadeController.Unidades[i].getId() == id) {
+        for (int i = 0; i < FranquiaUnidadeController.count; i++) {
 
-                    return FranquiaUnidadeController.Unidades[i];
+            if (FranquiaUnidadeController.Unidades[i].getId() == id) {
 
-                }
+                return FranquiaUnidadeController.Unidades[i];
 
             }
-            
-            return null;
+
         }
+
+        return null;
+    }
     
+    public static boolean unidadeExiste(int id) {
+       for(FranquiaUnidade fu: Unidades){
+           if(fu.getId() == id){
+               return true;
+           }
+       }
+       return false;
+    }
     
 }

@@ -1,0 +1,70 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Model;
+
+import java.util.Date;
+
+/**
+ *
+ * @author yn719471
+ */
+public class InfoConsulta {
+    private static long serial;
+    private long idInfoConsulta;
+    private long idConsulta;
+    private long idMedico;
+    private String descricao;
+    private Date dataCriacao;
+    private Date dataModificacao;
+    
+    public InfoConsulta(long idMedico, long idConsulta, String descricao) {
+        serial++;
+        this.idInfoConsulta = serial;
+        this.setIdMedico(idMedico);
+        this.setIdConsulta(idConsulta);
+        this.setDataCriacao(new Date());
+        this.setDescricao(descricao);
+    }
+
+    public long getIdInfoConsulta() {
+        return idInfoConsulta;
+    }
+
+    public void setIdInfoConsulta(long idInfoConsulta) {
+        this.idInfoConsulta = idInfoConsulta;
+    }
+
+    public long getIdConsulta() {
+        return idConsulta;
+    }
+
+    public void setIdConsulta(long idConsulta) {
+        this.idConsulta = idConsulta;
+    }
+
+    public long getIdMedico() {
+        return idMedico;
+    }
+
+    public void setIdMedico(long idMedico) {
+        this.idMedico = idMedico;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+}

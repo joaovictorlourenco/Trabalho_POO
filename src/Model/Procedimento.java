@@ -6,29 +6,27 @@ package Model;
 
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.Calendar;
 
 /**
  *
  * @author yn719471
  */
-public class Consulta {
-    private long id;
+public class Procedimento {
     private static long serial;
-    private Date dataConsulta;
+    private long idProcedimento;
+    private String nome;
+    private Date dataProcedimento;
     private LocalTime horario;
     private int estado;
-    private int idMedico;
-    private int idPessoa;
+    private String laudo;
     private double valor;
-    private int unidade;
     private Date dataCriacao;
     private Date dataModificacao;
     /* 
     ***
     ******
     *********
-    ---- Estado da consulta ----
+    ---- Estado do Procedimento ----
         1 - Vazio
         2 - Agendada
         3 - Cancelada
@@ -37,29 +35,40 @@ public class Consulta {
     ******
     ***
     */
-    public long getId() {
-        return id;
+//    public Procedimento(String nome, Date data, LocalTime hora){
+//        
+//    }
+
+    public long getIdProcedimento() {
+        return idProcedimento;
     }
 
-    public void setId() {
-        serial++;
-        this.id = serial;
+    public void setIdProcedimento() {
+        this.idProcedimento = serial;
     }
 
-    public Date getDataConsulta() {
-        return dataConsulta;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDataConsulta(Date dataConsulta) {
-        this.dataConsulta = dataConsulta;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Date getdataProcedimento() {
+        return dataProcedimento;
+    }
+
+    public void setdataProcedimento(Date dataConsulta) {
+        this.dataProcedimento = dataConsulta;
     }
 
     public LocalTime getHorario() {
         return horario;
     }
 
-    public void setHorario(LocalTime hora) {
-        this.horario = hora;
+    public void setHorario(LocalTime horario) {
+        this.horario = horario;
     }
 
     public int getEstado() {
@@ -70,20 +79,12 @@ public class Consulta {
         this.estado = estado;
     }
 
-    public int getIdMedico() {
-        return idMedico;
+    public String getLaudo() {
+        return laudo;
     }
 
-    public void setIdMedico(int idMedico) {
-        this.idMedico = idMedico;
-    }
-
-    public int getIdPessoa() {
-        return idPessoa;
-    }
-
-    public void setIdPessoa(int idPessoa) {
-        this.idPessoa = idPessoa;
+    public void setLaudo(String laudo) {
+        this.laudo = laudo;
     }
 
     public double getValor() {
@@ -92,14 +93,6 @@ public class Consulta {
 
     public void setValor(double valor) {
         this.valor = valor;
-    }
-
-    public int getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(int unidade) {
-        this.unidade = unidade;
     }
 
     public Date getDataCriacao() {
@@ -125,7 +118,6 @@ public class Consulta {
         if(estado == 2) state = "Agendado";
         if(estado == 3) state = "Cancelado";
         if(estado == 4) state = "Realizado";
-//        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
-        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta.getDate() +"/"+ (dataConsulta.getMonth()+1) +"/"+ (dataConsulta.getYear()+1900)+ ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
-    } 
-}  
+        return "Procedimento{" + "idProcedimento=" + idProcedimento + ", nome=" + nome + ", dataConsulta=" + dataProcedimento + ", horario=" + horario + ", estado=" + state + ", laudo=" + laudo + ", valor=" + valor + ", dataCriacao=" + dataCriacao + '}';
+    }
+}
