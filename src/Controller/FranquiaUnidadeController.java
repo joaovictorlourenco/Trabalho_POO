@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import static Controller.FranquiaController.Franquias;
 import Model.Franquia;
 import Model.FranquiaUnidade;
 import java.util.Arrays;
@@ -20,7 +21,9 @@ public class FranquiaUnidadeController{
     public static FranquiaUnidade preCadastraFranquiaUnidades(long idFranquia, long idResponsavel) {
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade(idFranquia, idResponsavel);
+      
       FranquiaUnidade[] arrayUni = new FranquiaUnidade[1];
+      
       arrayUni[0] = FranquiaUnidade;
 
       boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
@@ -44,13 +47,33 @@ public class FranquiaUnidadeController{
     public static FranquiaUnidade cadastraFranquiaUnidades() {
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade();
+      
+      
+      
+      for(Franquia f : Franquias){
+           
+           if(f.getId() == FranquiaUnidade.getFranquia()){
+               
+               FranquiaUnidade[] teste;
+               teste = f.getUnidadesFranquia();
+               
+               System.out.println(Arrays.toString(teste));
+
+               
+           }
+            
+
+        }
 
       boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
       
+      Franquia f = FranquiaController.buscaPorId((int) FranquiaUnidade.getFranquia());
+
       System.out.println(FranquiaUnidade);
       if(res == true){
           count++;
           System.out.println("Cadastrado com sucesso");
+          f.setUnidadesFranquia(arrayUni);
       } else {
           System.out.println("Ocorreu um erro");
       }

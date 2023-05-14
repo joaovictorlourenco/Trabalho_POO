@@ -8,6 +8,7 @@ package View;
 import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
 import Controller.FranquiaController;
+import static Controller.FranquiaController.Franquias;
 import Controller.FranquiaUnidadeController;
 import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
@@ -281,7 +282,7 @@ public class View {
                     CriandoFranquia();
                     break;
                 case 2:
-                    DeletandoFranquia();
+                    DeletaFranquia();
                     break;
                 case 3:
                     EditarFranquia();
@@ -304,11 +305,13 @@ public class View {
         String toConvert;
         
         do{
+            opc = -1;
             System.out.println("\n\n============Unidade de franquia===============");
             System.out.println("0 - Voltar");
             System.out.println("1 - Cadastrar nova Unidade de Franquia");
             System.out.println("2 - Deletar Unidade de Franquia");
             System.out.println("3 - Editar Unidade de Franquia");
+           
             listarUnidadesFranquia();
 
             do{
@@ -325,17 +328,47 @@ public class View {
                     break;
                 case 1: 
                     FranquiaUnidade NewFranquiaUnidade = FranquiaUnidadeController.cadastraFranquiaUnidades();
+                    AtribuirUnidadeFranquia(NewFranquiaUnidade);
                     break;
                 case 2:
                     DeletandoUnidadeFranquia();
                     break;
                 case 3: 
-                    System.out.println("Falta implementar");
+                    EditarFranquiaUnidade();
+                    break;
+             
                 }
             
         }while(opc != 0);
        
     
+    }
+    
+    private static FranquiaUnidade AtribuirUnidadeFranquia(FranquiaUnidade NewFranquiaUnidade){
+         FranquiaUnidade[] teste = null;
+        
+        for(Franquia f : Franquias){
+           
+           if(f.getId() == NewFranquiaUnidade.getFranquia()){
+               
+              
+               teste = f.getUnidadesFranquia();
+               
+
+           }
+            
+        }
+        
+               
+        
+        System.out.println(Arrays.toString(teste));
+        
+        
+        
+        
+        
+        return null;
+       
     }
     
     //       chamando metodo de criar
@@ -363,10 +396,76 @@ public class View {
         }
     
     }
-    private static void DeletandoFranquia(){
+    private static boolean DeletandoFranquia(Franquia FranquiaDeletar){
     
+        boolean res;
+        
+        res = FranquiaController.removeFranquias((int) FranquiaDeletar.getId());
+        
+        return res;
+        
+    }
+    
+    private static void DeletaFranquia(){
+    
+        int opcDe = -1;
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
+        
+        do{
+        
+            System.out.println("Insira o id de uma da FRANQUIAS presentes na lista abaixo que deseja excluir:");
+            listarFranquias();
+        
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        
+            opc = Integer.parseInt(toConvert);
         
         
+        do{
+            
+            Franquia unidadeDeletar = FranquiaController.buscaPorId(opc);
+            System.out.println("Essa é a unidade que deseja EXCLUIR?");
+            System.out.println("1 - sim");
+            System.out.println("2 - não");
+            System.out.println("------------------------------------------");
+            System.out.println(unidadeDeletar);
+
+            opcDe = Integer.parseInt(scan.nextLine());
+     
+            switch(opcDe){
+            
+                case 1: 
+                    boolean resDeletado;
+                    resDeletado = DeletandoFranquia(unidadeDeletar);
+                    if(resDeletado == true){
+                        System.out.println("Deletado com sucesso");
+                    }else{
+                        
+                        System.out.println("Ocorreu algum erro");
+                        
+                    }
+                    opcDe = 0;
+                    opc = 0;
+                    break;
+                case 0:
+                    opcDe = 0;
+                    opc = 0;
+                    break;
+            
+            }
+        
+            
+        }while(opcDe != 0);
+        
+    }while(opc != 0);
+        
+    
     }
     
     //listando unidades de franquia
@@ -433,7 +532,7 @@ public class View {
                     opc = 0;
                     break;
                 case 0:
-                    opcDe = 0;opc = 0;
+                    opcDe = 0;
                     opc = 0;
                     break;
             
@@ -443,21 +542,92 @@ public class View {
         }while(opcDe != 0);
         
     }while(opc != 0);
+       
+    }
+    private static boolean EditarFranquiaUnidade(){
+
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
         
- 
+        listarUnidadesFranquia();
+        System.out.println("---------------------------------------");
+        System.out.println("\nDigite o id que deseja editar");
         
-//        res = FranquiaUnidadeController.removeFranquiaUnidade(unidadeDeletar);
+        do{
+           toConvert = scan.nextLine();
+           res = isInt(toConvert);
+       }while(res != true);
         
+        int id = Integer.parseInt(toConvert);
         
+        FranquiaUnidade Editar = FranquiaUnidadeController.buscarPorId(id);
+        
+        do { 
+            opc = -1;
+            System.out.println("------------------------------------------");
+            System.out.println("\n" + Editar);
+            System.out.println("\n Qual Campo Gostaria de alterar?");
+            System.out.println("0 - Voltar");
+            System.out.println("1 - Franquia Atribuida ");
+            System.out.println("2 - Cidade ");
+            System.out.println("3 - Endereço ");
+            System.out.println("4 - Responsavel ");
+            
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+        
+            opc = Integer.parseInt(toConvert);
+        
+            switch(opc){
+                
+                case 0:
+                    opc = 0;
+                    break;
+                case 1:
+                    listarFranquias();
+                    System.out.println("Franquia atual(digite id): " + Editar.getFranquia());
+                    Editar.setId_franquia(scan.nextInt());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 2:
+                    System.out.println("Cidade atual: " + Editar.getCidade());
+                    Editar.setEndereço(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 3:
+                    System.out.println("Endereco atual: " + Editar.getEndereço());
+                    Editar.setEndereço(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 4:
+                    listaPessoas();
+                    System.out.println("Responsavel atual(digite id): " + Editar.getId_responsavel());
+                    Editar.setId_responsavel(scan.nextLong());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                    
+            }
+            
+            
+        } while (opc != 0);
+        
+        return false;
         
     }
     
     private static boolean DeletaFranquiaUnidade(FranquiaUnidade unidadeDeletar){
         
         boolean res;
+        
         res = FranquiaUnidadeController.removeFranquiaUnidade((int) unidadeDeletar.getId());
-        System.out.println(res);
-        System.out.println((int) unidadeDeletar.getId());
         
         return res;
         

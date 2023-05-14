@@ -64,14 +64,14 @@ public class FranquiaController {
         return -1;
     }
     
-    public static boolean removeMedicos(int id) {
-        for (int i = 0; i < MedicoController.count; i++) {
-            if (MedicoController.medicos[i].getId_pessoa() == id) {
-                MedicoController.medicos[i] = null;
-                for (int j = i; j < MedicoController.count - 1; j++) {
-                    MedicoController.medicos[j] = MedicoController.medicos[j + 1];
+    public static boolean removeFranquias(int id) {
+        for (int i = 0; i < FranquiaController.count; i++) {
+            if (FranquiaController.Franquias[i].getId() == id) {
+                FranquiaController.Franquias[i] = null;
+                for (int j = i; j < FranquiaController.count - 1; j++) {
+                    FranquiaController.Franquias[j] = FranquiaController.Franquias[j + 1];
                 }
-                MedicoController.count--;
+                FranquiaController.count--;
                 return true;
             }
         }
