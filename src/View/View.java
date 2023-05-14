@@ -82,24 +82,24 @@ public class View {
 //        é responsável por retornar a data e hora da próxima execução, considerando o mês atual. A classe Timer é utilizada para agendar
 //        a tarefa, e a classe anônima TimerTask implementa a lógica da varredura dos pacotes.
 //        */
-//        Timer timer = new Timer();
-//        TimerTask tarefa = new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("to no TimerTask");
-//                //Fazer aqui a logica de varredura e obtenção das informações.
-//                //Informações obtidas passar para o Controller do FinanceiroMedico.
-//            }
-//        };
-//        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
-//        boolean continuarRodando = true;
+        Timer timer = new Timer();
+        TimerTask tarefa = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("to no TimerTask");
+                //Fazer aqui a logica de varredura e obtenção das informações.
+                //Informações obtidas passar para o Controller do FinanceiroMedico.
+            }
+        };
+        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
+        boolean continuarRodando = true;
 //        while(continuarRodando){
-//            try {
-//                Thread.sleep(1000);
-////                Thread.sleep(Long.MAX_VALUE);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000);
+//                Thread.sleep(Long.MAX_VALUE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 //            timer.cancel();
 //        }
 //        /////////////////////////////////////////////////////////////
@@ -542,7 +542,6 @@ public class View {
         }
     }
 
-    //// Listar Pessoas
     private static void listaPessoas() {
         Pessoa[] pessoas = PessoaController.listarPessoas();
         for(Pessoa p: pessoas){
@@ -554,7 +553,6 @@ public class View {
         }
     }
 
-    //// Listar Medicos
     private static void listaMedicos() {
         Medico[] medicos = MedicoController.listarMedicos();
         for(Medico m: medicos){
@@ -828,6 +826,7 @@ public class View {
         int opc = 0;
         int idConsulta;
         do{
+            System.out.println("####### Informacoes de Consulta #######");
             System.out.println("Informe a opcao que deseja");
             System.out.println("0 - Sair do menu Informacoes de Consulta");
             System.out.println("1 - Criar nova Informacao de Consulta");
@@ -900,8 +899,13 @@ public class View {
                                 if(idConsulta == c.getId()){
                                     System.out.println("Insira a nova descricao");
                                     String descricao = scan.nextLine();
-                                    InfoConsultaController.alteraInfoConsulta(descricao); 
-                                    listaInfoConsultas(pessoa);
+                                    res = InfoConsultaController.alteraInfoConsulta(descricao, idConsulta); 
+                                    if(res == true){
+                                        System.out.println("SUCESSO em alterar a Informacao da Consulta");
+                                        listaInfoConsultas(pessoa);
+                                    }else{
+                                        System.out.println("ERRO em alterar a Informacao da Consulta....");
+                                    }
                                     break;
                                 }
                             }
@@ -955,6 +959,7 @@ public class View {
         boolean res;  
         int opc = 0;
         do{
+            System.out.println("####### PROCEDIMENTOS #######");
             System.out.println("Informe a opcao que deseja");
             System.out.println("0 - Sair do menu de Procedimentos");
             if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
@@ -1213,20 +1218,20 @@ public class View {
         }while(opc != 0);
     }
     
-//    private static Date getExecucaoVarreduraFinanceiroMedico() {
-//        Calendar cal = java.util.Calendar.getInstance();
-//        cal.set(Calendar.DAY_OF_MONTH, 1);
-//        cal.set(Calendar.HOUR_OF_DAY, 0);
-//        cal.set(Calendar.MINUTE, 0);
-//        cal.set(Calendar.SECOND, 0);
-//        cal.set(Calendar.MILLISECOND, 0);
-//
-//        // Verifica se a data atual já passou do dia 10 do mês atual
-//        if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 1) {
-//            // Se já passou, adiciona 1 mês para a próxima execução
-//            cal.add(Calendar.MONTH, 1);
-//        }
-//
-//        return cal.getTime();
-//    }
+    private static Date getExecucaoVarreduraFinanceiroMedico() {
+        Calendar cal = java.util.Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        // Verifica se a data atual já passou do dia 10 do mês atual
+        if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 1) {
+            // Se já passou, adiciona 1 mês para a próxima execução
+            cal.add(Calendar.MONTH, 1);
+        }
+
+        return cal.getTime();
+    }
 }

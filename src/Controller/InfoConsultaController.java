@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.InfoConsulta;
+import Model.Pessoa;
 import java.util.Arrays;
 
 /**
@@ -96,7 +97,13 @@ public class InfoConsultaController {
         return false;
     }
 
-    public static void alteraInfoConsulta(String descricao) {
-        
+    public static boolean alteraInfoConsulta(String descricao, int idConsulta) {
+        for(InfoConsulta ic: infoConsultas){
+            if (ic.getIdInfoConsulta() == idConsulta) {
+                ic.setDescricao(descricao);
+                return true;
+            }
+        }
+        return false;
     }
 }
