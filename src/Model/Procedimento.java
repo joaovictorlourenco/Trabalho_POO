@@ -14,6 +14,8 @@ import java.util.Date;
 public class Procedimento {
     private static long serial;
     private long idProcedimento;
+    private long idUnidade;
+    private long idMedico;
     private String nome;
     private Date dataProcedimento;
     private LocalTime horario;
@@ -119,5 +121,18 @@ public class Procedimento {
         if(estado == 3) state = "Cancelado";
         if(estado == 4) state = "Realizado";
         return "Procedimento{" + "idProcedimento=" + idProcedimento + ", nome=" + nome + ", dataConsulta=" + dataProcedimento + ", horario=" + horario + ", estado=" + state + ", laudo=" + laudo + ", valor=" + valor + ", dataCriacao=" + dataCriacao + '}';
+    }
+
+    public long getIdMedico() {
+        return this.idMedico;
+    }
+    public long getIdUnidade() {
+        return this.idUnidade;
+    }
+    public void setIdMedico(long id) {
+        this.idMedico = id;
+    }
+    public void setIdUnidade(long id) {
+        this.idUnidade = id;
     }
 }

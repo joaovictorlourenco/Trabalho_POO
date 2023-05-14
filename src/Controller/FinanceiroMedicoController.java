@@ -26,7 +26,12 @@ public class FinanceiroMedicoController implements Runnable {
         }
         for(Procedimento p: ProcedimentoController.procedimentos){
             if(p != null){
-                cadastraFinanceiroMedico(p.getIdProcedimento(), 0, (p.getValor()/2), 1);
+                cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
+            }
+        }
+        for(FinanceiroMedico fm: financasMedico){
+            if(fm != null){
+                fm = null;
             }
         }
     }
@@ -34,10 +39,21 @@ public class FinanceiroMedicoController implements Runnable {
     
     
     public static void cadastraFinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
-        FinanceiroMedico fm = new FinanceiroMedico(idMedico, idFranquia, valor, estado);
-        boolean res = salvaFinanceiroMedico(fm);
-        if (res == true) {
-            count++;
+        boolean registrado = false;
+        for(FinanceiroMedico fm: financasMedico){
+            if(fm != null){
+                if(idMedico == fm.getIdMedico()){
+                    fm.setValor(valor);
+                    registrado = true;
+                }
+            }
+        }
+        if(registrado == false){
+            FinanceiroMedico fm = new FinanceiroMedico(idMedico, idFranquia, valor, estado);
+            boolean res = salvaFinanceiroMedico(fm);
+            if (res == true) {
+                count++;
+            }
         }
     }
 
