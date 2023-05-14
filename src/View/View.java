@@ -7,6 +7,7 @@ package View;
 //import Controller.PessoaController;
 import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
+import Controller.FinanceiroMedicoController;
 import Controller.FranquiaController;
 import static Controller.FranquiaController.Franquias;
 import Controller.FranquiaUnidadeController;
@@ -26,12 +27,15 @@ import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+//import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+//import java.util.Timer;
+//import java.util.TimerTask;
+import java.util.concurrent.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -42,6 +46,7 @@ public class View {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
         boolean res = false;
         int opcLog;
         String toConvert = "";
@@ -49,7 +54,6 @@ public class View {
         /// cast dos primeiros usuarios para testes e demonstrações........
         for(int indice = 0; indice < 4; indice++){
             PessoaController.preCadastroPessoa(indice);
-            
         }
         Pessoa p = PessoaController.buscarPorId(2);
         Medico m = new Medico(p, "CRM", "Especialidade");
@@ -78,30 +82,62 @@ public class View {
         System.out.println(" ");
         listarUnidadesFranquia();
         
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
+//        ChronoUnit monthInterval = ChronoUnit.MONTHS;;
+//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.of(monthInterval) );
+        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS);
+//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.);
+
+        
 //        /*
 //        A varredura dos pacotes do projeto será realizada todos os dias 1 às 00:00. O método getExecucaoVarreduraFinanceiroMedico() 
 //        é responsável por retornar a data e hora da próxima execução, considerando o mês atual. A classe Timer é utilizada para agendar
 //        a tarefa, e a classe anônima TimerTask implementa a lógica da varredura dos pacotes.
 //        */
-        Timer timer = new Timer();
-        TimerTask tarefa = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("to no TimerTask");
-                //Fazer aqui a logica de varredura e obtenção das informações.
-                //Informações obtidas passar para o Controller do FinanceiroMedico.
-            }
-        };
-        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
-        boolean continuarRodando = true;
+//                        ExecutorService varreduraFinancasMedico = Executors.newSingleThreadExecutor();
+//                        Future<Void> future = varreduraFinancasMedico.submit(new FinanceiroMedicoController());
+//                        try {
+//                //            Thread.sleep(10000);
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        // Interromper a tarefa após o tempo desejado
+//                        future.cancel(true);
+//
+//                        // Encerrar o executor
+//                        varreduraFinancasMedico.shutdown();
+//        Timer timer = new Timer();
+//        TimerTask tarefa = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("to no TimerTask");
+//                //Fazer aqui a logica de varredura e obtenção das informações.
+//                //Informações obtidas passar para o Controller do FinanceiroMedico.
+//            }
+//        };
+//        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
+//        boolean continuarRodando = true;
 //        while(continuarRodando){
-            try {
-                Thread.sleep(1000);
-//                Thread.sleep(Long.MAX_VALUE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-//            timer.cancel();
+//            try {
+////                if(continuarRodando){
+//                Thread.sleep(1000);
+//                continuarRodando = false;
+////                }
+////                Thread.sleep(Long.MAX_VALUE);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            continuarRodando = false;
+////            timer.cancel();
 //        }
 //        /////////////////////////////////////////////////////////////
 //        ////////////////////////////////////////////////////////////
@@ -151,6 +187,7 @@ public class View {
                     
                 case 0:
                     System.out.println("Finalizando......");
+//                    continuarRodando = false;
                     break;
                 default: 
                     System.out.println("Não existe essa opção");

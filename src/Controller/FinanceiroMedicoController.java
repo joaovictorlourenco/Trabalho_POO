@@ -6,14 +6,34 @@ package Controller;
 
 import Model.FinanceiroMedico;
 import java.util.Arrays;
-
+import java.util.concurrent.*;
 /**
  *
  * @author yn719471
  */
-public class FinanceiroMedicoController {
+public class FinanceiroMedicoController implements Callable<Void>, Runnable {
     private static FinanceiroMedico[] financasMedico = new FinanceiroMedico[100];
     private static int count = 0;
+    
+    @Override
+    public void run() {
+        System.out.println("Varrendo classes...");
+        // Implemente aqui a lógica de varredura das classes desejadas
+    }
+    
+    @Override
+    public Void call() {
+        while (!Thread.currentThread().isInterrupted()) {
+            System.out.println("Varrendo Financas do MEDICO.......");
+            
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return null;
+    }
     
     
     public static void cadastraFinanceiroMedico(long idMedico, long idConsulta, String descricao) {
