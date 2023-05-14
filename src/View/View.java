@@ -27,7 +27,10 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -74,6 +77,28 @@ public class View {
         System.out.println(" ");
         listarUnidadesFranquia();
         
+        /*
+        A varredura dos pacotes do projeto será realizada todos os dias 1 às 00:00. O método getExecucaoVarreduraFinanceiroMedico() 
+        é responsável por retornar a data e hora da próxima execução, considerando o mês atual. A classe Timer é utilizada para agendar
+        a tarefa, e a classe anônima TimerTask implementa a lógica da varredura dos pacotes.
+        */
+        Timer timer = new Timer();
+        TimerTask tarefa = new TimerTask() {
+            @Override
+            public void run() {
+                //Fazer aqui a logica de varredura e obtenção das informações.
+            }
+        };
+
+        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
+        try {
+            Thread.sleep(Long.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        /////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
         do{
@@ -1179,4 +1204,22 @@ public class View {
             }
         }while(opc != 0);
     }
+    
+    private static Date getExecucaoVarreduraFinanceiroMedico() {
+        Calendar cal = java.util.Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        // Verifica se a data atual já passou do dia 10 do mês atual
+        if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 1) {
+            // Se já passou, adiciona 1 mês para a próxima execução
+            cal.add(Calendar.MONTH, 1);
+        }
+
+        return cal.getTime();
+    }
+
 }
