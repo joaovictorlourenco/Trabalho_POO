@@ -64,7 +64,7 @@ public class InfoConsultaController {
                     InfoConsultaController.infoConsultas[j] = InfoConsultaController.infoConsultas[j + 1];
                 }
 
-                FranquiaUnidadeController.count--;
+                InfoConsultaController.count--;
 
                 return true;
             }

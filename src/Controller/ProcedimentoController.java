@@ -85,12 +85,14 @@ public class ProcedimentoController {
         return -1;
     }
     
-    public static boolean procedimentoExiste(int id) {
+    public static Procedimento procedimentoExiste(int id) {
        for(Procedimento p: procedimentos){
            if(p.getIdProcedimento()== id){
-               return true;
+               return p;
+//               return true;
            }
        }
-       return false;
+       return null;
+//       return false;
     }
 }

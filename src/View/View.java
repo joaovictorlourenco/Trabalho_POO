@@ -21,13 +21,17 @@ import Model.InfoConsulta;
 import Model.Medico;
 import java.util.Scanner;
 import Model.Pessoa;
+import Model.Procedimento;
 import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -65,7 +69,6 @@ public class View {
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
-        System.out.println("\n\n######## Bem vindo ao sistema de gerenciamento de clinicas ########\n\n");
         
         listaPessoas();
         System.out.println(" ");
@@ -75,11 +78,43 @@ public class View {
         System.out.println(" ");
         listarUnidadesFranquia();
         
+//        /*
+//        A varredura dos pacotes do projeto será realizada todos os dias 1 às 00:00. O método getExecucaoVarreduraFinanceiroMedico() 
+//        é responsável por retornar a data e hora da próxima execução, considerando o mês atual. A classe Timer é utilizada para agendar
+//        a tarefa, e a classe anônima TimerTask implementa a lógica da varredura dos pacotes.
+//        */
+//        Timer timer = new Timer();
+//        TimerTask tarefa = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("to no TimerTask");
+//                //Fazer aqui a logica de varredura e obtenção das informações.
+//                //Informações obtidas passar para o Controller do FinanceiroMedico.
+//            }
+//        };
+//        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
+//        boolean continuarRodando = true;
+//        while(continuarRodando){
+//            try {
+//                Thread.sleep(1000);
+////                Thread.sleep(Long.MAX_VALUE);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            timer.cancel();
+//        }
+//        /////////////////////////////////////////////////////////////
+//        ////////////////////////////////////////////////////////////
+
+        System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
+        System.out.println(" ");
         do{
             do{
                 System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
                 toConvert = scan.nextLine();
-                res = isInt(toConvert);
+                if(toConvert != ""){
+                    res = isInt(toConvert);
+                }
             }while(res != true);
             
             opcLog = Integer.parseInt(toConvert);
@@ -706,10 +741,21 @@ public class View {
         for(Consulta c: consultas){
             if(c != null){
                 System.out.println("-------------------------------------------------------");
-                System.out.println(c.toString());
+                System.out.println(c);
                 System.out.println("-------------------------------------------------------");
             }
         }        
+    }
+
+    private static void listaProcedimentos() {
+        Procedimento[] procedimentos = ProcedimentoController.listarProcedimentos();
+        for(Procedimento p: procedimentos){
+            if(p != null){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(p);
+                System.out.println("-------------------------------------------------------");                
+            }
+        }
     }
 
     private static void deletaPessoa(Pessoa p) {
@@ -1075,12 +1121,13 @@ public class View {
         int dia;
         int mes;
         int ano;
+        int i;
         boolean res;  
         int opc = 0;
         do{
             System.out.println("Informe a opcao que deseja");
             System.out.println("0 - Sair do menu de Procedimentos");
-            if(permissao[1] == 2){
+            if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
                 System.out.println("1 - Criar novo Procedimento");
                 System.out.println("2 - Criar Procedimento a partir de uma consulta");
                 System.out.println("3 - Alterar Procedimento");
@@ -1098,7 +1145,7 @@ public class View {
                     System.out.println("Saindo do menu de Procedimento");
                     break;
                 case 1:    
-                    if(permissao[1] == 2){
+                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
                         System.out.println("Insira o nome do Procedimento");
                         nome = scan.nextLine();
 
@@ -1155,22 +1202,201 @@ public class View {
                         }
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                         ProcedimentoController.cadastraProcedimento(nome, convertData, hora, laudo);
+                        listaProcedimentos();
                     }
                     break;
                 case 2:
-                    if(permissao[1] == 2){
+                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                        System.out.println("Insira o nome do Procedimento");
+                        nome = scan.nextLine();
+
+                        System.out.println("Insira o laudo do Procedimento");
+                        laudo = scan.nextLine();
+
+                        System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
+                        System.out.println("DD/MM/YYYY");
+                        toConvert = scan.nextLine();
+                        dataConsulta = toConvert.split("/");
+                        res = isInt(dataConsulta[0]);
+                        if(res == false){
+                            System.out.println("DATA do dia Informada NAO VALIDA");
+                            break;                        
+                        }
+                        dia = Integer.parseInt(dataConsulta[0]);
+
+                        res = isInt(dataConsulta[1]);
+                        if(res == false){
+                            System.out.println("DATA do mes Informada NAO VALIDA");
+                            break;                        
+                        }
+                        mes = Integer.parseInt(dataConsulta[1]);
+
+                        res = isInt(dataConsulta[2]);
+                        if(res == false){
+                            System.out.println("DATA do ano Informada NAO VALIDA");
+                            break;                        
+                        }
+                        ano = Integer.parseInt(dataConsulta[2]);
+
+                        LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
+                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                        if(dtConsulta.isAfter(dtAtual) == false){
+                            System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
+                            break;
+                        }
+
+                        System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
+                        System.out.println("No seguinte formato: HH:mm");
+                        toConvert = scan.nextLine();
+                        horaConsulta = toConvert.split(":");
+
+                        res = isInt(horaConsulta[0]);
+                        if(res == false){
+                            System.out.println("HORA Informada NAO VALIDA");
+                            break;  
+                        }
+                        res = isInt(horaConsulta[1]);
+                        if(res == false){
+                            System.out.println("HORA Informada NAO VALIDA");
+                            break;         
+                        }
+                        LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
+                        ProcedimentoController.cadastraProcedimento(nome, convertData, hora, laudo);
+                        listaProcedimentos();
                     }
                     break;
                 case 3:
-                    if(permissao[1] == 2){
+                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                        System.out.println("Informe o ID da consulta que deseja ALTERAR");
+                        listaProcedimentos();
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        Procedimento p = ProcedimentoController.procedimentoExiste(i);
+                        if(p != null){
+                            System.out.println("Informe o que deseja ALTERAR");
+                            System.out.println("1 - ALTERAR O NOME");
+                            System.out.println("2 - ALTERAR O LAUDO");
+                            System.out.println("3 - ALTERAR DATA E HORARIO");
+                            do{
+                                toConvert = scan.nextLine();
+                                res = isInt(toConvert);
+                            }while(res != true);
+                            opc = Integer.parseInt(toConvert);
+                            switch(opc){
+                                case 1:
+                                    System.out.println("Informe o novo NOME");
+                                    nome = scan.nextLine();
+                                    p.setNome(nome);
+                                    break;
+                                case 2:
+                                    System.out.println("Informe o novo LAUDO");
+                                    laudo = scan.nextLine();
+                                    p.setLaudo(laudo);
+                                    break;
+                                case 3:
+                                    System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
+                                    System.out.println("DD/MM/YYYY");
+                                    toConvert = scan.nextLine();
+                                    dataConsulta = toConvert.split("/");
+                                    res = isInt(dataConsulta[0]);
+                                    if(res == false){
+                                        System.out.println("DATA do dia Informada NAO VALIDA");
+                                        break;                        
+                                    }
+                                    dia = Integer.parseInt(dataConsulta[0]);
+
+                                    res = isInt(dataConsulta[1]);
+                                    if(res == false){
+                                        System.out.println("DATA do mes Informada NAO VALIDA");
+                                        break;                        
+                                    }
+                                    mes = Integer.parseInt(dataConsulta[1]);
+
+                                    res = isInt(dataConsulta[2]);
+                                    if(res == false){
+                                        System.out.println("DATA do ano Informada NAO VALIDA");
+                                        break;                        
+                                    }
+                                    ano = Integer.parseInt(dataConsulta[2]);
+
+                                    LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
+                                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                                    if(dtConsulta.isAfter(dtAtual) == false){
+                                        System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
+                                        break;
+                                    }
+
+                                    System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
+                                    System.out.println("No seguinte formato: HH:mm");
+                                    toConvert = scan.nextLine();
+                                    horaConsulta = toConvert.split(":");
+
+                                    res = isInt(horaConsulta[0]);
+                                    if(res == false){
+                                        System.out.println("HORA Informada NAO VALIDA");
+                                        break;  
+                                    }
+                                    res = isInt(horaConsulta[1]);
+                                    if(res == false){
+                                        System.out.println("HORA Informada NAO VALIDA");
+                                        break;         
+                                    }
+                                    LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
+                                    p.setdataProcedimento(convertData);
+                                    p.setHorario(hora);
+                                    break;
+                            }
+                            
+                        }else{
+                            System.out.println("Ocorreu um ERRO!!");
+                        }
                     }
                     break;
                 case 4:
+                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                        System.out.println("Informe o ID da consulta que deseja CANCELAR");
+                        listaProcedimentos();
+                        
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        
+                        res = ProcedimentoController.removeProcedimentos(i);
+                        if(res == true){
+                            System.out.println("Cancelado com sucesso");
+                        }else{
+                            System.out.println("Ocorreu um ERRO!!");
+                        }
+                    }
                     break;
                 case 5:
+                    listaProcedimentos();
                     break;
             }
         }while(opc != 0);
-        
     }
+    
+//    private static Date getExecucaoVarreduraFinanceiroMedico() {
+//        Calendar cal = java.util.Calendar.getInstance();
+//        cal.set(Calendar.DAY_OF_MONTH, 1);
+//        cal.set(Calendar.HOUR_OF_DAY, 0);
+//        cal.set(Calendar.MINUTE, 0);
+//        cal.set(Calendar.SECOND, 0);
+//        cal.set(Calendar.MILLISECOND, 0);
+//
+//        // Verifica se a data atual já passou do dia 10 do mês atual
+//        if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 1) {
+//            // Se já passou, adiciona 1 mês para a próxima execução
+//            cal.add(Calendar.MONTH, 1);
+//        }
+//
+//        return cal.getTime();
+//    }
 }

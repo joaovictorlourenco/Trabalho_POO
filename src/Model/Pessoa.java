@@ -40,7 +40,8 @@ public class Pessoa {
         this.setTipoUsuario(tipoUsuario);
         this.setDataCriacao(new Date());
     }
-    public Pessoa() {
+    public Pessoa() {}
+    public Pessoa(int i) {
         serial++;
         System.out.println("digite seu nome:");
         String nome = scan.nextLine();
