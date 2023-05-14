@@ -4,60 +4,51 @@
  */
 package Controller;
 
+import Model.Consulta;
 import Model.FinanceiroMedico;
+import Model.Procedimento;
 import java.util.Arrays;
 import java.util.concurrent.*;
 /**
  *
  * @author yn719471
  */
-public class FinanceiroMedicoController implements Callable<Void>, Runnable {
-    private static FinanceiroMedico[] financasMedico = new FinanceiroMedico[100];
+public class FinanceiroMedicoController implements Runnable {
+    private static FinanceiroMedico[] financasMedico = new FinanceiroMedico[1000];
     private static int count = 0;
     
     @Override
     public void run() {
-        System.out.println("Varrendo classes...");
-        // Implemente aqui a lógica de varredura das classes desejadas
-    }
-    
-    @Override
-    public Void call() {
-        while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("Varrendo Financas do MEDICO.......");
-            
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        for(Consulta c: ConsultaController.consultas){
+            if(c != null){
+                cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
             }
         }
-        return null;
+        for(Procedimento p: ProcedimentoController.procedimentos){
+            if(p != null){
+                cadastraFinanceiroMedico(p.getIdProcedimento(), 0, (p.getValor()/2), 1);
+            }
+        }
     }
+
     
     
-    public static void cadastraFinanceiroMedico(long idMedico, long idConsulta, String descricao) {
-
-        FinanceiroMedico info = new FinanceiroMedico();
-
-        boolean res = salvaFinanceiroMedico(info);
+    public static void cadastraFinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
+        FinanceiroMedico fm = new FinanceiroMedico(idMedico, idFranquia, valor, estado);
+        boolean res = salvaFinanceiroMedico(fm);
         if (res == true) {
             count++;
-            System.out.println("SUCESSO");
-        } else {
-            System.out.println("Ocorreu um ERRO");
         }
-
     }
 
     public static FinanceiroMedico[] listarFinanceiroMedico() {
         return Arrays.copyOf(financasMedico, count);
     }
 
-    public static boolean salvaFinanceiroMedico(FinanceiroMedico info) {
+    public static boolean salvaFinanceiroMedico(FinanceiroMedico fm) {
         int prox = proximaPosicaoLivre();
         if (prox != -1) {
-            financasMedico[prox] = info;
+            financasMedico[prox] = fm;
             return true;
         } else {
             return false;
@@ -115,8 +106,4 @@ public class FinanceiroMedicoController implements Callable<Void>, Runnable {
         }
         return false;
     }
-
-//    public static void alteraFinanceiroMedico(String descricao) {
-//        
-//    }
 }

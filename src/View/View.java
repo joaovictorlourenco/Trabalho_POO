@@ -9,7 +9,7 @@ import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
 import Controller.FinanceiroMedicoController;
 import Controller.FranquiaController;
-import static Controller.FranquiaController.Franquias;
+//import static Controller.FranquiaController.Franquias;
 import Controller.FranquiaUnidadeController;
 import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
@@ -27,7 +27,6 @@ import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 //import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -90,57 +89,9 @@ public class View {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
-//        ChronoUnit monthInterval = ChronoUnit.MONTHS;;
-//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.of(monthInterval) );
-        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS);
+        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
+//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS);
 //        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.);
-
-        
-//        /*
-//        A varredura dos pacotes do projeto será realizada todos os dias 1 às 00:00. O método getExecucaoVarreduraFinanceiroMedico() 
-//        é responsável por retornar a data e hora da próxima execução, considerando o mês atual. A classe Timer é utilizada para agendar
-//        a tarefa, e a classe anônima TimerTask implementa a lógica da varredura dos pacotes.
-//        */
-//                        ExecutorService varreduraFinancasMedico = Executors.newSingleThreadExecutor();
-//                        Future<Void> future = varreduraFinancasMedico.submit(new FinanceiroMedicoController());
-//                        try {
-//                //            Thread.sleep(10000);
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        // Interromper a tarefa após o tempo desejado
-//                        future.cancel(true);
-//
-//                        // Encerrar o executor
-//                        varreduraFinancasMedico.shutdown();
-//        Timer timer = new Timer();
-//        TimerTask tarefa = new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("to no TimerTask");
-//                //Fazer aqui a logica de varredura e obtenção das informações.
-//                //Informações obtidas passar para o Controller do FinanceiroMedico.
-//            }
-//        };
-//        timer.schedule(tarefa, getExecucaoVarreduraFinanceiroMedico());
-//        boolean continuarRodando = true;
-//        while(continuarRodando){
-//            try {
-////                if(continuarRodando){
-//                Thread.sleep(1000);
-//                continuarRodando = false;
-////                }
-////                Thread.sleep(Long.MAX_VALUE);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            continuarRodando = false;
-////            timer.cancel();
-//        }
-//        /////////////////////////////////////////////////////////////
-//        ////////////////////////////////////////////////////////////
 
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
@@ -187,7 +138,6 @@ public class View {
                     
                 case 0:
                     System.out.println("Finalizando......");
-//                    continuarRodando = false;
                     break;
                 default: 
                     System.out.println("Não existe essa opção");
@@ -220,9 +170,6 @@ public class View {
             System.out.println("Escolha o que deseja fazer");
             System.out.println("0 - Deslogar");
             System.out.println("1 - Cadastrar novo medico");
-//            System.out.println("x - Cadastrar novo medico");
-//            System.out.println("xx - Cadastrar novo medico");
-//            System.out.println("xxx - Cadastrar novo medico");
             if(permissao[3] == 4 || permissao[2] == 3){
                 System.out.println("2 - Atribuir/Remover papel para usuario cadastrado");
                 System.out.println("3 - Deletar Pessoa");
@@ -1487,22 +1434,5 @@ public class View {
                     break;
             }
         }while(opc != 0);
-    }
-    
-    private static Date getExecucaoVarreduraFinanceiroMedico() {
-        Calendar cal = java.util.Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        // Verifica se a data atual já passou do dia 10 do mês atual
-        if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) > 1) {
-            // Se já passou, adiciona 1 mês para a próxima execução
-            cal.add(Calendar.MONTH, 1);
-        }
-
-        return cal.getTime();
     }
 }

@@ -24,12 +24,21 @@ public class FinanceiroMedico {
     1 - Agendado
     2 - Pago
     */
+    
+    public FinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
+        this.setId();
+        this.setDataCriacao(new Date());
+        this.setIdMedico(idMedico);
+        this.setIdFranquia(idFranquia);
+        this.setValor(valor);
+        this.setEstado(estado);
+    }   
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId() {
         serial++;
         this.id = serial;
     }
