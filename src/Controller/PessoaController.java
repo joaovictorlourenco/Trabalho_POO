@@ -45,7 +45,8 @@ public class PessoaController {
     }
     
     public static Pessoa cadastraPessoa() {
-        Pessoa pessoa = new Pessoa();
+        int i = 0;
+        Pessoa pessoa = new Pessoa(i);
         boolean cadastrado = cadastrado(pessoa);
         
         while(cadastrado == true){
