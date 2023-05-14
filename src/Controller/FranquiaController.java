@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.Franquia;
+import Model.FranquiaUnidade;
 import java.util.Arrays;
 
 

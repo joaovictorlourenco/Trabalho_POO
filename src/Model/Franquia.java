@@ -26,7 +26,6 @@ public class Franquia {
     private String cidade; 
     private String endereço; 
     private long id_responsavel; 
-    private FranquiaUnidade[] unidadesFranquia;
     private Date dataCriacao; 
     private Date dataModificacao;
     
@@ -133,46 +132,7 @@ public class Franquia {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
-
-     public FranquiaUnidade[] getUnidadesFranquia() {
-            return Arrays.copyOf(this.unidadesFranquia, this.unidadesFranquia.length);
-    }
-
-    public void setUnidadesFranquia(FranquiaUnidade[] unidadesFranquia) {
-        if (this.unidadesFranquia != null && this.unidadesFranquia.length > 0) {
-            // Se a variável já tiver algum valor, crie um novo array com tamanho igual
-            // à soma dos tamanhos dos arrays antigos e novos, copie os valores antigos
-            // para o novo array e adicione os novos valores no final
-            FranquiaUnidade[] novoArray = new FranquiaUnidade[this.unidadesFranquia.length + unidadesFranquia.length];
-            
-            System.arraycopy(this.unidadesFranquia, 0, novoArray, 0, this.unidadesFranquia.length);
-            System.arraycopy(unidadesFranquia, 0, novoArray, this.unidadesFranquia.length, unidadesFranquia.length);
-            
-            this.unidadesFranquia = novoArray;
-            System.out.println(Arrays.toString(novoArray));
-            
-        } else {
-            // Se a variável não tiver valor, simplesmente atribua o novo valor
-            this.unidadesFranquia = unidadesFranquia;
-        }
-    }
-
-    public void preSetUnidadesFranquia(FranquiaUnidade[] unidadeFranquia) {
-        if (this.unidadesFranquia != null) {
-            FranquiaUnidade[] novoArray = new FranquiaUnidade[this.unidadesFranquia.length + unidadesFranquia.length];
-            
-            System.arraycopy(this.unidadesFranquia, 0, novoArray, 0, this.unidadesFranquia.length);
-            System.arraycopy(unidadesFranquia, 0, novoArray, this.unidadesFranquia.length, unidadesFranquia.length);
-            
-            this.unidadesFranquia = novoArray;
-//            System.out.println(Arrays.toString(this.uni));
-            
-        } else {
-            // Se a variável não tiver valor, simplesmente atribua o novo valor
-            this.unidadesFranquia = unidadeFranquia;
-        }
-    }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -190,7 +150,7 @@ public class Franquia {
 
     @Override
     public String toString() {
-        return "Franquia{" + "id=" + id + ", nome=" + nome + ", cnpj=" + cnpj + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + ", unidadesFranquia=" + Arrays.toString(unidadesFranquia) + '}';
+        return "Franquia{" + "id=" + id + ", nome=" + nome + ", cnpj=" + cnpj + ", cidade=" + cidade + ", endereco=" + endereço + ", id_responsavel=" + id_responsavel + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
     }
     
  

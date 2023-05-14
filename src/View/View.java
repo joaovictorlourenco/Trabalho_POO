@@ -290,6 +290,9 @@ public class View {
                 case 4:
                     CriandoFranquiaUnidade();
                     break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
                     
             }
             
@@ -328,7 +331,6 @@ public class View {
                     break;
                 case 1: 
                     FranquiaUnidade NewFranquiaUnidade = FranquiaUnidadeController.cadastraFranquiaUnidades();
-                    AtribuirUnidadeFranquia(NewFranquiaUnidade);
                     break;
                 case 2:
                     DeletandoUnidadeFranquia();
@@ -336,39 +338,14 @@ public class View {
                 case 3: 
                     EditarFranquiaUnidade();
                     break;
-             
+                 default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
                 }
             
         }while(opc != 0);
        
     
-    }
-    
-    private static FranquiaUnidade AtribuirUnidadeFranquia(FranquiaUnidade NewFranquiaUnidade){
-         FranquiaUnidade[] teste = null;
-        
-        for(Franquia f : Franquias){
-           
-           if(f.getId() == NewFranquiaUnidade.getFranquia()){
-               
-              
-               teste = f.getUnidadesFranquia();
-               
-
-           }
-            
-        }
-        
-               
-        
-        System.out.println(Arrays.toString(teste));
-        
-        
-        
-        
-        
-        return null;
-       
     }
     
     //       chamando metodo de criar
@@ -457,6 +434,9 @@ public class View {
                     opcDe = 0;
                     opc = 0;
                     break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
             
             }
         
@@ -535,6 +515,9 @@ public class View {
                     opcDe = 0;
                     opc = 0;
                     break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
             
             }
         
@@ -614,6 +597,10 @@ public class View {
                     opc=0;
                     break;
                     
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
+                    
             }
             
             
@@ -634,9 +621,86 @@ public class View {
     }
     
     //       chamando metodo de editar
-    private static void EditarFranquia(){
+    private static boolean EditarFranquia(){
         
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
         
+        listarFranquias();
+        System.out.println("---------------------------------------");
+        System.out.println("\nDigite o id que deseja editar");
+        
+        do{
+           toConvert = scan.nextLine();
+           res = isInt(toConvert);
+       }while(res != true);
+        
+        int id = Integer.parseInt(toConvert);
+        
+        Franquia Editar = FranquiaController.buscaPorId(id);
+        
+        do { 
+            opc = -1;
+            System.out.println("------------------------------------------");
+            System.out.println("\n" + Editar);
+            System.out.println("\n Qual Campo Gostaria de alterar?");
+            System.out.println("0 - Voltar");
+            System.out.println("1 - Nome");
+            System.out.println("2 - Cnpj");
+            System.out.println("3 - Cidade");
+            System.out.println("4 - Endereço ");
+            System.out.println("5 - Responsavel ");
+            
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+        
+            opc = Integer.parseInt(toConvert);
+        
+            switch(opc){
+                
+                case 0:
+                    opc = 0;
+                    break;
+                case 1:
+                    
+                    System.out.println("Nome Atual: "+ Editar.getNome());
+                    Editar.setNome(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 2:
+                    System.out.println("Cnpj atual: " + Editar.getCnpj());
+                    Editar.setCnpj(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 3:
+                    System.out.println("Cidade atual: " + Editar.getCidade());
+                    Editar.setCidade(scan.nextLine());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                case 4:
+                    listaPessoas();
+                    System.out.println("Responsavel atual:(digite id) " + Editar.getId_responsavel());
+                    Editar.setId_responsavel(scan.nextLong());
+                    Editar.setDataModificacao(new Date());
+                    opc=0;
+                    break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
+                    
+            }
+            
+            
+        } while (opc != 0);
+        
+        return false;
         
     }
     

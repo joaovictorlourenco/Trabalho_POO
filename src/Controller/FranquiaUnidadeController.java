@@ -18,23 +18,17 @@ public class FranquiaUnidadeController{
     public static FranquiaUnidade[] Unidades = new FranquiaUnidade[100];
     public static int count = 0;
     
-    public static FranquiaUnidade preCadastraFranquiaUnidades(long idFranquia, long idResponsavel) {
+    public static FranquiaUnidade preCadastraFranquiaUnidades(long idFranquia, long idResponsavel) {;
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade(idFranquia, idResponsavel);
-      
-      FranquiaUnidade[] arrayUni = new FranquiaUnidade[1];
-      
-      arrayUni[0] = FranquiaUnidade;
 
       boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
       
       Franquia f = FranquiaController.buscaPorId((int)idFranquia);
-      
-//      System.out.println(FranquiaUnidade);
+
       if(res == true){
           count++;
           if(f != null) {
-            f.preSetUnidadesFranquia(arrayUni);
             System.out.println("Cadastrado com sucesso");
           }
       } else {
@@ -44,42 +38,24 @@ public class FranquiaUnidadeController{
       return (FranquiaUnidade);
     }
     
-    public static FranquiaUnidade cadastraFranquiaUnidades() {
+    
+    public static FranquiaUnidade cadastraFranquiaUnidades() {;;
 
       FranquiaUnidade FranquiaUnidade = new FranquiaUnidade();
-      
-      
-      
-      for(Franquia f : Franquias){
-           
-           if(f.getId() == FranquiaUnidade.getFranquia()){
-               
-               FranquiaUnidade[] teste;
-               teste = f.getUnidadesFranquia();
-               
-               System.out.println(Arrays.toString(teste));
-
-               
-           }
-            
-
-        }
-
+  
       boolean res = SalvaFranquiaUnidade(FranquiaUnidade);
       
       Franquia f = FranquiaController.buscaPorId((int) FranquiaUnidade.getFranquia());
 
-      System.out.println(FranquiaUnidade);
       if(res == true){
           count++;
           System.out.println("Cadastrado com sucesso");
-          f.setUnidadesFranquia(arrayUni);
       } else {
           System.out.println("Ocorreu um erro");
       }
 
       return (FranquiaUnidade);
-    }
+    };
     
     public static FranquiaUnidade[] listarUnidadesFranquia() {
     
