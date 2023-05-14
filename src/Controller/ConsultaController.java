@@ -53,7 +53,7 @@ public class ConsultaController {
         for (int i = 0; i < ConsultaController.count; i++) {
             if (ConsultaController.consultas[i].getId() == id) {
                 ConsultaController.consultas[i] = null;
-                for (int j = i; j < MedicoController.count - 1; j++) {
+                for (int j = i; j < ConsultaController.count - 1; j++) {
                     ConsultaController.consultas[j] = ConsultaController.consultas[j + 1];
                 }
                 ConsultaController.count--;
