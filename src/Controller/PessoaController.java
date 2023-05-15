@@ -49,7 +49,7 @@ public class PessoaController {
         Pessoa pessoa = new Pessoa(i);
         boolean cadastrado = cadastrado(pessoa);
         
-        while(cadastrado == true){
+        if(cadastrado == true){
             pessoa.novoLogin(pessoa);
             cadastrado = cadastrado(pessoa);
         }

@@ -90,8 +90,6 @@ public class View {
         calendar.set(Calendar.SECOND, 0);
         long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
         timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
-//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS);
-//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.);
 
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
