@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Medico extends Pessoa {
     private long id_pessoa;
     private String crm;
-    private static Pessoa pessoa;
+    private Pessoa pessoa;
     private String especialidade;
     private Date dataCriacao;
     private Date dataModificacao;

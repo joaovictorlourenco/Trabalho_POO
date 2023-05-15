@@ -705,10 +705,7 @@ public class View {
                 default:
                     System.out.println("Não existe essa opção");
                     opc = -1;
-                    
             }
-            
-            
         } while (opc != 0);
         
         return false;
