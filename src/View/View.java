@@ -7,6 +7,8 @@ package View;
 //import Controller.PessoaController;
 import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
+import Controller.FinanceiroAdmController;
+import static Controller.FinanceiroAdmController.listarFinanceiroADM;
 import Controller.FinanceiroMedicoController;
 import Controller.FranquiaController;
 //import static Controller.FranquiaController.Franquias;
@@ -16,6 +18,7 @@ import Controller.InfoConsultaController;
 import Controller.MedicoController;
 import Controller.ProcedimentoController;
 import Model.Consulta;
+import Model.FinanceiroAdm;
 import Model.Franquia;
 import Model.FranquiaUnidade;
 import Model.InfoConsulta;
@@ -153,6 +156,7 @@ public class View {
 
     ///////// MENU DO SISTEMA ///////////////////
     private static void inSystem(Pessoa pessoa) {
+        
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
         String toConvert;
@@ -180,7 +184,10 @@ public class View {
                 System.out.println("6 - Menu Informações de Consulta");
             }
             System.out.println("7 - Menu Procedimentos");
-
+            if(permissao[3] == 4 || permissao[2] == 3){
+                System.out.println("8 - Menu Financeiro ADM");
+            
+            }
 
             do{
                 toConvert = scan.nextLine();
@@ -223,12 +230,128 @@ public class View {
                 case 7:
                     menuProcedimento(pessoa, permissao);
                     break;
+                case 8:
+                    if(permissao[3] == 4){
+                        menuFinanceiro();
+                     }
+                    break;
                 default:
                     System.out.println("Não existe essa opção");
                     opc = -1;
                 }
             }while(opc != 0);
     }
+    
+    //menu financeiro 
+     private static void menuFinanceiro(){
+         
+        Scanner scan = new Scanner(System.in);
+        String toConvert;
+        int opc;
+        boolean res;
+         System.out.println("\n============ Menu Financeiro Administrativo  ================");
+         System.out.println("1 - Cadastrar Movimento");
+                 
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            opc = Integer.parseInt(toConvert);
+            
+            switch(opc){
+                case 1:
+                    CadastrarConta();
+                    break;
+                case 2:
+                    DeletandoConta();
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
+            }
+     }
+     
+     private static void CadastrarConta(){
+         
+        FinanceiroAdmController.cadastraFinanceiroADM();
+         
+     }
+     
+    private static boolean RemovendoConta(FinanceiroAdm unidadeDeletar){
+
+       boolean res;
+
+       res = FinanceiroAdmController.removeFinanceiroAdm((int) unidadeDeletar.getId());
+
+       return res;
+        
+    }
+     
+     private static void DeletandoConta(){
+        int opcDe = -1;
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
+        
+        do{
+        
+            System.out.println("Insira o id de uma das CONTAS presentes na lista abaixo que deseja excluir:");
+            listarFinanceiroADM();
+        
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        
+            opc = Integer.parseInt(toConvert);
+        
+        
+        do{
+            
+            FinanceiroAdm unidadeDeletar = FinanceiroAdmController.buscarPorId(opc);
+            System.out.println("Essa é a conta que deseja EXCLUIR?");
+            System.out.println("1 - sim");
+            System.out.println("2 - não");
+            System.out.println("------------------------------------------");
+            System.out.println(unidadeDeletar);
+
+            opcDe = Integer.parseInt(scan.nextLine());
+     
+            switch(opcDe){
+            
+                case 1: 
+                    boolean resDeletado;
+                    resDeletado = RemovendoConta(unidadeDeletar);
+                    if(resDeletado == true){
+                        System.out.println("Deletado com sucesso");
+                    }else{
+                        
+                        System.out.println("Ocorreu algum erro");
+                        
+                    }
+                    opcDe = 0;
+                    opc = 0;
+                    break;
+                case 2:
+                    opcDe = 0;
+                    opc = 0;
+                    break;
+                default:
+                    System.out.println("Não existe essa opção");
+                    opc = -1;
+            
+            }
+        
+            
+        }while(opcDe != 0);
+        
+    }while(opc != 0);
+      
+         
+         
+     }
+     
+    
     //franquia
    
     private static void menuFranquia(){
@@ -412,7 +535,7 @@ public class View {
                     opcDe = 0;
                     opc = 0;
                     break;
-                case 0:
+                case 2:
                     opcDe = 0;
                     opc = 0;
                     break;
@@ -493,7 +616,7 @@ public class View {
                     opcDe = 0;
                     opc = 0;
                     break;
-                case 0:
+                case 2:
                     opcDe = 0;
                     opc = 0;
                     break;
