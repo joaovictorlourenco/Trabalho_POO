@@ -34,6 +34,7 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 //import java.util.Timer;
 //import java.util.TimerTask;
 import java.util.concurrent.*;
@@ -879,7 +880,7 @@ public class View {
     }
 
     private static void listaPessoas() {
-        Pessoa[] pessoas = PessoaController.listarPessoas();
+        List<Pessoa> pessoas = PessoaController.listarPessoas();
         for(Pessoa p: pessoas){
             if(p != null){
                 System.out.println("-------------------------------------------------------");
@@ -890,7 +891,7 @@ public class View {
     }
 
     private static void listaMedicos() {
-        Medico[] medicos = MedicoController.listarMedicos();
+        List<Medico> medicos = MedicoController.listarMedicos();
         for(Medico m: medicos){
             if(m != null){
                 System.out.println("-------------------------------------------------------");
@@ -1090,15 +1091,18 @@ public class View {
                 case 2:
                     permissoes = p.getTipoUsuario(); 
                     
-                    System.out.println("########################################################################");
-                    System.out.println("Insira o id da consulta que deseja cancelar");
                     if(permissoes[3] == 4 || permissoes[2] == 3){
                         listaConsultas();
+//                        listaConsultas(permissoes);
                     }else if(permissoes[1] == 2){
+                        //trazer lista especifica apenas para as consultas do usuário(médico)
                         listaConsultas();
                     }else{
+                        //trazer lista especifica apenas para as consultas do usuário----
                         listaConsultas();
                     }
+                    System.out.println("########################################################################");
+                    System.out.println("Insira o id da consulta que deseja cancelar");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1110,11 +1114,39 @@ public class View {
                         System.out.println("id inválido");
                         break;
                     } else {
+                        System.out.println("Insira a opcao da informacao que deseja alterar");
+                        System.out.println("0 - Sair");
+                        System.out.println("1 - Alterar Unidade de Franquia");
+                        System.out.println("2 - Alterar Data da Consulta");
+                        System.out.println("3 - Alterar horario");
+                        System.out.println("4 - Alterar Medico");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        opc = Integer.parseInt(toConvert);
+                        
+                        switch(opc){
+                            case 0:
+                                opc = 0;
+                                break;
+                            case 1:
+                                System.out.println("Informe a unidade de franquia que deseja:");
+                                listarUnidadesFranquia();
+                                do{
+                                    toConvert = scan.nextLine();
+                                    res = isInt(toConvert);
+                                }while(res != true);
+                                opc = Integer.parseInt(toConvert);
+                                
+                                break;
+                        }
+
                         //inserir logica de alterar consulta aqui.......
                         //////
 //                        res = ConsultaController.removeConsultas(idConsulta);
                     }
-                    opc = 0;
+//                    opc = 0;
                     break;
                 case 3:
                     permissoes = p.getTipoUsuario(); 

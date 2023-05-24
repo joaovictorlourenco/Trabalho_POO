@@ -6,20 +6,21 @@ package Controller;
 
 import Model.Medico;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
  * @author yn719471
  */
 public class MedicoController {
-    public static Medico[] medicos = new Medico[100];
-    public static int count = 0;
+    public static List<Medico> medicos = new ArrayList();
     
     public static Medico cadastraMedico(Medico m) {
         boolean res = salvaMedicos(m);
         
         if(res == true){
-            count++;
             System.out.println("Cadastrado com sucesso");
         } else {
             System.out.println("Ocorreu um erro");
@@ -28,35 +29,43 @@ public class MedicoController {
     }
 
     public static boolean salvaMedicos(Medico m) {
-        int prox = proximaPosicaoLivre();
-        if (prox != -1) {
-            medicos[prox] = m;
-            return true;
-        } else {
-            return false;
-        }
+        medicos.add(m);
+        return true;
     }
 
     public static boolean removeMedicos(int id) {
-        for (int i = 0; i < MedicoController.count; i++) {
-            if (MedicoController.medicos[i].getId_pessoa() == id) {
-                MedicoController.medicos[i] = null;
-                for (int j = i; j < MedicoController.count - 1; j++) {
-                    MedicoController.medicos[j] = MedicoController.medicos[j + 1];
-                }
-                MedicoController.count--;
+        Iterator<Medico> it = medicos.iterator();
+        while(it.hasNext()){
+            Medico m = it.next();
+            if(m.getId_pessoa() == id){
+                it.remove();
                 return true;
             }
         }
+//        for (int i = 0; i < MedicoController.count; i++) {
+//            if (MedicoController.medicos[i].getId_pessoa() == id) {
+//                MedicoController.medicos[i] = null;
+//                for (int j = i; j < MedicoController.count - 1; j++) {
+//                    MedicoController.medicos[j] = MedicoController.medicos[j + 1];
+//                }
+//                MedicoController.count--;
+//                return true;
+//            }
+//        }
         return false;
     }
     
     public static Medico buscarPorId(int id) {
-        for (int i = 0; i < MedicoController.count; i++) {
-            if (MedicoController.medicos[i].getId() == id) {
-                return MedicoController.medicos[i];
+        for(Medico m : medicos){
+            if(m.getId_pessoa() == id){
+                return m;
             }
         }
+//        for (int i = 0; i < MedicoController.count; i++) {
+//            if (MedicoController.medicos[i].getId() == id) {
+//                return MedicoController.medicos[i];
+//            }
+//        }
         return null;
     }
 /*=================== À Fazer ======================*/
@@ -70,19 +79,19 @@ public class MedicoController {
 //        return false;
 //    }
 
-    public static Medico[] listarMedicos() {
-//        return pessoas;
-        return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
+    public static List<Medico> listarMedicos() {
+        return medicos;
+//        return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
     }
     
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < MedicoController.medicos.length; i++) {
-            if (medicos[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//    public static int proximaPosicaoLivre() {
+//        for (int i = 0; i < MedicoController.medicos.length; i++) {
+//            if (medicos[i] == null) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
         
     public static boolean medicoExiste(int id) {
        for(Medico m: medicos){

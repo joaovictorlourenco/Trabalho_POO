@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/POO/Clinic_Manegement/src/Model/FinanceiroMedico.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/ConsultaController.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/ProcedimentoController.java</file>
             <file>file:/C:/POO/Clinic_Manegement/src/View/View.java</file>
-            <file>file:/C:/POO/Clinic_Manegement/src/Controller/FinanceiroMedicoController.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Model/Procedimento.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Model/Pessoa.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Model/Consulta.java</file>
         </group>
     </open-files>
 </project-private>

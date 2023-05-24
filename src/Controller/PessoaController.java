@@ -6,10 +6,13 @@ import java.util.Arrays;
 //import java.util.Scanner;
 
 import Model.Pessoa;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class PessoaController {
-    public static Pessoa[] pessoas = new Pessoa[100];
-    public static int count = 0;
+    public static List<Pessoa> pessoas = new ArrayList();
+//    public static int count = 0;
 
 //    Scanner scan = new Scanner(System.in);
     
@@ -37,7 +40,6 @@ public class PessoaController {
         boolean res = salvaPessoas(pessoa);
         
         if(res == true){
-            count++;
             System.out.println("Cadastrado com sucesso");
         } else {
             System.out.println("Ocorreu um erro");
@@ -57,7 +59,6 @@ public class PessoaController {
         boolean res = salvaPessoas(pessoa);
         
         if(res == true){
-            count++;
             System.out.println("Cadastrado com sucesso");
         } else {
             System.out.println("Ocorreu um erro");
@@ -66,76 +67,101 @@ public class PessoaController {
     }
 
     public static boolean salvaPessoas(Pessoa pessoa) {
-        int prox = proximaPosicaoLivre();
-        if (prox != -1) {
-            pessoas[prox] = pessoa;
+            pessoas.add(pessoa);
             return true;
-        } else {
-            return false;
-        }
     }
 
     public static boolean removePessoas(int id) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == id) {
-                int[] tipoUsuario = PessoaController.pessoas[i].getTipoUsuario();
-                if(tipoUsuario[1] == 2){
-                    boolean res = MedicoController.removeMedicos(id);
+        Iterator<Pessoa> it = pessoas.iterator();
+        
+        while(it.hasNext()){
+            Pessoa p = it.next();
+            if(p.getId() == id){
+                if(p.getTipoUsuario()[1] == 2){
+                    //logica de deletar na classe médico
+                    MedicoController.removeMedicos(id);
                 }
-                
-                PessoaController.pessoas[i] = null;
-                for (int j = i; j < PessoaController.count - 1; j++) {
-                    PessoaController.pessoas[j] = PessoaController.pessoas[j + 1];
-                }
-                PessoaController.count--;
-               
+                it.remove();
                 return true;
             }
         }
+        
+//        for (int i = 0; i < PessoaController.count; i++) {
+//            if (PessoaController.pessoas[i].getId() == id) {
+//                int[] tipoUsuario = PessoaController.pessoas[i].getTipoUsuario();
+//                if(tipoUsuario[1] == 2){
+//                    boolean res = MedicoController.removeMedicos(id);
+//                }
+//                
+//                PessoaController.pessoas[i] = null;
+//                for (int j = i; j < PessoaController.count - 1; j++) {
+//                    PessoaController.pessoas[j] = PessoaController.pessoas[j + 1];
+//                }
+//                PessoaController.count--;
+//               
+//                return true;
+//            }
+//        }
         return false;
     }
 
     public static Pessoa buscarPorId(int id) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == id) {
-                return PessoaController.pessoas[i];
+        for(Pessoa p: pessoas){
+            if(p.getId() == id){
+                return p;
             }
         }
+//        for (int i = 0; i < PessoaController.count; i++) {;
+//            if (PessoaController.pessoas[i].getId() == id) {
+//                return PessoaController.pessoas[i];
+//            }
+//        }
         return null;
     }
 
     public static boolean editarPessoas(Pessoa pessoa) {
-        for (int i = 0; i < PessoaController.count; i++) {
-            if (PessoaController.pessoas[i].getId() == pessoa.getId()) {
-                PessoaController.pessoas[i] = pessoa;
+        for(Pessoa p: pessoas){
+            if(p.getId() == pessoa.getId()){
+                p = pessoa;
                 return true;
             }
         }
+//        for (int i = 0; i < PessoaController.count; i++) {;
+//            if (PessoaController.pessoas[i].getId() == pessoa.getId()) {
+//                PessoaController.pessoas[i] = pessoa;
+//                return true;
+//            }
+//        }
         return false;
     }
 
-    public static Pessoa[] listarPessoas() {
-//        return pessoas;
-        return Arrays.copyOf(PessoaController.pessoas, PessoaController.count);
+    public static List<Pessoa> listarPessoas() {
+        return pessoas;
+//        return Arrays.copyOf(PessoaController.pessoas, PessoaController.count);
     }
 
     public static Pessoa buscarPessoaPorCpf(String cpf) {
-        for(int i = 0; i < count; i++) {
-            if (pessoas[i].getCpf().equals(cpf)) {
-                return pessoas[i];
+        for(Pessoa p: pessoas){
+            if(p.getCpf().equals(cpf)){
+                return p;
             }
         }
+//        for(int i = 0; i < count; i++) {
+//            if (pessoas[i].getCpf().equals(cpf)) {
+//                return pessoas[i];
+//            }
+//        }
         return null;
     }
     
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < PessoaController.pessoas.length; i++) {
-            if (pessoas[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//    public static int proximaPosicaoLivre() {
+//        for (int i = 0; i < PessoaController.pessoas.length; i++) {
+//            if (pessoas[i] == null) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
         
 //    public static boolean verifyLogin(String login, String senha){
     public static Pessoa verifyLogin(String login, String senha){

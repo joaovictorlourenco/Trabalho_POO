@@ -60,8 +60,6 @@ public class Medico extends Pessoa {
     public long getId_pessoa() {
         return id_pessoa;
     }
-
-    
     
     public String getCrm() {
         return crm;
