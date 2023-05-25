@@ -902,7 +902,7 @@ public class View {
     }
     
     private static void listaConsultas() {
-        Consulta[] consultas = ConsultaController.listarConsultas();
+        List<Consulta> consultas = ConsultaController.listarConsultas();
         for(Consulta c: consultas){
             if(c != null){
                 System.out.println("-------------------------------------------------------");
@@ -913,7 +913,7 @@ public class View {
     }
 
     private static void listaProcedimentos() {
-        Procedimento[] procedimentos = ProcedimentoController.listarProcedimentos();
+        List<Procedimento> procedimentos = ProcedimentoController.listarProcedimentos();
         for(Procedimento p: procedimentos){
             if(p != null){
                 System.out.println("-------------------------------------------------------");
@@ -1189,7 +1189,7 @@ public class View {
     private static void menuInfoConsulta(Pessoa pessoa, int[] permissao) {
         Scanner scan = new Scanner(System.in);
         String toConvert; 
-        Consulta[] consultas = ConsultaController.listarConsultas();
+        List<Consulta> consultas = ConsultaController.listarConsultas();
         boolean res;  
         int opc = 0;
         int idConsulta;
@@ -1299,7 +1299,7 @@ public class View {
     }
 
     private static void listaInfoConsultas(Pessoa p) {
-        InfoConsulta[] infos = InfoConsultaController.listarInfoConsultas();
+        List<InfoConsulta> infos = InfoConsultaController.listarInfoConsultas();
         for (InfoConsulta info: infos){
             if(info != null){
                 if(info.getIdMedico() == p.getId()){

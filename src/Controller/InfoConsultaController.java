@@ -6,7 +6,10 @@ package Controller;
 
 import Model.InfoConsulta;
 import Model.Pessoa;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -14,8 +17,9 @@ import java.util.Arrays;
  */
 public class InfoConsultaController {
 
-    public static InfoConsulta[] infoConsultas = new InfoConsulta[100];
-    public static int count = 0;
+    public static List<InfoConsulta> infoConsultas = new ArrayList();
+//    public static InfoConsulta[] infoConsultas = new InfoConsulta[100];
+//    public static int count = 0;
 
     public static void cadastraInfoConsulta(long idMedico, long idConsulta, String descricao) {
 
@@ -23,7 +27,6 @@ public class InfoConsultaController {
 
         boolean res = salvaInfoConsultas(info);
         if (res == true) {
-            count++;
             System.out.println("Informacao sobre a consulta salva com SUCESSO");
         } else {
             System.out.println("Ocorreu um ERRO");
@@ -31,59 +34,75 @@ public class InfoConsultaController {
 
     }
 
-    public static InfoConsulta[] listarInfoConsultas() {
-        return Arrays.copyOf(infoConsultas, count);
+    public static List<InfoConsulta> listarInfoConsultas() {
+        return infoConsultas;
     }
 
     public static boolean salvaInfoConsultas(InfoConsulta info) {
-        int prox = proximaPosicaoLivre();
-        if (prox != -1) {
-            infoConsultas[prox] = info;
-            return true;
-        } else {
-            return false;
-        }
+        infoConsultas.add(info);
+        return true;
+//        int prox = proximaPosicaoLivre()
+//        if (prox != -1) {
+//            infoConsultas[prox] = info;
+//            return true;
+//        } else {
+//            return false;
+//        }
     }
-
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < infoConsultas.length; i++) {
-            if (infoConsultas[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//
+//    public static int proximaPosicaoLivre() {
+//        for (int i = 0; i < infoConsultas.length; i++) {
+//            if (infoConsultas[i] == null) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
 
     public static boolean removeInfoConsultas(int id) {
-        for (int i = 0; i < InfoConsultaController.count; i++) {
-
-            if (InfoConsultaController.infoConsultas[i].getIdInfoConsulta() == id) {
-
-                InfoConsultaController.infoConsultas[i] = null;
-
-                for (int j = i; j < InfoConsultaController.count - 1; j++) {
-                    InfoConsultaController.infoConsultas[j] = InfoConsultaController.infoConsultas[j + 1];
-                }
-
-                InfoConsultaController.count--;
-
+        Iterator<InfoConsulta> it = infoConsultas.iterator();
+        while(it.hasNext()){
+            InfoConsulta ic = it.next();
+            if(ic.getIdInfoConsulta() == id){
+                it.remove();
                 return true;
             }
         }
+//        for (int i = 0; i < InfoConsultaController.count; i++) {
+//
+//            if (InfoConsultaController.infoConsultas[i].getIdInfoConsulta() == id) {
+//
+//                InfoConsultaController.infoConsultas[i] = null;
+//
+//                for (int j = i; j < InfoConsultaController.count - 1; j++) {
+//                    InfoConsultaController.infoConsultas[j] = InfoConsultaController.infoConsultas[j + 1];
+//                }
+//
+//                InfoConsultaController.count--;
+//
+//                return true;
+//            }
+//        }
         return false;
     }
 
     public static InfoConsulta buscarPorId(int id) {
-
-        for (int i = 0; i < InfoConsultaController.count; i++) {
-
-            if (InfoConsultaController.infoConsultas[i].getIdInfoConsulta() == id) {
-
-                return InfoConsultaController.infoConsultas[i];
-
+        for(InfoConsulta ic : infoConsultas){
+            if(ic.getIdInfoConsulta() == id){
+                return ic;
             }
-
         }
+            
+
+//        for (int i = 0; i < InfoConsultaController.count; i++) {
+//
+//            if (InfoConsultaController.infoConsultas[i].getIdInfoConsulta() == id) {
+//
+//                return InfoConsultaController.infoConsultas[i];
+//
+//            }
+//
+//        }
 
         return null;
     }
