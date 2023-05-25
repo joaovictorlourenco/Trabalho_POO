@@ -4,8 +4,9 @@
  */
 package Model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 /**
  *
@@ -17,13 +18,13 @@ public class Procedimento {
     private long idUnidade;
     private long idMedico;
     private String nome;
-    private Date dataProcedimento;
+    private LocalDate dataProcedimento;
     private LocalTime horario;
     private int estado;
     private String laudo;
     private double valor;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
     /* 
     ***
     ******
@@ -57,11 +58,11 @@ public class Procedimento {
         this.nome = nome;
     }
 
-    public Date getdataProcedimento() {
+    public LocalDate getdataProcedimento() {
         return dataProcedimento;
     }
 
-    public void setdataProcedimento(Date dataConsulta) {
+    public void setdataProcedimento(LocalDate dataConsulta) {
         this.dataProcedimento = dataConsulta;
     }
 
@@ -97,19 +98,19 @@ public class Procedimento {
         this.valor = valor;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

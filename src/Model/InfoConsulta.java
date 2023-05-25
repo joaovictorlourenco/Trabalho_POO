@@ -4,7 +4,7 @@
  */
 package Model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -16,15 +16,16 @@ public class InfoConsulta {
     private long idConsulta;
     private long idMedico;
     private String descricao;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
+    
     
     public InfoConsulta(long idMedico, long idConsulta, String descricao) {
         serial++;
         this.idInfoConsulta = serial;
         this.setIdMedico(idMedico);
         this.setIdConsulta(idConsulta);
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDateTime.now());
         this.setDescricao(descricao);
     }
 
@@ -60,11 +61,19 @@ public class InfoConsulta {
         this.descricao = descricao;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+    
+    public LocalDateTime getDataModificacao() {
+        return dataModificacao;
+    }
+
+    public void setDataModificacao(LocalDateTime dataModificacao) {
+        this.dataModificacao = dataModificacao;
     }
 }

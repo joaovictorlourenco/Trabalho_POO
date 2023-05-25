@@ -5,9 +5,11 @@
         <group>
             <file>file:/C:/POO/Clinic_Manegement/src/Controller/ConsultaController.java</file>
             <file>file:/C:/POO/Clinic_Manegement/src/Controller/ProcedimentoController.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/InfoConsultaController.java</file>
             <file>file:/C:/POO/Clinic_Manegement/src/View/View.java</file>
-            <file>file:/C:/POO/Clinic_Manegement/src/Model/Procedimento.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/MedicoController.java</file>
             <file>file:/C:/POO/Clinic_Manegement/src/Model/Pessoa.java</file>
+            <file>file:/C:/POO/Clinic_Manegement/src/Controller/PessoaController.java</file>
             <file>file:/C:/POO/Clinic_Manegement/src/Model/Consulta.java</file>
         </group>
     </open-files>

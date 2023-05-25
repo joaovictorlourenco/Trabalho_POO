@@ -8,8 +8,6 @@ import Model.Consulta;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ConsultaController {
     
     
     
-    public static void cadastraConsulta(int idMed, int idPes, Date data, LocalTime hora, int idUnidade) {
+    public static void cadastraConsulta(int idMed, int idPes, LocalDate data, LocalTime hora, int idUnidade) {
         Consulta consulta = new Consulta();
         consulta.setDataConsulta(data);
         consulta.setHorario(hora);
@@ -33,7 +31,7 @@ public class ConsultaController {
         consulta.setIdMedico(idMed);
         consulta.setUnidade(idUnidade);
         consulta.setValor(200);
-        consulta.setDataCriacao(new Date());
+        consulta.setDataCriacao(LocalDate.now());
         boolean res = salvaConsultas(consulta);
         if(res == true){
 //            count++;

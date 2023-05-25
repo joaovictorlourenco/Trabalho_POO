@@ -8,7 +8,6 @@ import Model.Consulta;
 import Model.FinanceiroMedico;
 import Model.Procedimento;
 import java.util.Arrays;
-import java.util.concurrent.*;
 /**
  *
  * @author yn719471

@@ -1,10 +1,6 @@
 package controller;
 
 import Controller.MedicoController;
-import java.util.Arrays;
-//import java.util.Date;
-//import java.util.Scanner;
-
 import Model.Pessoa;
 import java.util.ArrayList;
 import java.util.Iterator;

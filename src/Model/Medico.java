@@ -4,8 +4,8 @@
  */
 package Model;
 
-import java.util.Date;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -16,8 +16,8 @@ public class Medico extends Pessoa {
     private String crm;
     private Pessoa pessoa;
     private String especialidade;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
 //    private int franquia;
 //    private int unidade;
     
@@ -29,7 +29,7 @@ public class Medico extends Pessoa {
         this.setPessoa(p);
         this.setCrm(CRM);
         this.setEspecialidade(espec);
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDateTime.now());
     }
     
     //// builder de cadastro de medico
@@ -53,7 +53,7 @@ public class Medico extends Pessoa {
 //        int unit = Integer.parseInt(scan.nextLine());
 //        this.setUnidade(unit);
         
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDateTime.now());
         this.pessoa.setTipoUsuario(2);
     }
 
@@ -86,22 +86,22 @@ public class Medico extends Pessoa {
     }
 
     @Override
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
     @Override
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
     @Override
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
     @Override
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

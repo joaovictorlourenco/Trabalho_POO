@@ -5,7 +5,6 @@
 package Controller;
 
 import Model.Medico;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -17,8 +18,8 @@ public class FinanceiroMedico {
     private long idFranquia;
     private double valor;
     private int estado;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDate dataCriacao;
+    private LocalDate dataModificacao;
     /*
     ----- estado -----
     1 - Agendado
@@ -27,7 +28,7 @@ public class FinanceiroMedico {
     
     public FinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
         this.setId();
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDate.now());
         this.setIdMedico(idMedico);
         this.setIdFranquia(idFranquia);
         this.setValor(valor);
@@ -75,19 +76,19 @@ public class FinanceiroMedico {
         this.estado = estado;
     }
 
-    public Date getDataCriacao() {
+    public LocalDate getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDate getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDate dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

@@ -4,13 +4,10 @@
  */
 package Controller;
 
-//import static Controller.ConsultaController.consultas;
-//import static Controller.ConsultaController.count;
-import Model.Consulta;
 import Model.Procedimento;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +21,7 @@ public class ProcedimentoController {
 //    public static int count = 0;
     public static List<Procedimento> procedimentos = new ArrayList();
 
-    public static void cadastraProcedimento(String nome, Date data, LocalTime hora, String laudo) {
+    public static void cadastraProcedimento(String nome, LocalDate data, LocalTime hora, String laudo) {
         Procedimento procedimento = new Procedimento();
         procedimento.setdataProcedimento(data);
         procedimento.setHorario(hora);
@@ -32,7 +29,7 @@ public class ProcedimentoController {
         procedimento.setNome(nome);
         procedimento.setLaudo(laudo);
         procedimento.setValor(500);
-        procedimento.setDataCriacao(new Date());
+        procedimento.setDataCriacao(LocalDateTime.now());
         boolean res = salvaProcedimentos(procedimento);
         if(res == true){
             procedimento.setEstado(2);

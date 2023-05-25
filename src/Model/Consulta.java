@@ -4,9 +4,8 @@
  */
 package Model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.Calendar;
 
 /**
  *
@@ -15,15 +14,15 @@ import java.util.Calendar;
 public class Consulta {
     private long id;
     private static long serial;
-    private Date dataConsulta;
+    private LocalDate dataConsulta;
     private LocalTime horario;
     private int estado;
     private int idMedico;
     private int idPessoa;
     private double valor;
     private int unidade;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDate dataCriacao;
+    private LocalDate dataModificacao;
     /* 
     ***
     ******
@@ -46,11 +45,11 @@ public class Consulta {
         this.id = serial;
     }
 
-    public Date getDataConsulta() {
+    public LocalDate getDataConsulta() {
         return dataConsulta;
     }
 
-    public void setDataConsulta(Date dataConsulta) {
+    public void setDataConsulta(LocalDate dataConsulta) {
         this.dataConsulta = dataConsulta;
     }
 
@@ -102,19 +101,19 @@ public class Consulta {
         this.unidade = unidade;
     }
 
-    public Date getDataCriacao() {
+    public LocalDate getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDate getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDate dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 
@@ -126,6 +125,6 @@ public class Consulta {
         if(estado == 3) state = "Cancelado";
         if(estado == 4) state = "Realizado";
 //        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
-        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta.getDate() +"/"+ (dataConsulta.getMonth()+1) +"/"+ (dataConsulta.getYear()+1900)+ ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
+        return "Consulta{" + "id=" + id + ", dataConsulta=" + dataConsulta + ", horario=" + horario + ", estado=" + state +", idMedico=" + idMedico + ", idPessoa=" + idPessoa + ", valor=" + valor + ", unidade=" + unidade + ", dataCriacao=" + dataCriacao + '}';
     } 
 }  

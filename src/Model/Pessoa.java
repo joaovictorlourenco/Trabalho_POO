@@ -4,8 +4,10 @@
  */
 package Model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -22,8 +24,8 @@ public class Pessoa {
     private String login;
     private String senha;
     private final int [] tipoUsuario = new int[4];
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
     
     
     Scanner scan = new Scanner(System.in);
@@ -38,7 +40,7 @@ public class Pessoa {
         this.setLogin(login);
         this.setTipoUsuario(1);
         this.setTipoUsuario(tipoUsuario);
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDateTime.now());
     }
     public Pessoa() {}
     public Pessoa(int i) {
@@ -73,7 +75,7 @@ public class Pessoa {
         this.setSenha(senha);
 //            System.out.println(this.senha);
 
-        this.setDataCriacao(new Date());
+        this.setDataCriacao(LocalDateTime.now());
         setTipoUsuario(1);
         this.id = serial;
   
@@ -164,19 +166,19 @@ public class Pessoa {
         }
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
             return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
             this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
             return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
             this.dataModificacao = dataModificacao;
     }
 

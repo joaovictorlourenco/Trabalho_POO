@@ -973,7 +973,7 @@ public class View {
         Scanner scan = new Scanner(System.in);
         LocalDate dtAtual = LocalDate.now();
         int[] permissoes;
-        Date convertData;
+        LocalDate convertData;
         int opc = -1;
         int idConsulta;
         String[] dataConsulta;
@@ -1057,11 +1057,11 @@ public class View {
                     }
                     ano = Integer.parseInt(dataConsulta[2]);
                     
-                    LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    LocalDate convertDate = LocalDate.of(ano, mes, dia);
+//                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 //                    convertData = Date.from(dtConsulta);
                     
-                    if(dtConsulta.isAfter(dtAtual) == false){
+                    if(convertDate.isAfter(dtAtual) == false){
                         System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
                         break;
                     }
@@ -1083,7 +1083,7 @@ public class View {
                     }
                     LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                     
-                    ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertData, hora, idUnidFranq);
+                    ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertDate, hora, idUnidFranq);
                     
                     listaConsultas();
                     break;
@@ -1317,7 +1317,7 @@ public class View {
         String nome; 
         String laudo; 
         LocalDate dtAtual = LocalDate.now();
-        Date convertData;
+        LocalDate convertData;
         String[] dataConsulta;
         String[] horaConsulta;
         int dia;
@@ -1381,7 +1381,7 @@ public class View {
                         ano = Integer.parseInt(dataConsulta[2]);
 
                         LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         if(dtConsulta.isAfter(dtAtual) == false){
                             System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
@@ -1404,7 +1404,7 @@ public class View {
                             break;         
                         }
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
-                        ProcedimentoController.cadastraProcedimento(nome, convertData, hora, laudo);
+                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo);
                         listaProcedimentos();
                     }
                     break;
@@ -1442,7 +1442,7 @@ public class View {
                         ano = Integer.parseInt(dataConsulta[2]);
 
                         LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         if(dtConsulta.isAfter(dtAtual) == false){
                             System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
@@ -1465,7 +1465,7 @@ public class View {
                             break;         
                         }
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
-                        ProcedimentoController.cadastraProcedimento(nome, convertData, hora, laudo);
+                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo);
                         listaProcedimentos();
                     }
                     break;
@@ -1527,7 +1527,7 @@ public class View {
                                     ano = Integer.parseInt(dataConsulta[2]);
 
                                     LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-                                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                                     if(dtConsulta.isAfter(dtAtual) == false){
                                         System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
@@ -1550,7 +1550,7 @@ public class View {
                                         break;         
                                     }
                                     LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
-                                    p.setdataProcedimento(convertData);
+                                    p.setdataProcedimento(dtConsulta);
                                     p.setHorario(hora);
                                     break;
                             }
