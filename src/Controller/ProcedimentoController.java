@@ -21,13 +21,15 @@ public class ProcedimentoController {
 //    public static int count = 0;
     public static List<Procedimento> procedimentos = new ArrayList();
 
-    public static void cadastraProcedimento(String nome, LocalDate data, LocalTime hora, String laudo) {
+    public static void cadastraProcedimento(String nome, LocalDate data, LocalTime hora, String laudo, int uni, int idMed) {
         Procedimento procedimento = new Procedimento();
         procedimento.setdataProcedimento(data);
         procedimento.setHorario(hora);
         procedimento.setIdProcedimento();
         procedimento.setNome(nome);
         procedimento.setLaudo(laudo);
+        procedimento.setIdUnidade(uni);
+        procedimento.setIdMedico(idMed);
         procedimento.setValor(500);
         procedimento.setDataCriacao(LocalDateTime.now());
         boolean res = salvaProcedimentos(procedimento);

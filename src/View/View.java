@@ -1102,7 +1102,7 @@ public class View {
                         listaConsultas();
                     }
                     System.out.println("########################################################################");
-                    System.out.println("Insira o id da consulta que deseja cancelar");
+                    System.out.println("Insira o id da consulta que deseja alterar");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1117,9 +1117,8 @@ public class View {
                         System.out.println("Insira a opcao da informacao que deseja alterar");
                         System.out.println("0 - Sair");
                         System.out.println("1 - Alterar Unidade de Franquia");
-                        System.out.println("2 - Alterar Data da Consulta");
-                        System.out.println("3 - Alterar horario");
-                        System.out.println("4 - Alterar Medico");
+                        System.out.println("2 - Alterar Data e hora da Consulta");
+                        System.out.println("3 - Alterar Medico");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1131,22 +1130,81 @@ public class View {
                                 opc = 0;
                                 break;
                             case 1:
-                                System.out.println("Informe a unidade de franquia que deseja:");
                                 listarUnidadesFranquia();
+                                System.out.println("Informe a unidade de franquia que deseja: ");
                                 do{
                                     toConvert = scan.nextLine();
                                     res = isInt(toConvert);
                                 }while(res != true);
-                                opc = Integer.parseInt(toConvert);
+                                idUnidFranq = Integer.parseInt(toConvert);
                                 
+                                ConsultaController.alteraConsulta(idConsulta, idUnidFranq, 0, null, null);
+                                break;
+                            case 2:
+                                 System.out.println("Insira o DIA, MES e ANO de sua consulta no seguinte formato");
+                                System.out.println("DD/MM/YYYY");
+                                toConvert = scan.nextLine();
+                                dataConsulta = toConvert.split("/");
+                                res = isInt(dataConsulta[0]);
+                                if(res == false){
+                                    System.out.println("DATA do dia Informada NAO VALIDA");
+                                    break;                        
+                                }
+                                dia = Integer.parseInt(dataConsulta[0]);
+
+                                res = isInt(dataConsulta[1]);
+                                if(res == false){
+                                    System.out.println("DATA do mes Informada NAO VALIDA");
+                                    break;                        
+                                }
+                                mes = Integer.parseInt(dataConsulta[1]);
+
+                                res = isInt(dataConsulta[2]);
+                                if(res == false){
+                                    System.out.println("DATA do ano Informada NAO VALIDA");
+                                    break;                        
+                                }
+                                ano = Integer.parseInt(dataConsulta[2]);
+
+                                convertDate = LocalDate.of(ano, mes, dia);
+            //                    convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            //                    convertData = Date.from(dtConsulta);
+
+                                if(convertDate.isAfter(dtAtual) == false){
+                                    System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");
+                                    break;
+                                }
+
+                                System.out.println("Insira o HORARIO da sua consulta entre 8H - 19H");
+                                System.out.println("No seguinte formato: HH:mm");
+                                toConvert = scan.nextLine();
+                                horaConsulta = toConvert.split(":");
+
+                                res = isInt(horaConsulta[0]);
+                                if(res == false){
+                                    System.out.println("HORA Informada NAO VALIDA");
+                                    break;  
+                                }
+                                res = isInt(horaConsulta[1]);
+                                if(res == false){
+                                    System.out.println("HORA Informada NAO VALIDA");
+                                    break;         
+                                }
+                                hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
+                                ConsultaController.alteraConsulta(idConsulta, 0, 0, convertDate, hora);
+                                break;
+                            case 3:
+                                listaMedicos();
+                                System.out.println("insira o ID do medico de desejo:");
+                                do{
+                                    toConvert = scan.nextLine();
+                                    res = isInt(toConvert);
+                                }while(res != true);
+                                idMed = Integer.parseInt(toConvert);
+                                ConsultaController.alteraConsulta(idConsulta, 0, idMed, null, null);
                                 break;
                         }
-
-                        //inserir logica de alterar consulta aqui.......
-                        //////
-//                        res = ConsultaController.removeConsultas(idConsulta);
                     }
-//                    opc = 0;
                     break;
                 case 3:
                     permissoes = p.getTipoUsuario(); 
@@ -1354,6 +1412,34 @@ public class View {
 
                         System.out.println("Insira o laudo do Procedimento");
                         laudo = scan.nextLine();
+                        
+                        System.out.println("Insira o id da unidade que irá consultar");
+                        listarUnidadesFranquia();
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+
+                        int idUnidFranq = Integer.parseInt(toConvert);
+                        res = unidadeExiste(idUnidFranq);
+                        if(res == false){
+                            System.out.println("id inválido");
+                            break;
+                        }
+
+                        System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
+                        listaMedicos();
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+
+                        int idMed = Integer.parseInt(toConvert);
+                        res = MedicoController.medicoExiste(idMed);
+                        if(res == false){
+                            System.out.println("id inválido");
+                            break;
+                        }
 
                         System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
                         System.out.println("DD/MM/YYYY");
@@ -1404,17 +1490,58 @@ public class View {
                             break;         
                         }
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
-                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo);
+                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo, idUnidFranq, idMed);
                         listaProcedimentos();
                     }
                     break;
                 case 2:
                     if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                        listaProcedimentos();
+                        System.out.println("Insira o id da consulta que irá gerar um procedimento");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        Consulta c = ConsultaController.buscarPorId(i);
+                        if(c == null){
+                            System.out.println("Consulta nao existe");
+                            break;
+                        }
+                        
                         System.out.println("Insira o nome do Procedimento");
                         nome = scan.nextLine();
-
+                        
                         System.out.println("Insira o laudo do Procedimento");
                         laudo = scan.nextLine();
+                        
+//                        System.out.println("Insira o id da unidade que irá consultar");
+//                        listarUnidadesFranquia();
+//                        do{
+//                            toConvert = scan.nextLine();
+//                            res = isInt(toConvert);
+//                        }while(res != true);
+//
+//                        int idUnidFranq = Integer.parseInt(toConvert);
+//                        res = unidadeExiste(idUnidFranq);
+//                        if(res == false){
+//                            System.out.println("id inválido");
+//                            break;
+//                        }
+//
+//                        System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
+//                        listaMedicos();
+//                        do{
+//                            toConvert = scan.nextLine();
+//                            res = isInt(toConvert);
+//                        }while(res != true);
+//
+//                        int idMed = Integer.parseInt(toConvert);
+//                        res = MedicoController.medicoExiste(idMed);
+//                        if(res == false){
+//                            System.out.println("id inválido");
+//                            break;
+//                        }
 
                         System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
                         System.out.println("DD/MM/YYYY");
@@ -1465,7 +1592,7 @@ public class View {
                             break;         
                         }
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
-                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo);
+                        ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo, c.getUnidade(), c.getIdMedico());
                         listaProcedimentos();
                     }
                     break;

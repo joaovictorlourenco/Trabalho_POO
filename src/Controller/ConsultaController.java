@@ -75,6 +75,26 @@ public class ConsultaController {
         return false;
     }
     
+    public static void alteraConsulta(int idConsulta, int idUniFranq, int idMed, LocalDate dtConsulta, LocalTime hora){
+        for(Consulta c : consultas){
+            if(c.getId() == idConsulta){
+                if(idMed != 0){
+                    c.setIdMedico(idMed);
+                }
+                if(dtConsulta != null){
+                    c.setDataConsulta(dtConsulta);
+                }
+                if(hora != null){
+                    c.setHorario(hora);
+                }
+                if(idUniFranq != 0){
+                    c.setUnidade(idUniFranq);
+                }
+                return;
+            }
+        }
+    }
+    
     public static Consulta buscarPorId(int id) {
         for(Consulta c : consultas){
             if(c.getId() == id){
