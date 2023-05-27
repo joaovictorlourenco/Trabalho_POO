@@ -466,7 +466,7 @@ public class View {
     
     private static void listarFranquias(){
     
-        Franquia[] Franquias = FranquiaController.listarFranquias();
+        List<Franquia> Franquias = FranquiaController.listarFranquias();
         
         for(Franquia Franquia: Franquias){
             
@@ -557,7 +557,7 @@ public class View {
     //listando unidades de franquia
     private static void listarUnidadesFranquia(){
         
-        FranquiaUnidade[] FranquiasUnidades = FranquiaUnidadeController.listarUnidadesFranquia();
+        List<FranquiaUnidade> FranquiasUnidades = FranquiaUnidadeController.listarUnidadesFranquia();
        
         for(FranquiaUnidade Unidade: FranquiasUnidades){
             

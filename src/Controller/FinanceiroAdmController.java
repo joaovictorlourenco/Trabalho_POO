@@ -5,25 +5,25 @@
 package Controller;
 
 import Model.FinanceiroAdm;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
  * @author jv232
  */
 public class FinanceiroAdmController {
-    private static FinanceiroAdm[] FinanceiroAdm = new FinanceiroAdm[100];
-    private static int count = 0;
+    private static List<FinanceiroAdm> FinanceiroAdm = new ArrayList();
     
         
-    
     public static void cadastraFinanceiroADM() {
 
         FinanceiroAdm mov = new FinanceiroAdm();
 
         boolean res = salvaFinanceiroADM(mov);
         if (res == true) {
-            count++;
             System.out.println("Cadastrada com Sucesso");
         } else {
             System.out.println("Ocorreu um ERRO");
@@ -32,61 +32,39 @@ public class FinanceiroAdmController {
     }
     
     public static boolean salvaFinanceiroADM(FinanceiroAdm mov){
-          int prox = proximaPosicaoLivre();
-        if (prox != -1) {
-            FinanceiroAdm[prox] = mov;
-            return true;
-        } else {
-            return false;
-        }
-        
-        
+        FinanceiroAdm.add(mov);
+        return true;
     }
     
     public static boolean removeFinanceiroAdm(int id) {
-        for (int i = 0; i < FinanceiroAdmController.count; i++) {
-
-            if (FinanceiroAdmController.FinanceiroAdm[i].getId()== id) {
-
-                FinanceiroAdmController.FinanceiroAdm[i] = null;
-
-                for (int j = i; j < FinanceiroAdmController.count - 1; j++) {
-                    FinanceiroAdmController.FinanceiroAdm[j] = FinanceiroAdmController.FinanceiroAdm[j + 1];
-                }
-
-                FinanceiroAdmController.count--;
-
+        
+        Iterator<FinanceiroAdm> iterator = FinanceiroAdm.iterator();
+        
+         while(iterator.hasNext()){
+            FinanceiroAdm fa = iterator.next();
+            if(fa.getId() == id){
+                iterator.remove();
                 return true;
             }
+            
         }
         return false;
     }
 
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < FinanceiroAdm.length; i++) {
-            if (FinanceiroAdm[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    
-    public static FinanceiroAdm[] listarFinanceiroADM() {
-        return Arrays.copyOf(FinanceiroAdm, count);
+ 
+    public static List<FinanceiroAdm> listarFinanceiroADM() {
+        return FinanceiroAdm;
     }
     
     public static FinanceiroAdm buscarPorId(int id) {
-
-    for (int i = 0; i < FinanceiroAdmController.count; i++) {
-
-        if (FinanceiroAdmController.FinanceiroAdm[i].getId() == id) {
-
-            return FinanceiroAdmController.FinanceiroAdm[i];
-
-        }
-
-    }
-
+        
+        for(FinanceiroAdm fa: FinanceiroAdm){
+            
+            if(fa.getId() == id){
+                return fa;
+            }
+        }       
+ 
         return null;
     }
     

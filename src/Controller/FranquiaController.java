@@ -6,7 +6,10 @@ package Controller;
 
 import Model.Franquia;
 import Model.FranquiaUnidade;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -15,8 +18,9 @@ import java.util.Arrays;
  */
 public class FranquiaController {
     
-    public static Franquia[] Franquias = new Franquia[100];
-    public static int count = 0;
+    public static List<Franquia> Franquias = new ArrayList();
+    
+    //public static List<Medico> medicos = new ArrayList();
     
   public static void preCadastraFranquia(String nome, long idResponsavel) {
       
@@ -24,7 +28,6 @@ public class FranquiaController {
 
         boolean res = SalvaFranquia(Franquia);
         if(res == true){
-            count++;
             System.out.println("Cadastrado com sucesso");
         } else {
             System.out.println("Ocorreu um erro");
@@ -37,7 +40,6 @@ public class FranquiaController {
 
         boolean res = SalvaFranquia(Franquia);
         if(res == true){
-            count++;
             System.out.println("Cadastrado com sucesso");
         } else {
             System.out.println("Ocorreu um erro");
@@ -47,49 +49,35 @@ public class FranquiaController {
     }
   
     public static boolean SalvaFranquia(Franquia franquia) {
-        int prox = proximaPosicaoLivre();
-            if (prox != -1) {
-                Franquias[prox] = franquia;
-                return true;
-            } else {
-                return false;
-            }
+        Franquias.add(franquia);
+        return true;
     }
     
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < FranquiaController.Franquias.length; i++) {
-            if (Franquias[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
     
     public static boolean removeFranquias(int id) {
-        for (int i = 0; i < FranquiaController.count; i++) {
-            if (FranquiaController.Franquias[i].getId() == id) {
-                FranquiaController.Franquias[i] = null;
-                for (int j = i; j < FranquiaController.count - 1; j++) {
-                    FranquiaController.Franquias[j] = FranquiaController.Franquias[j + 1];
-                }
-                FranquiaController.count--;
+
+        Iterator<Franquia> iterator = Franquias.iterator();
+        while(iterator.hasNext()){
+            Franquia f = iterator.next();
+            if(f.getId() == id){
+                iterator.remove();
                 return true;
             }
+            
         }
         return false;
     }
     
-    public static Franquia[] listarFranquias() {
-//        return pessoas;
-        return Arrays.copyOf(FranquiaController.Franquias, FranquiaController.count);
+    public static List<Franquia> listarFranquias() {
+        
+        return Franquias;
+        
     }
     
     public static Franquia buscaPorId(int id) {
         for(Franquia f: Franquias){
-            if(f!=null){
-                if(f.getId() == id){
-                    return f;
-                }
+            if(f.getId() == id){
+                return f;
             }
         }        
         return null;
