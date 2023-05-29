@@ -7,25 +7,31 @@ package Controller;
 import Model.Consulta;
 import Model.FinanceiroMedico;
 import Model.Procedimento;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 /**
  *
  * @author yn719471
  */
 public class FinanceiroMedicoController implements Runnable {
-    private static FinanceiroMedico[] financasMedico = new FinanceiroMedico[1000];
-    private static int count = 0;
+    private static List<FinanceiroMedico> financasMedico = new ArrayList();
+//    private static int count = 0;
     
     @Override
     public void run() {
         for(Consulta c: ConsultaController.consultas){
             if(c != null){
-                cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
+                if(c.getEstado() == 4){
+                    cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
+                }
             }
         }
         for(Procedimento p: ProcedimentoController.procedimentos){
             if(p != null){
-                cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
+                if(p.getEstado() == 4){
+                    cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
+                }
             }
         }
         for(FinanceiroMedico fm: financasMedico){
@@ -49,66 +55,62 @@ public class FinanceiroMedicoController implements Runnable {
         }
         if(registrado == false){
             FinanceiroMedico fm = new FinanceiroMedico(idMedico, idFranquia, valor, estado);
-            boolean res = salvaFinanceiroMedico(fm);
-            if (res == true) {
-                count++;
-            }
+//            boolean res = salvaFinanceiroMedico(fm)
+//            if (res == true) {
+//                count++;
+//            }
         }
     }
 
-    public static FinanceiroMedico[] listarFinanceiroMedico() {
-        return Arrays.copyOf(financasMedico, count);
+    public static List<FinanceiroMedico> listarFinanceiroMedico() {
+        return financasMedico;
     }
 
-    public static boolean salvaFinanceiroMedico(FinanceiroMedico fm) {
-        int prox = proximaPosicaoLivre();
-        if (prox != -1) {
-            financasMedico[prox] = fm;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static int proximaPosicaoLivre() {
-        for (int i = 0; i < financasMedico.length; i++) {
-            if (financasMedico[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//    public static boolean salvaFinanceiroMedico(FinanceiroMedico fm) {;
+//    }
 
     public static boolean removeFinanceiroMedico(int id) {
-        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
-
-            if (FinanceiroMedicoController.financasMedico[i].getId()== id) {
-
-                FinanceiroMedicoController.financasMedico[i] = null;
-
-                for (int j = i; j < FinanceiroMedicoController.count - 1; j++) {
-                    FinanceiroMedicoController.financasMedico[j] = FinanceiroMedicoController.financasMedico[j + 1];
-                }
-
-                FinanceiroMedicoController.count--;
-
+        Iterator<FinanceiroMedico> it = financasMedico.iterator();
+        while(it.hasNext()){
+            if(it.next().getId() == id){
+                it.remove();
                 return true;
             }
         }
+//        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
+//
+//            if (FinanceiroMedicoController.financasMedico[i].getId()== id) {
+//
+//                FinanceiroMedicoController.financasMedico[i] = null;
+//
+//                for (int j = i; j < FinanceiroMedicoController.count - 1; j++) {
+//                    FinanceiroMedicoController.financasMedico[j] = FinanceiroMedicoController.financasMedico[j + 1];
+//                }
+//
+//                FinanceiroMedicoController.count--;
+//
+//                return true;
+//            }
+//        }
         return false;
     }
 
     public static FinanceiroMedico buscarPorId(int id) {
-
-        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
-
-            if (FinanceiroMedicoController.financasMedico[i].getId() == id) {
-
-                return FinanceiroMedicoController.financasMedico[i];
-
+        for(FinanceiroMedico fa: financasMedico){
+            if(fa.getId() == id){
+                return fa;
             }
-
         }
+
+//        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
+//
+//            if (FinanceiroMedicoController.financasMedico[i].getId() == id) {
+//
+//                return FinanceiroMedicoController.financasMedico[i];
+//
+//            }
+//
+//        }
 
         return null;
     }
