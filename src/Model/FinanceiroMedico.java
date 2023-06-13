@@ -12,7 +12,7 @@ import java.util.Date;
  * @author yn719471
  */
 public class FinanceiroMedico {
-    private static  long serial;
+    private static long serial;
     private long id;
     private long idMedico;
     private long idFranquia;

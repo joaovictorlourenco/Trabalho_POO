@@ -31,6 +31,7 @@ public class ProcedimentoController {
         procedimento.setIdUnidade(uni);
         procedimento.setIdMedico(idMed);
         procedimento.setValor(500);
+        procedimento.setIdProcedimento();
         procedimento.setDataCriacao(LocalDateTime.now());
         boolean res = salvaProcedimentos(procedimento);
         if(res == true){

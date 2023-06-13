@@ -38,15 +38,13 @@ public class Procedimento {
     ******
     ***
     */
-//    public Procedimento(String nome, Date data, LocalTime hora){
-//        
-//    }
 
     public long getIdProcedimento() {
         return idProcedimento;
     }
 
     public void setIdProcedimento() {
+        serial++;
         this.idProcedimento = serial;
     }
 

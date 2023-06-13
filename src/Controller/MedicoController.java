@@ -4,6 +4,10 @@
  */
 package Controller;
 
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import Model.DBConnect;
 import Model.Medico;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,16 +20,21 @@ import java.util.List;
 public class MedicoController {
     public static List<Medico> medicos = new ArrayList();
     
-    public static Medico cadastraMedico(Medico m) {
-        boolean res = salvaMedicos(m);
-        
-        if(res == true){
-            System.out.println("Cadastrado com sucesso");
-        } else {
-            System.out.println("Ocorreu um erro");
-        }
-        return(m);
+    private Connection connection;
+    public MedicoController() {
+        this.connection = new DBConnect().getConnection();
     }
+    
+//    public static Medico cadastraMedico(Medico m) {
+//        boolean res = salvaMedicos(m);
+//        
+//        if(res == true){
+//            System.out.println("Cadastrado com sucesso");
+//        } else {
+//            System.out.println("Ocorreu um erro");
+//        }
+//        return(m);
+//    }
 
     public static boolean salvaMedicos(Medico m) {
         medicos.add(m);
@@ -33,25 +42,30 @@ public class MedicoController {
     }
 
     public static boolean removeMedicos(int id) {
-        Iterator<Medico> it = medicos.iterator();
-        while(it.hasNext()){
-            Medico m = it.next();
-            if(m.getId_pessoa() == id){
-                it.remove();
-                return true;
-            }
+        String sql = "delete from pessoa where id = ? and medico = ?";
+
+        try (Connection connection = new DBConnect().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+            stmt.setLong(2, 1);
+            
+            stmt.execute();
+            
+            System.out.println("Excluído com sucesso");
+            return true; 
+       } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-//        for (int i = 0; i < MedicoController.count; i++) {
-//            if (MedicoController.medicos[i].getId_pessoa() == id) {
-//                MedicoController.medicos[i] = null;
-//                for (int j = i; j < MedicoController.count - 1; j++) {
-//                    MedicoController.medicos[j] = MedicoController.medicos[j + 1];
-//                }
-//                MedicoController.count--;
+        
+//        Iterator<Medico> it = medicos.iterator();
+//        while(it.hasNext()){
+//            Medico m = it.next();
+//            if(m.getId_pessoa() == id){
+//                it.remove();
 //                return true;
 //            }
 //        }
-        return false;
     }
     
     public static Medico buscarPorId(int id) {
@@ -102,5 +116,11 @@ public class MedicoController {
        }
        return false;
     }
-
+    
+    public static void listCleaner(){
+        Iterator<Medico> it = medicos.iterator();
+        while(it.hasNext()){
+            it.remove();
+        }
+    }
 }

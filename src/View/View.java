@@ -4,14 +4,12 @@
  */
 package View;
 
-//import Controller.PessoaController;
 import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
 import Controller.FinanceiroAdmController;
 import static Controller.FinanceiroAdmController.listarFinanceiroADM;
 import Controller.FinanceiroMedicoController;
 import Controller.FranquiaController;
-//import static Controller.FranquiaController.Franquias;
 import Controller.FranquiaUnidadeController;
 import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
@@ -29,38 +27,37 @@ import Model.Procedimento;
 import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
-//import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-//import java.util.Timer;
-//import java.util.TimerTask;
 import java.util.concurrent.*;
 import java.util.concurrent.TimeUnit;
-
+import java.sql.SQLException;
 /**
  *
  * @author yn719471
  */
+
+// mysql -u root
 public class View {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
+        
         boolean res = false;
         int opcLog;
         String toConvert = "";
 //////////////////////////////////////////////////////////////////////////////////////        
-        /// cast dos primeiros usuarios para testes e demonstrações........
+        //// cast dos primeiros usuarios para testes e demonstrações........
         for(int indice = 0; indice < 4; indice++){
             PessoaController.preCadastroPessoa(indice);
         }
-        Pessoa p = PessoaController.buscarPorId(2);
-        Medico m = new Medico(p, "CRM", "Especialidade");
-        m = MedicoController.cadastraMedico(m);
+//        Pessoa p = PessoaController.buscarPorId(2);
+//        Medico m = new Medico(p, "CRM", "Especialidade");
+//        m = MedicoController.cadastraMedico(m);
         
         /// cast de franquias para testes e demonstrações........
         for(int indice = 1; indice <= 4; indice++){
@@ -134,7 +131,26 @@ public class View {
                     break;
                     
                 case 2:
-                    Pessoa pessoa = (Pessoa) PessoaController.cadastraPessoa();
+                    System.out.println("digite seu nome:");
+                    String nome = scan.nextLine();
+
+                    System.out.println("digite seu endereço:");
+                    String end = scan.nextLine();
+
+                    System.out.println("digite seu CPF:");
+                    String cpf = scan.nextLine();
+
+                    System.out.println("digite seu telefone:");
+                    String tel = scan.nextLine();
+
+                    System.out.println("digite seu login:");
+                    String log = scan.nextLine();
+                    
+                    System.out.println("digite seu sua senha:");
+                    String passw = scan.nextLine();
+
+                    PessoaController.cadastraPessoa(nome, end, cpf, tel, log, passw);
+//                    Pessoa pessoa = (Pessoa) PessoaController.cadastraPessoa(nome, end, cpf, tel, log, passw);
                     listaPessoas();
                     break;
                     
@@ -163,29 +179,24 @@ public class View {
         String toConvert;
         int opc;
         boolean res;
-        int[] permissao = pessoa.getTipoUsuario();
-        
-        System.out.println("============ Permissoes do usuario logado ================");
-        System.out.println("=============>" + Arrays.toString(permissao));
-        System.out.println("==========================================================");
 
         do{
             System.out.println("Escolha o que deseja fazer");
             System.out.println("0 - Deslogar");
             System.out.println("1 - Cadastrar novo medico");
-            if(permissao[3] == 4 || permissao[2] == 3){
+            if(pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                 System.out.println("2 - Atribuir/Remover papel para usuario cadastrado");
                 System.out.println("3 - Deletar Pessoa");
             }
-            if(permissao[3] == 4){
+            if(pessoa.getDono_franquia() == 1){
                 System.out.println("4 - Criar uma Franquia");
             }
             System.out.println("5 - Menu Consultas");
-            if(permissao[1] == 2){
+            if(pessoa.getMedico() == 1){
                 System.out.println("6 - Menu Informações de Consulta");
             }
             System.out.println("7 - Menu Procedimentos");
-            if(permissao[3] == 4 || permissao[2] == 3){
+            if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade() == 1){
                 System.out.println("8 - Menu Financeiro ADM");
             
             }
@@ -202,22 +213,22 @@ public class View {
                     opc = 0;
                     break;
                 case 1:
-                    if(permissao[3] == 4 || permissao[2] == 3){
+                    if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade()== 1){
                         criandoMedico();
                     }
                     break;
                 case 2:
-                    if(permissao[3] == 4 || permissao[2] == 3){
+                    if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade()== 1){
                         alteraTipoUser();
                     }
                     break;
                 case 3:
-                    if(permissao[3] == 4 || permissao[2] == 3){
+                    if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade()== 1){
                         deletaPessoa(pessoa);
                         break;
                     }
                 case 4:
-                    if(permissao[3] == 4){
+                    if(pessoa.getDono_franquia() == 1){
                         menuFranquia();
                         break;
                     }
@@ -226,13 +237,13 @@ public class View {
                     menuConsulta(pessoa);
                     break;
                 case 6:
-                    menuInfoConsulta(pessoa, permissao);
+                    menuInfoConsulta(pessoa);
                     break;
                 case 7:
-                    menuProcedimento(pessoa, permissao);
+                    menuProcedimento(pessoa);
                     break;
                 case 8:
-                    if(permissao[3] == 4){
+                    if(pessoa.getDono_franquia() == 1){
                         menuFinanceiro();
                      }
                     break;
@@ -810,9 +821,30 @@ public class View {
     /////////////////////////////////////
     ////////////////////////////////////
     private static void criandoMedico() {
-        Pessoa med = (Pessoa) PessoaController.cadastraPessoa();
-        Medico medico = new Medico(med);
-        medico = MedicoController.cadastraMedico(medico);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("digite seu nome:");
+        String nome = scan.nextLine();
+
+        System.out.println("digite seu endereço:");
+        String end = scan.nextLine();
+
+        System.out.println("digite seu CPF:");
+        String cpf = scan.nextLine();
+
+        System.out.println("digite seu telefone:");
+        String tel = scan.nextLine();
+
+        System.out.println("digite seu login:");
+        String log = scan.nextLine();
+
+        System.out.println("digite seu sua senha:");
+        String passw = scan.nextLine();
+//        Pessoa med = PessoaController.cadastraMed(nome, end, cpf, tel, log, passw);
+        PessoaController.cadastraMed(nome, end, cpf, tel, log, passw);
+//        Pessoa med = (Pessoa) PessoaController.cadastraPessoa(nome, end, cpf, tel, log, passw);
+
+//        Medico medico = new Medico(med);
+//        medico = MedicoController.cadastraMedico(medico);
         
         listaMedicos();
         listaPessoas();
@@ -858,15 +890,15 @@ public class View {
                 i = Integer.parseInt(toConvert);
             }
             System.out.println("Insira o tipo de papel a remover/alterar:");
-            System.out.println("2 - Papel de medico");
-            System.out.println("3 - Papel de dono de unidade de franquia");
-            System.out.println("4 - Papel de dono de franquia");
+            System.out.println("1 - Papel de medico");
+            System.out.println("2 - Papel de dono de unidade de franquia");
+            System.out.println("3 - Papel de dono de franquia");
             do{
                 toConvert = scan.nextLine();
                 res = isInt(toConvert);
             }while(res != true);
             papel = Integer.parseInt(toConvert);
-            while(papel != 2 && papel != 3 && papel != 4){
+            while(papel != 1 && papel != 2 && papel != 3){
                 System.out.println("Digite uma opção válida");
                 do{
                     toConvert = scan.nextLine();
@@ -874,8 +906,7 @@ public class View {
                 }while(res != true);
                 papel = Integer.parseInt(toConvert);
             }
-            
-            p.alteraTipoUsuario(papel, i);
+            PessoaController.alteraTipoUsuario(papel, (int) p.getId(), i);
         }
     }
 
@@ -1089,12 +1120,10 @@ public class View {
                     break;
                     
                 case 2:
-                    permissoes = p.getTipoUsuario(); 
-                    
-                    if(permissoes[3] == 4 || permissoes[2] == 3){
+                    if(p.getDono_franquia() == 1 || p.getDono_unidade() == 1){
                         listaConsultas();
 //                        listaConsultas(permissoes);
-                    }else if(permissoes[1] == 2){
+                    }else if(p.getMedico() == 1){
                         //trazer lista especifica apenas para as consultas do usuário(médico)
                         listaConsultas();
                     }else{
@@ -1207,13 +1236,11 @@ public class View {
                     }
                     break;
                 case 3:
-                    permissoes = p.getTipoUsuario(); 
-                    
                     System.out.println("########################################################################");
                     System.out.println("Insira o id da consulta que deseja cancelar");
-                    if(permissoes[3] == 4 || permissoes[2] == 3){
+                    if(p.getDono_franquia() == 1 || p.getDono_unidade() == 1){
                         listaConsultas();
-                    }else if(permissoes[1] == 2){
+                    }else if(p.getMedico() == 1){
                         listaConsultas();
                     }else{
                         listaConsultas();
@@ -1244,7 +1271,7 @@ public class View {
         }while(opc != 0);
     }
 
-    private static void menuInfoConsulta(Pessoa pessoa, int[] permissao) {
+    private static void menuInfoConsulta(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
         String toConvert; 
         List<Consulta> consultas = ConsultaController.listarConsultas();
@@ -1266,7 +1293,7 @@ public class View {
             opc = Integer.parseInt(toConvert);
             switch (opc){
                 case 1:
-                    if(permissao[1] == 2){
+                    if(pessoa.getMedico() == 1){
                         for(Consulta c: consultas){
                             if(c != null){
                                 if(c.getIdMedico() == pessoa.getId()){
@@ -1369,7 +1396,7 @@ public class View {
         }
     }
 
-    private static void menuProcedimento(Pessoa pessoa, int[] permissao) {
+    private static void menuProcedimento(Pessoa pessoa) {
         Scanner scan = new Scanner(System.in);
         String toConvert; 
         String nome; 
@@ -1388,7 +1415,7 @@ public class View {
             System.out.println("####### PROCEDIMENTOS #######");
             System.out.println("Informe a opcao que deseja");
             System.out.println("0 - Sair do menu de Procedimentos");
-            if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+            if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                 System.out.println("1 - Criar novo Procedimento");
                 System.out.println("2 - Criar Procedimento a partir de uma consulta");
                 System.out.println("3 - Alterar Procedimento");
@@ -1406,7 +1433,7 @@ public class View {
                     System.out.println("Saindo do menu de Procedimento");
                     break;
                 case 1:    
-                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                    if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                         System.out.println("Insira o nome do Procedimento");
                         nome = scan.nextLine();
 
@@ -1495,7 +1522,7 @@ public class View {
                     }
                     break;
                 case 2:
-                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                    if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                         listaProcedimentos();
                         System.out.println("Insira o id da consulta que irá gerar um procedimento");
                         do{
@@ -1597,7 +1624,7 @@ public class View {
                     }
                     break;
                 case 3:
-                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                    if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                         System.out.println("Informe o ID da consulta que deseja ALTERAR");
                         listaProcedimentos();
                         do{
@@ -1688,7 +1715,7 @@ public class View {
                     }
                     break;
                 case 4:
-                    if(permissao[1] == 2 || permissao[2] == 3 || permissao[3] == 4){
+                    if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                         System.out.println("Informe o ID da consulta que deseja CANCELAR");
                         listaProcedimentos();
                         
