@@ -46,7 +46,7 @@ public class Pessoa {
 //        this.setTipoUsuario(tipoUsuario);
 //        this.setDataCriacao(LocalDateTime.now());
 //    }
-    public Pessoa() {}
+//    public Pessoa() {}
 //    public Pessoa(int i) {
 //        serial++;
 //        System.out.println("digite seu nome:");
@@ -225,7 +225,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", cpf=" + cpf + ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
+        return "id=" + id + "\n nome=" + nome + "\n endereco=" + endereco + "\n cpf=" + cpf + "\n telefone=" + telefone + "\n login=" + login + ", senha=" + senha + "\n dataCriacao=" + dataCriacao + "\n dataModificacao=" + dataModificacao+"\n";
     }    
 
 //    public void alteraTipoUsuario(int papel, int i) {;

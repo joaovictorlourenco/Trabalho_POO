@@ -52,35 +52,35 @@ public class View {
         String toConvert = "";
 //////////////////////////////////////////////////////////////////////////////////////        
         //// cast dos primeiros usuarios para testes e demonstrações........
-        for(int indice = 0; indice < 4; indice++){
-            PessoaController.preCadastroPessoa(indice);
-        }
-//        Pessoa p = PessoaController.buscarPorId(2);
-//        Medico m = new Medico(p, "CRM", "Especialidade");
-//        m = MedicoController.cadastraMedico(m);
-        
-        /// cast de franquias para testes e demonstrações........
-        for(int indice = 1; indice <= 4; indice++){
-            FranquiaController.preCadastraFranquia("Franquia"+indice, 4);
-        }
-        
-        
-        /// cast de unidades de franquias para testes e demonstrações........
-        for(int indice = 1; indice <= 4; indice++){
-            FranquiaUnidadeController.preCadastraFranquiaUnidades(indice, 3);
-        }
+//        for(int indice = 0; indice < 4; indice++){
+//            PessoaController.preCadastroPessoa(indice);
+//        }
+////        Pessoa p = PessoaController.buscarPorId(2);
+////        Medico m = new Medico(p, "CRM", "Especialidade");
+////        m = MedicoController.cadastraMedico(m);
+//        
+//        /// cast de franquias para testes e demonstrações........
+//        for(int indice = 1; indice <= 4; indice++){
+//            FranquiaController.preCadastraFranquia("Franquia"+indice, 4);
+//        }
+//        
+//        
+//        /// cast de unidades de franquias para testes e demonstrações........
+//        for(int indice = 1; indice <= 4; indice++){
+//            FranquiaUnidadeController.preCadastraFranquiaUnidades(indice, 3);
+//        }
         
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
-        
-        listaPessoas();
-        System.out.println(" ");
-        listaMedicos();
-        System.out.println(" ");
-        listarFranquias();
-        System.out.println(" ");
-        listarUnidadesFranquia();
+//        
+//        listaPessoas();
+//        System.out.println(" ");
+//        listaMedicos();
+//        System.out.println(" ");
+//        listarFranquias();
+//        System.out.println(" ");
+//        listarUnidadesFranquia();
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -166,13 +166,13 @@ public class View {
     }
 
     ///// Função para o chamar o MENU para o usuario CONECTADO
-    private static void logado(Pessoa pessoa) {
+    private static void logado(Pessoa pessoa) throws SQLException {
         System.out.println("=============== Success ==============");
         inSystem(pessoa);
     }
 
     ///////// MENU DO SISTEMA ///////////////////
-    private static void inSystem(Pessoa pessoa) {
+    private static void inSystem(Pessoa pessoa) throws SQLException {
         
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
@@ -215,6 +215,8 @@ public class View {
                 case 1:
                     if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade()== 1){
                         criandoMedico();
+                    }else{
+                        System.out.println("Sem permissão");
                     }
                     break;
                 case 2:
@@ -820,7 +822,7 @@ public class View {
     
     /////////////////////////////////////
     ////////////////////////////////////
-    private static void criandoMedico() {
+    private static void criandoMedico() throws SQLException {
         Scanner scan = new Scanner(System.in);
         System.out.println("digite seu nome:");
         String nome = scan.nextLine();
@@ -839,13 +841,23 @@ public class View {
 
         System.out.println("digite seu sua senha:");
         String passw = scan.nextLine();
-//        Pessoa med = PessoaController.cadastraMed(nome, end, cpf, tel, log, passw);
-        PessoaController.cadastraMed(nome, end, cpf, tel, log, passw);
-//        Pessoa med = (Pessoa) PessoaController.cadastraPessoa(nome, end, cpf, tel, log, passw);
-
-//        Medico medico = new Medico(med);
-//        medico = MedicoController.cadastraMedico(medico);
         
+        System.out.println("digite o CRM");;
+        String crm = scan.nextLine();
+
+        System.out.println("digite a especialidade");
+        String espec = scan.nextLine();
+        
+        listarFranquias();
+        System.out.println("digite o ID da franquia");
+        int franq = Integer.parseInt(scan.nextLine());
+
+        listarUnidadesFranquia();
+        System.out.println("digite o ID da unidade");
+        int unit = Integer.parseInt(scan.nextLine());
+
+        PessoaController.cadastraMed(nome, end, cpf, tel, log, passw, franq, unit, crm, espec);
+
         listaMedicos();
         listaPessoas();
     }

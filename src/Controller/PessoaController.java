@@ -50,46 +50,46 @@ public class PessoaController {
         return cadastrado;
     }
     
-    public static void preCadastroPessoa(int indice) throws SQLException {
-        String sql = "insert into pessoa" + "(nome, endereco, cpf, telefone, login, senha, cliente, medico, dono_unidade, dono_franquia, data_criacao)" +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = new DBConnect().getConnection(); 
-                PreparedStatement stmt = connection.prepareStatement(sql)){
-//            stmt.setString(1, );
-            stmt.setString(1, "sdasd");
-            stmt.setString(2, "123123");
-            stmt.setString(3, "123123"+ indice);
-            stmt.setString(4, "0129312");
-            stmt.setString(5, "login"+ indice);
-            stmt.setString(6, "senha"+ indice);
-            stmt.setInt(7, 1);
-            stmt.setInt(8, 0);
-            stmt.setInt(9, 0);
-            stmt.setInt(10, 0);
-//            stmt.setDate(5, java.sql.Date.valueOf(elemento.getDataNascimento()));
-            LocalDateTime now = LocalDateTime.now();
-            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
-            stmt.setTimestamp(11, dateNow);
-//            stmt.setDate(11, dateNow);
-            
-            stmt.execute();
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-            
-            
-//        Pessoa pessoa = new Pessoa("nome"+(indice+1), "endereco"+(indice+1), "CPF"+(indice+1), "Telefone"+(indice+1), "login"+(indice+1),;
-//                        "senha"+(indice+1), indice+1);
-//        
-//        boolean res = salvaPessoas(pessoa);
-        
-//        if(res == true){
-//            System.out.println("Cadastrado com sucesso");
-//        } else {
-//            System.out.println("Ocorreu um erro");
+//    public static void preCadastroPessoa(int indice) throws SQLException {
+//        String sql = "insert into pessoa" + "(nome, endereco, cpf, telefone, login, senha, cliente, medico, dono_unidade, dono_franquia, data_criacao)" +
+//                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        try (Connection connection = new DBConnect().getConnection(); 
+//                PreparedStatement stmt = connection.prepareStatement(sql)){
+////            stmt.setString(1, );
+//            stmt.setString(1, "sdasd");
+//            stmt.setString(2, "123123");
+//            stmt.setString(3, "123123"+ indice);
+//            stmt.setString(4, "0129312");
+//            stmt.setString(5, "login"+ indice);
+//            stmt.setString(6, "senha"+ indice);
+//            stmt.setInt(7, 1);
+//            stmt.setInt(8, 0);
+//            stmt.setInt(9, 0);
+//            stmt.setInt(10, 0);
+////            stmt.setDate(5, java.sql.Date.valueOf(elemento.getDataNascimento()));
+//            LocalDateTime now = LocalDateTime.now();
+//            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
+//            stmt.setTimestamp(11, dateNow);
+////            stmt.setDate(11, dateNow);
+//            
+//            stmt.execute();
+//        }catch (SQLException e) {
+//            throw new RuntimeException(e);
 //        }
-    }
+//
+//            
+//            
+////        Pessoa pessoa = new Pessoa("nome"+(indice+1), "endereco"+(indice+1), "CPF"+(indice+1), "Telefone"+(indice+1), "login"+(indice+1),;
+////                        "senha"+(indice+1), indice+1);
+////        
+////        boolean res = salvaPessoas(pessoa);
+//        
+////        if(res == true){
+////            System.out.println("Cadastrado com sucesso");
+////        } else {
+////            System.out.println("Ocorreu um erro");
+////        }
+//    }
     
     public static void cadastraPessoa(String nome, String end, String cpf, String tel, String login, String senha) {
         Pessoa pessoa = new Pessoa();
@@ -118,8 +118,8 @@ public class PessoaController {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement("select * from pessoa where login = " +"'"+ login +"'")){
+        try(Connection connection = new DBConnect().getConnection(); 
+                PreparedStatement stmt = connection.prepareStatement("select * from pessoa where login = " +"'"+ login +"'")){
             ResultSet rs = stmt.executeQuery();
             // itera no ResultSet
             while (rs.next()) {
@@ -139,7 +139,8 @@ public class PessoaController {
                 pessoa.setDataCriacao(timestamp.toLocalDateTime());
                 
                 java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-                pessoa.setDataModificacao(dataMod.toLocalDateTime());
+                if(dataMod != null)
+                    pessoa.setDataModificacao(dataMod.toLocalDateTime());
 //                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
 //                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
             }
@@ -168,14 +169,13 @@ public class PessoaController {
 //        }
 //        return(pessoa);
     }
-    public static void cadastraMed(String nome, String end, String cpf, String tel, String login, String senha) {
+    public static void cadastraMed(String nome, String end, String cpf, String tel, String login, String senha, int franq, int unit, String crm, String espec) throws SQLException {
 //        Pessoa pessoa = new Pessoa();
 //        String hashedPassword = BCrypt.hashpw(senha, BCrypt.gensalt());
         String sql = "insert into pessoa" + "(nome, endereco, cpf, telefone, login, senha, cliente, medico, dono_unidade, dono_franquia, data_criacao)" +
-        "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp())";
         try (Connection connection = new DBConnect().getConnection(); 
                 PreparedStatement stmt = connection.prepareStatement(sql)){
-//            stmt.setString(1, );
             stmt.setString(1, nome);
             stmt.setString(2, end);
             stmt.setString(3, cpf);
@@ -186,45 +186,39 @@ public class PessoaController {
             stmt.setInt(8, 1);
             stmt.setInt(9, 0);
             stmt.setInt(10, 0);
-//            stmt.setDate(5, java.sql.Date.valueOf(elemento.getDataNascimento()));
-            LocalDateTime now = LocalDateTime.now();
-            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
-            stmt.setTimestamp(11, dateNow);
+//            LocalDateTime now = LocalDateTime.now();
+//            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
+//            stmt.setTimestamp(11, dateNow);
             
             stmt.execute();
+           
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        try(Connection con = new DBConnect().getConnection(); 
-//                PreparedStatement stmt = con.prepareStatement("select * from pessoa where login = " +"'"+ login +"'")){
-//            ResultSet rs = stmt.executeQuery();
-//            // itera no ResultSet
-//            while (rs.next()) {
-//                pessoa.setId(rs.getInt("id"));
-//                pessoa.setNome(rs.getString("nome"));
-//                pessoa.setEndereco(rs.getString("endereco"));
-//                pessoa.setCpf(rs.getString("cpf"));
-//                pessoa.setTelefone(rs.getString("telefone"));
-//                pessoa.setLogin(rs.getString("login"));
-//                pessoa.setSenha(rs.getString("senha"));
-//                pessoa.setCliente(rs.getInt("cliente"));
-//                pessoa.setMedico(rs.getInt("medico"));
-//                pessoa.setDono_unidade(rs.getInt("dono_unidade"));
-//                pessoa.setDono_franquia(rs.getInt("dono_franquia"));
-//                
-//                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
-//                pessoa.setDataCriacao(timestamp.toLocalDateTime());
-//                
-//                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-//                pessoa.setDataModificacao(dataMod.toLocalDateTime());
-////                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
-////                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
-//            }
-//            
-//        }catch (SQLException e) {
-//            throw new RuntimeException(e);
+        
+        setPessoas();
+        int id = 0;
+        for (Pessoa pessoa : pessoas) {
+            if((pessoa.getLogin()).equals(login)){
+                id = (int)pessoa.getId();
+            }
+        }
+        if(id != 0){
+            MedicoController.cadastraMedico(id, crm, espec, franq, unit);
+        }else{
+            System.out.println("ERRO ao cadastrar medico");
+        }
+        
+//        try(Connection connection = new DBConnect().getConnection(); 
+//            PreparedStatement stmt2 = connection.prepareStatement("select id from pessoa where medico = 1 and login = " + "'" + login + "'")){
+//            ResultSet rs = stmt2.executeQuery();
+//            System.out.println(rs.getInt("id"));
+//            int id = rs.getInt("id");
+//            MedicoController.cadastraMedico(id, crm, espec, franq, unit);
+//        }catch (RuntimeException e) {
+//            System.out.println("erro ao cadastrar o medico");
 //        }
-//        return pessoa;
+
     }
 
     public static void salvaPessoas(Pessoa pessoa) {
@@ -317,10 +311,10 @@ public class PessoaController {
                 pessoa.setDono_franquia(rs.getInt("dono_franquia"));
                 
                 java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
-                pessoa.setDataCriacao(timestamp.toLocalDateTime());
-                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-                pessoa.setDataModificacao(dataMod.toLocalDateTime());
-//                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
+//                pessoa.setDataCriacao(timestamp.toLocalDateTime());;
+//                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
+//                pessoa.setDataModificacao(dataMod.toLocalDateTime());
+////                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
 //                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
                 salvaPessoas(pessoa);
 
@@ -408,6 +402,7 @@ public class PessoaController {
     public static void listCleaner(){
         Iterator<Pessoa> it = pessoas.iterator();
         while(it.hasNext()){
+            it.next();
             it.remove();
         }
     }
@@ -478,7 +473,8 @@ public class PessoaController {
                 java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
                 pessoa.setDataCriacao(timestamp.toLocalDateTime());
                 java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-                pessoa.setDataModificacao(dataMod.toLocalDateTime());
+                if(dataMod != null)
+                    pessoa.setDataModificacao(dataMod.toLocalDateTime());
 //                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
 //                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
                 salvaPessoas(pessoa);

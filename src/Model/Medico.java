@@ -61,6 +61,10 @@ public class Medico extends Pessoa {
         return id_pessoa;
     }
     
+    public void setId_pessoa(long id) {
+        this.id_pessoa = id;
+    }
+    
     public String getCrm() {
         return crm;
     }
@@ -72,6 +76,23 @@ public class Medico extends Pessoa {
     public Pessoa getPessoa() {
         return pessoa;
     }
+
+    public int getFranquia() {
+        return franquia;
+    }
+
+    public void setFranquia(int franquia) {
+        this.franquia = franquia;
+    }
+
+    public int getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(int unidade) {
+        this.unidade = unidade;
+    }
+    
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
@@ -104,22 +125,6 @@ public class Medico extends Pessoa {
     public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
-
-//    public int getFranquia() {
-//        return franquia;
-//    }
-//
-//    public void setFranquia(int franquia) {
-//        this.franquia = franquia;
-//    }
-//
-//    public int getUnidade() {
-//        return unidade;
-//    }
-//
-//    public void setUnidade(int unidade) {
-//        this.unidade = unidade;
-//    }
 
     @Override
     public String toString() {
