@@ -226,19 +226,49 @@ public class PessoaController {
 //            return true;
     }
     
-    public static void deletePessoa(int id){
-        String sql = "delete from pessoa where id = ?";
+    public static void deletePessoa(int id, boolean isMedic){
+        if (isMedic != true){
+            String sql = "delete from pessoa where id = ?";
 
-        try (Connection connection = new DBConnect().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (Connection connection = new DBConnect().getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setLong(1, id);
+                stmt.setInt(1, id);
+
+                stmt.execute();
+
+                System.out.println("Excluído com sucesso");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            String sql = "delete from medico where id = ?";
+
+            try (Connection connection = new DBConnect().getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+                stmt.setInt(1, id);
+
+                stmt.execute();
+
+                System.out.println("Excluído com sucesso");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             
-            stmt.execute();
-            
-            System.out.println("Excluído com sucesso");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            String sql2 = "delete from pessoa where id = ?";
+
+            try (Connection connection = new DBConnect().getConnection();
+                    PreparedStatement stmt = connection.prepareStatement(sql2)) {
+
+                stmt.setInt(1, id);
+
+                stmt.execute();
+
+                System.out.println("Excluído com sucesso");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -336,9 +366,6 @@ public class PessoaController {
 //        return null;
 //    }
     
-//    public static boolean verifyLogin(String login, String senha){
-    
-    
     public static void alteraTipoUsuario(int papel, int id, int val) {
         if(papel == 1){
             try(Connection con = new DBConnect().getConnection(); 
@@ -408,36 +435,37 @@ public class PessoaController {
     }
     
     public static Pessoa verifyLogin(String login, String senha){
-        listCleaner();
-        try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement("select * from pessoa")){
-            ResultSet rs = stmt.executeQuery();
-            // itera no ResultSet
-            while (rs.next()) {
-                Pessoa pessoa = new Pessoa();
-                pessoa.setId(rs.getInt("id"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setEndereco(rs.getString("endereco"));
-                pessoa.setCpf(rs.getString("cpf"));
-                pessoa.setTelefone(rs.getString("telefone"));
-                pessoa.setLogin(rs.getString("login"));
-                pessoa.setSenha(rs.getString("senha"));
-                pessoa.setCliente(rs.getInt("cliente"));
-                pessoa.setMedico(rs.getInt("medico"));
-                pessoa.setDono_unidade(rs.getInt("dono_unidade"));
-                pessoa.setDono_franquia(rs.getInt("dono_franquia"));
-                
-                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
-                pessoa.setDataCriacao(timestamp.toLocalDateTime());
-//                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
-//                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
-                salvaPessoas(pessoa);
-
-            }
-            
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        listCleaner();
+//        try(Connection con = new DBConnect().getConnection(); 
+//                PreparedStatement stmt = con.prepareStatement("select * from pessoa")){
+//            ResultSet rs = stmt.executeQuery();
+//            // itera no ResultSet
+//            while (rs.next()) {
+//                Pessoa pessoa = new Pessoa();
+//                pessoa.setId(rs.getInt("id"));
+//                pessoa.setNome(rs.getString("nome"));
+//                pessoa.setEndereco(rs.getString("endereco"));
+//                pessoa.setCpf(rs.getString("cpf"));
+//                pessoa.setTelefone(rs.getString("telefone"));
+//                pessoa.setLogin(rs.getString("login"));
+//                pessoa.setSenha(rs.getString("senha"));
+//                pessoa.setCliente(rs.getInt("cliente"));
+//                pessoa.setMedico(rs.getInt("medico"));
+//                pessoa.setDono_unidade(rs.getInt("dono_unidade"));
+//                pessoa.setDono_franquia(rs.getInt("dono_franquia"));
+//                
+//                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
+//                pessoa.setDataCriacao(timestamp.toLocalDateTime());
+////                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
+////                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
+//                salvaPessoas(pessoa);
+//
+//            }
+//            
+//        }catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+        setPessoas();
         for(Pessoa pessoa: pessoas){
             if(pessoa != null){
                 if(pessoa.getLogin().equals(login)) {

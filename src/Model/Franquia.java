@@ -7,6 +7,7 @@ package Model;
 import controller.PessoaController;
 import static controller.PessoaController.listarPessoas;
 import static controller.PessoaController.pessoas;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -26,55 +27,59 @@ public class Franquia {
     private String cidade; 
     private String endereço; 
     private long id_responsavel; 
-    private Date dataCriacao; 
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao; 
+    private LocalDateTime dataModificacao;
     
-    Scanner scan = new Scanner(System.in);
-    public Franquia(String nome, long idResponsavel) {
-        serial++;
-        this.id = serial;
-        this.setNome(nome);
-        this.setCidade("cidade");
-        this.setEndereço("endereco");
-        this.setCnpj("CNPJ");
-        this.setDataCriacao(new Date());
-        this.setId_responsavel(idResponsavel);
-
-    }
+//    Scanner scan = new Scanner(System.in);
+//    public Franquia(String nome, long idResponsavel) {
+//        serial++;
+//        this.id = serial;
+//        this.setNome(nome);
+//        this.setCidade("cidade");
+//        this.setEndereço("endereco");
+//        this.setCnpj("CNPJ");
+//        this.setDataCriacao(new Date());
+//        this.setId_responsavel(idResponsavel);
+//
+//    }
     
-    public Franquia(){
-        
-        serial++;
-        
-        this.id = serial;
-        
-        System.out.println("digite o nome da Franquia:");
-        this.setNome(scan.nextLine());
-        
-        System.out.println("digite a cidade da matriz");
-        this.setCidade(scan.nextLine());
-       
-        for(Pessoa p: pessoas){
-            if(p != null){
-                System.out.println(p.toString());
-            }
-        }
-        
-        System.out.println("Dentre os seguintes usuarios quem será o responsavel(digite o id)");
-        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
-        
-        System.out.println("digite o Endereco");
-        this.setEndereço(scan.nextLine());
-        
-        System.out.println("digite o Cnpj");
-        this.setCnpj(scan.nextLine());
-        
-        this.setDataCriacao(new Date());
-        
-    } 
+//    public Franquia(){
+//        
+//        serial++;
+//        
+//        this.id = serial;
+//        
+//        System.out.println("digite o nome da Franquia:");
+//        this.setNome(scan.nextLine());
+//        
+//        System.out.println("digite a cidade da matriz");
+//        this.setCidade(scan.nextLine());
+//       
+//        for(Pessoa p: pessoas){
+//            if(p != null){
+//                System.out.println(p.toString());
+//            }
+//        }
+//        
+//        System.out.println("Dentre os seguintes usuarios quem será o responsavel(digite o id)");
+//        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
+//        
+//        System.out.println("digite o Endereco");
+//        this.setEndereço(scan.nextLine());
+//        
+//        System.out.println("digite o Cnpj");
+//        this.setCnpj(scan.nextLine());
+//        
+//        this.setDataCriacao(new Date());
+//        
+//    } 
     
     public long getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = (long) id;
     }
 
     public String getNome() {
@@ -117,19 +122,19 @@ public class Franquia {
         this.id_responsavel = id_responsavel;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
     
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
     

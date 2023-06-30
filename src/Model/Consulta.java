@@ -5,6 +5,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -21,8 +22,8 @@ public class Consulta {
     private int idPessoa;
     private double valor;
     private int unidade;
-    private LocalDate dataCriacao;
-    private LocalDate dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
     /* 
     ***
     ******
@@ -40,9 +41,8 @@ public class Consulta {
         return id;
     }
 
-    public void setId() {
-        serial++;
-        this.id = serial;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getDataConsulta() {
@@ -101,19 +101,19 @@ public class Consulta {
         this.unidade = unidade;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public LocalDate getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(LocalDate dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

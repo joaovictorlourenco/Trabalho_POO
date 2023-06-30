@@ -19,15 +19,6 @@ public class InfoConsulta {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataModificacao;
     
-    
-    public InfoConsulta(long idMedico, long idConsulta, String descricao) {
-        serial++;
-        this.idInfoConsulta = serial;
-        this.setIdMedico(idMedico);
-        this.setIdConsulta(idConsulta);
-        this.setDataCriacao(LocalDateTime.now());
-        this.setDescricao(descricao);
-    }
 
     public long getIdInfoConsulta() {
         return idInfoConsulta;

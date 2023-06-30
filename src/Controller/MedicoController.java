@@ -40,54 +40,11 @@ public class MedicoController {
             stmt.setString(3, espec);
             stmt.setInt(4, franq);
             stmt.setInt(5, unit);
-//            stmt.setDate(5, java.sql.Date.valueOf(elemento.getDataNascimento()));
-//            LocalDateTime now = LocalDateTime.now();
-//            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
-//            stmt.setTimestamp(5, dateNow);
             
             stmt.execute();
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        try(Connection con = new DBConnect().getConnection(); 
-//                PreparedStatement stmt = con.prepareStatement("select * from pessoa where login = " +"'"+ m.getLogin() +"'")){
-//            ResultSet rs = stmt.executeQuery();
-//            // itera no ResultSet
-//            while (rs.next()) {
-//                pessoa.setId(rs.getInt("id"));
-//                pessoa.setNome(rs.getString("nome"));
-//                pessoa.setEndereco(rs.getString("endereco"));
-//                pessoa.setCpf(rs.getString("cpf"));
-//                pessoa.setTelefone(rs.getString("telefone"));
-//                pessoa.setLogin(rs.getString("login"));
-//                pessoa.setSenha(rs.getString("senha"));
-//                pessoa.setCliente(rs.getInt("cliente"));
-//                pessoa.setMedico(rs.getInt("medico"));
-//                pessoa.setDono_unidade(rs.getInt("dono_unidade"));
-//                pessoa.setDono_franquia(rs.getInt("dono_franquia"));
-//                
-//                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
-//                pessoa.setDataCriacao(timestamp.toLocalDateTime());
-//                
-//                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-//                pessoa.setDataModificacao(dataMod.toLocalDateTime());
-////                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
-////                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
-//            }
-//            
-//        }catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        System.out.println(pessoa);
-//        boolean res = salvaMedicos(m);
-//        
-//        if(res == true){
-//            System.out.println("Cadastrado com sucesso");
-//        } else {
-//            System.out.println("Ocorreu um erro");
-//        }
-//        return(m);
     }
 
     public static boolean salvaMedicos(Medico m) {
@@ -95,22 +52,22 @@ public class MedicoController {
         return true;
     }
 
-    public static boolean removeMedicos(int id) {
-        String sql = "delete from pessoa where id = ? and medico = ?";
-
-        try (Connection connection = new DBConnect().getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            stmt.setLong(1, id);
-            stmt.setLong(2, 1);
-            
-            stmt.execute();
-            
-            System.out.println("Excluído com sucesso");
-            return true; 
-       } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//    public static boolean removeMedicos(int id) {
+//        String sql = "delete from pessoa where id = ? and medico = ?";
+//
+//        try (Connection connection = new DBConnect().getConnection();
+//                PreparedStatement stmt = connection.prepareStatement(sql)) {
+//
+//            stmt.setLong(1, id);
+//            stmt.setLong(2, 1);
+//            
+//            stmt.execute();
+//            
+//            System.out.println("Excluído com sucesso");
+//            return true; 
+//       } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         
 //        Iterator<Medico> it = medicos.iterator();
 //        while(it.hasNext()){
@@ -120,9 +77,10 @@ public class MedicoController {
 //                return true;
 //            }
 //        }
-    }
+//    }
     
     public static Medico buscarPorId(int id) {
+        setMedicos();
         for(Medico m : medicos){
             if(m.getId_pessoa() == id){
                 return m;
@@ -147,6 +105,7 @@ public class MedicoController {
 //    }
 
     public static List<Medico> listarMedicos() {
+        setMedicos();
         return medicos;
 //        return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
     }
@@ -174,7 +133,8 @@ public class MedicoController {
                 java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
                 pessoa.setDataCriacao(timestamp.toLocalDateTime());
                 java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-                pessoa.setDataModificacao(dataMod.toLocalDateTime());
+                if(dataMod != null)
+                    pessoa.setDataModificacao(dataMod.toLocalDateTime());
 
                 try(Connection conn = new DBConnect().getConnection(); 
                     PreparedStatement stmt2 = conn.prepareStatement("select * from medico where id = " + pessoa.getId())){
@@ -191,13 +151,15 @@ public class MedicoController {
                         java.sql.Timestamp timestamp2 = rs.getTimestamp("data_criacao");
                         medico.setDataCriacao(timestamp2.toLocalDateTime());
                         java.sql.Timestamp dataMod2 = rs.getTimestamp("data_modificacao");
-                        medico.setDataModificacao(dataMod2.toLocalDateTime());
+                        if(dataMod2 != null)
+                            medico.setDataModificacao(dataMod2.toLocalDateTime());
                         
                         medico.setPessoa(pessoa);
                         boolean res = salvaMedicos(medico);
                         if(res == false){
                             throw new RuntimeException();
                         }
+                        salvaMedicos(medico);
                     }
                 }catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -209,19 +171,21 @@ public class MedicoController {
     }
            
     public static boolean medicoExiste(int id) {
-       for(Medico m: medicos){
-           if(m != null){
-                if(m.getId_pessoa() == id){
-                    return true;
-                }
-           }
-       }
+        setMedicos();
+        for(Medico m: medicos){
+            if(m != null){
+                 if(m.getId_pessoa() == id){
+                     return true;
+                 }
+            }
+        }
        return false;
     }
     
     public static void listCleaner(){
         Iterator<Medico> it = medicos.iterator();
         while(it.hasNext()){
+            it.next();
             it.remove();
         }
     }

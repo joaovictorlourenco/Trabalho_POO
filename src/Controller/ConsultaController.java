@@ -4,10 +4,24 @@
  */
 package Controller;
 
+
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import Model.DBConnect;
+import java.sql.Time;
+import java.sql.Date;
+
+
 import Model.Consulta;
+import Model.DBConnect;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+//import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,82 +31,149 @@ import java.util.List;
  */
 public class ConsultaController {
     public static List<Consulta> consultas = new ArrayList();
+    
+    private Connection connection;
+    public ConsultaController() {
+        this.connection = new DBConnect().getConnection();
+    }
+    
 //    public static Consulta[] consultas = new Consulta[100];
 //    public static int count = 0;
     
     
     
     public static void cadastraConsulta(int idMed, int idPes, LocalDate data, LocalTime hora, int idUnidade) {
-        Consulta consulta = new Consulta();
-        consulta.setDataConsulta(data);
-        consulta.setHorario(hora);
-        consulta.setId();
-        consulta.setIdPessoa(idPes);
-        consulta.setIdMedico(idMed);
-        consulta.setUnidade(idUnidade);
-        consulta.setValor(200);
-        consulta.setDataCriacao(LocalDate.now());
-        boolean res = salvaConsultas(consulta);
-        if(res == true){
-//            count++;
-            consulta.setEstado(2);
-        } else{
-            System.out.println("Erro ao cadastrar a consulta");
-        }                
+        String sql = "insert into consulta" + "(estado, id_medico, id_pessoa, valor, unidade_franquia, data_cosulta, hora_consulta, data_criacao)" +
+            "values (?, ?, ?, ? ,?, ?, ?, current_timestamp())";
+        try (Connection connection = new DBConnect().getConnection(); 
+                PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, 2);
+            stmt.setInt(2, idMed);
+            stmt.setInt(3, idPes);
+            stmt.setInt(4, 200);
+            stmt.setInt(5, idUnidade);
+            
+            Date sqlDate = Date.valueOf(data);
+            Time sqlTime = Time.valueOf(hora);
+                
+            stmt.setDate(6, sqlDate);
+            stmt.setTime(7, sqlTime);
+            
+            stmt.execute();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean salvaConsultas(Consulta c) {
         consultas.add(c);
         return true;
-//        int prox = proximaPosicaoLivre();
-//        if (prox != -1) {
-//            consultas[prox] = c;
-//            return true;
-//        } else {
-//            return false;
-//        }
     }
 
-    public static boolean removeConsultas(int id) {
-        Iterator<Consulta> it = consultas.iterator();
-        while(it.hasNext()){
-            Consulta c = it.next();
-            if(c.getId() == id){
-                it.remove();
-                return true;
-            }
+    public static boolean deleteConsultas(int id) {
+        String sql = "delete from consulta where id = ?";
+
+        try (Connection connection = new DBConnect().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            stmt.execute();
+
+            System.out.println("Excluído com sucesso");
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-//        for (int i = 0; i < ConsultaController.count; i++) {
-//            if (ConsultaController.consultas[i].getId() == id) {
-//                ConsultaController.consultas[i] = null;
-//                for (int j = i; j < ConsultaController.count - 1; j++) {
-//                    ConsultaController.consultas[j] = ConsultaController.consultas[j + 1];
-//                }
-//                ConsultaController.count--;
-//                return true;
-//            }
-//        }
-        return false;
     }
     
     public static void alteraConsulta(int idConsulta, int idUniFranq, int idMed, LocalDate dtConsulta, LocalTime hora){
-        for(Consulta c : consultas){
-            if(c.getId() == idConsulta){
-                if(idMed != 0){
-                    c.setIdMedico(idMed);
-                }
-                if(dtConsulta != null){
-                    c.setDataConsulta(dtConsulta);
-                }
-                if(hora != null){
-                    c.setHorario(hora);
-                }
-                if(idUniFranq != 0){
-                    c.setUnidade(idUniFranq);
-                }
-                return;
+        if(idMed != 0){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update consulta set id_medico = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                stmt.setInt(1, idMed);
+                stmt.setInt(2, idConsulta);
+                
+                stmt.execute();
+                
+                System.out.println("Consulta alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
+        if(dtConsulta != null){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update consulta set data_consulta = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                Date sqlDate = Date.valueOf(dtConsulta);
+                
+                stmt.setDate(1, sqlDate);
+                
+                stmt.setInt(2, idConsulta);
+                
+                stmt.execute();
+                
+                System.out.println("Consulta alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        if(hora != null){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update consulta set hora_consulta = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+//                Date sqlDate = Date.valueOf(dtConsulta);
+                Time sqlTime = Time.valueOf(hora);
+                
+                stmt.setTime(1, sqlTime);
+                stmt.setInt(2, idConsulta);
+                
+                stmt.execute();
+                
+                System.out.println("Consulta alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        if(idUniFranq != 0){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update consulta set unidade_franquia = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                stmt.setInt(1, idUniFranq);
+                stmt.setInt(2, idConsulta);
+                
+                stmt.execute();
+                
+                System.out.println("Consulta alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+//        for(Consulta c : consultas){
+//            if(c.getId() == idConsulta){
+//                if(idMed != 0){
+//                    c.setIdMedico(idMed);
+//                }
+//                if(dtConsulta != null){
+//                    c.setDataConsulta(dtConsulta);
+//                }
+//                if(hora != null){
+//                    c.setHorario(hora);
+//                }
+//                if(idUniFranq != 0){
+//                    c.setUnidade(idUniFranq);
+//                }
+//                return;
+//            }
+//        }
     }
     
     public static Consulta buscarPorId(int id) {
@@ -101,30 +182,16 @@ public class ConsultaController {
                 return c;
             }
         }
-//        for (int i = 0; i < ConsultaController.count; i++) {
-//            if (ConsultaController.consultas[i].getId() == id) {
-//                return ConsultaController.consultas[i];
-//            }
-//        }
         return null;
     }
 
     public static List<Consulta> listarConsultas() {
+        setConsultas();
         return consultas;
-//        return Arrays.copyOf(ConsultaController.consultas, ConsultaController.count);
     }
-
-    
-//    public static int proximaPosicaoLivre() {
-//        for (int i = 0; i < ConsultaController.consultas.length; i++) {
-//            if (consultas[i] == null) {
-//                return i;
-//            }
-//        }
-//        return -1;
-//    }
     
     public static boolean consultaExiste(int id) {
+       setConsultas();
        for(Consulta c: consultas){
            if(c.getId() == id){
                return true;
@@ -132,4 +199,49 @@ public class ConsultaController {
        }
        return false;
     }
+    
+    public static void setConsultas(){
+        listCleaner();
+        try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("select * from consulta")){
+            ResultSet rs = stmt.executeQuery();
+            // itera no ResultSet
+            while (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setId(rs.getInt("id"));
+                consulta.setIdMedico(rs.getInt("id_medico"));
+                consulta.setIdPessoa(rs.getInt("id_pessoa"));
+                consulta.setEstado(rs.getInt("estado"));
+                consulta.setUnidade(rs.getInt("unidade_franquia"));
+                consulta.setValor(rs.getInt("valor"));
+                
+                // convertendo date to local date
+                Date date = rs.getDate("data_consulta");
+                Instant inst = date.toInstant();
+                LocalDate localdate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
+                consulta.setDataConsulta(localdate);
+
+                Time hora = rs.getTime("hora_consulta");
+                consulta.setHorario(hora.toLocalTime());
+                               
+                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
+                consulta.setDataCriacao(timestamp.toLocalDateTime());
+                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
+                if(dataMod != null)
+                    consulta.setDataModificacao(dataMod.toLocalDateTime());
+                salvaConsultas(consulta);
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        
+    public static void listCleaner(){
+        Iterator<Consulta> it = consultas.iterator();
+        while(it.hasNext()){
+            it.next();
+            it.remove();
+        }
+    }
+    
 }

@@ -10,6 +10,7 @@ import static Controller.FranquiaController.listarFranquias;
 import controller.PessoaController;
 import static controller.PessoaController.listarPessoas;
 import static controller.PessoaController.pessoas;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -25,64 +26,68 @@ public class FranquiaUnidade {
     private String cidade;
     private String endereço;
     private long id_responsavel;
-    private Date dataCriacao; 
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao; 
+    private LocalDateTime dataModificacao;
 
-    public FranquiaUnidade(long idFranquia, long idResponsavel) {
-        serial++;
-        this.id = serial;
-
-        this.setId_franquia(idFranquia);
-        this.setCidade("cidade");
-        this.setEndereço("endereco");
-        this.setId_responsavel(idResponsavel);
-        this.setDataCriacao(new Date());
-    }
+//    public FranquiaUnidade(long idFranquia, long idResponsavel) {
+//        serial++;
+//        this.id = serial;
+//
+//        this.setId_franquia(idFranquia);
+//        this.setCidade("cidade");
+//        this.setEndereço("endereco");
+//        this.setId_responsavel(idResponsavel);
+//        this.setDataCriacao(new Date());
+//    }
     
-    public FranquiaUnidade() {
-        
-        Scanner scan = new Scanner(System.in);
-        
-        serial++;
-        
-        this.id = serial;
-        
-        
-        for(Franquia Franquia: Franquias){
-            
-            if(Franquia != null){
-                System.out.println(Franquia.toString());
-            }
-            
-        }
-        
-        System.out.println("Qual será sua Franquia(digite o id)");
-        this.setId_franquia(Integer.parseInt(scan.nextLine()));
-        
-        
-        System.out.println("Cidade da Unidade:");
-        this.setCidade(scan.nextLine());
-        
-        
-        System.out.println("Endereco da Unidade:");
-        this.setEndereço(scan.nextLine());
-        
-
-        for(Pessoa p: pessoas){
-            if(p != null){
-                System.out.println(p.toString());
-            }
-        }
-      
-        System.out.println("\nDentre os seguintes usuarios quem será o responsavel(digite o id)");
-        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
-        
-        
-        this.setDataCriacao(new Date());
-    }
+//    public FranquiaUnidade() {
+//        
+//        Scanner scan = new Scanner(System.in);
+//        
+//        serial++;
+//        
+//        this.id = serial;
+//        
+//        
+//        for(Franquia Franquia: Franquias){
+//            
+//            if(Franquia != null){
+//                System.out.println(Franquia.toString());
+//            }
+//            
+//        }
+//        
+//        System.out.println("Qual será sua Franquia(digite o id)");
+//        this.setId_franquia(Integer.parseInt(scan.nextLine()));
+//        
+//        
+//        System.out.println("Cidade da Unidade:");
+//        this.setCidade(scan.nextLine());
+//        
+//        
+//        System.out.println("Endereco da Unidade:");
+//        this.setEndereço(scan.nextLine());
+//        
+//
+//        for(Pessoa p: pessoas){
+//            if(p != null){
+//                System.out.println(p.toString());
+//            }
+//        }
+//      
+//        System.out.println("\nDentre os seguintes usuarios quem será o responsavel(digite o id)");
+//        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
+//        
+//        
+//        this.setDataCriacao(new Date());
+//    }
     
     public long getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
  
     public long getFranquia() {
@@ -121,19 +126,19 @@ public class FranquiaUnidade {
         return id_responsavel;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

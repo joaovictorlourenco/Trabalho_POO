@@ -27,7 +27,6 @@ import Model.Procedimento;
 import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -440,7 +439,7 @@ public class View {
                 toConvert = scan.nextLine();
                 res = isInt(toConvert);
             }while(res != true);
-                opc = Integer.parseInt(toConvert);
+            opc = Integer.parseInt(toConvert);
             
         
             switch(opc){
@@ -448,8 +447,36 @@ public class View {
                 case 0:
                     opc = 0;
                     break;
-                case 1: 
-                    FranquiaUnidade NewFranquiaUnidade = FranquiaUnidadeController.cadastraFranquiaUnidades();
+                case 1:               
+                    listarFranquias();
+                    System.out.println("Qual será sua Franquia(digite o id)");
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    int id_franquia = Integer.parseInt(toConvert);
+//                    this.setId_franquia(Integer.parseInt(scan.nextLine()));
+
+                    System.out.println("Cidade da Unidade:");
+                    String cidade = scan.nextLine();
+//                    this.setCidade(scan.nextLine());
+
+
+                    System.out.println("Endereco da Unidade:");
+                    String endereco = scan.nextLine();
+
+                    listaPessoas();
+
+                    System.out.println("\nDentre os seguintes usuarios quem será o responsavel(digite o id)");
+                    do{
+                        toConvert = scan.nextLine();
+                        res = isInt(toConvert);
+                    }while(res != true);
+                    int id_responsavel = Integer.parseInt(toConvert);
+//                    this.setId_responsavel(Integer.parseInt(scan.nextLine()));
+//                    this.setDataCriacao(new Date());
+                    FranquiaUnidadeController.cadastraFranquiaUnidades(id_franquia, cidade, endereco, id_responsavel);
+//                    FranquiaUnidade NewFranquiaUnidade = FranquiaUnidadeController.cadastraFranquiaUnidades();
                     break;
                 case 2:
                     DeletandoUnidadeFranquia();
@@ -470,8 +497,36 @@ public class View {
     //       chamando metodo de criar
     
     private static void CriandoFranquia() {
+        boolean res;
+        int idResponsavel;
+        String toConvert;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("digite o nome da Franquia:");
+        String nome = scan.nextLine();
         
-        Franquia NewFranquia = FranquiaController.cadastraFranquia();
+        System.out.println("digite a cidade da matriz");
+        String cidade = (scan.nextLine());
+       
+        listaPessoas();
+        
+        System.out.println("Dentre os seguintes usuarios quem será o responsavel(digite o id)");
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        idResponsavel = Integer.parseInt(toConvert);
+        
+//        this.setId_responsavel(Integer.parseInt(scan.nextLine()));
+        
+        System.out.println("digite o Endereco");
+        String endereco = (scan.nextLine());
+        
+        System.out.println("digite o Cnpj");
+        String cnpj = (scan.nextLine());
+        
+        FranquiaController.cadastraFranquia(nome, cnpj, cidade, endereco, idResponsavel);
+        
+//        Franquia NewFranquia = FranquiaController.cadastraFranquia();
         
     }
     
@@ -496,7 +551,7 @@ public class View {
     
         boolean res;
         
-        res = FranquiaController.removeFranquias((int) FranquiaDeletar.getId());
+        res = FranquiaController.deleteFranquias((int) FranquiaDeletar.getId());
         
         return res;
         
@@ -693,26 +748,26 @@ public class View {
                     listarFranquias();
                     System.out.println("Franquia atual(digite id): " + Editar.getFranquia());
                     Editar.setId_franquia(scan.nextInt());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 2:
                     System.out.println("Cidade atual: " + Editar.getCidade());
                     Editar.setEndereço(scan.nextLine());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 3:
                     System.out.println("Endereco atual: " + Editar.getEndereço());
                     Editar.setEndereço(scan.nextLine());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 4:
                     listaPessoas();
                     System.out.println("Responsavel atual(digite id): " + Editar.getId_responsavel());
                     Editar.setId_responsavel(scan.nextLong());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                     
@@ -727,13 +782,11 @@ public class View {
     }
     
     private static boolean DeletaFranquiaUnidade(FranquiaUnidade unidadeDeletar){
+                
+        FranquiaUnidadeController.deleteFranquiaUnidade((int) unidadeDeletar.getId());
         
-        boolean res;
-        
-        res = FranquiaUnidadeController.removeFranquiaUnidade((int) unidadeDeletar.getId());
-        
-        return res;
-        
+//        return res;
+        return true;
     }
     
     //       chamando metodo de editar
@@ -785,26 +838,26 @@ public class View {
                     
                     System.out.println("Nome Atual: "+ Editar.getNome());
                     Editar.setNome(scan.nextLine());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 2:
                     System.out.println("Cnpj atual: " + Editar.getCnpj());
                     Editar.setCnpj(scan.nextLine());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 3:
                     System.out.println("Cidade atual: " + Editar.getCidade());
                     Editar.setCidade(scan.nextLine());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 4:
                     listaPessoas();
                     System.out.println("Responsavel atual:(digite id) " + Editar.getId_responsavel());
                     Editar.setId_responsavel(scan.nextLong());
-                    Editar.setDataModificacao(new Date());
+//                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 default:
@@ -969,9 +1022,10 @@ public class View {
     private static void deletaPessoa(Pessoa p) {
         Scanner scan = new Scanner(System.in);
         boolean res; int i; String toConvert;
-        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+        System.out.println("########################################################################");
         listaPessoas();
         listaMedicos();
+        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
         
         do{
             toConvert = scan.nextLine();
@@ -980,22 +1034,30 @@ public class View {
         i = Integer.parseInt(toConvert);
 
         if(p.getId() != i){
-            res = PessoaController.removePessoas(i);
-            while(res == false && (i != 0)){
+            Pessoa pessoa = PessoaController.buscarPorId(i);
+            while(pessoa == null && (i != 0)){
                 System.out.println("Erro ao buscar Pessoa");
-                System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
+                
+                System.out.println("########################################################################");
                 listaPessoas();
+                System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
                 
                 do{
                     toConvert = scan.nextLine();
                     res = isInt(toConvert);
                 }while(res != true);
                 i = Integer.parseInt(toConvert);
+            }
               
-                if(p.getId() == i){
-                    System.out.println("não é possivel deletar");
-                }else{
-                    res = PessoaController.removePessoas(i);
+            if(p.getId() == i){
+                System.out.println("não é possivel deletar");
+            }else{
+                boolean isMedic = false;
+                if(pessoa.getMedico()==1){
+                    isMedic = true;
+                    PessoaController.deletePessoa(i, isMedic);
+                }else {
+                    PessoaController.deletePessoa(i, isMedic);
                 }
             }
         }else {
@@ -1249,7 +1311,7 @@ public class View {
                     break;
                 case 3:
                     System.out.println("########################################################################");
-                    System.out.println("Insira o id da consulta que deseja cancelar");
+//                    System.out.println("Insira o id da consulta que deseja cancelar");
                     if(p.getDono_franquia() == 1 || p.getDono_unidade() == 1){
                         listaConsultas();
                     }else if(p.getMedico() == 1){
@@ -1257,6 +1319,7 @@ public class View {
                     }else{
                         listaConsultas();
                     }
+                    System.out.println("Insira o id da consulta que deseja cancelar");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1268,7 +1331,7 @@ public class View {
                         System.out.println("id inválido");
                         break;
                     } else {
-                        res = ConsultaController.removeConsultas(idConsulta);
+                        res = ConsultaController.deleteConsultas(idConsulta);
                     }
                     if(res == false){
                         System.out.println("Erro ao deletar consulta");
@@ -1277,6 +1340,7 @@ public class View {
                     }
                     break;
                 case 4:
+                    System.out.println("########################################################################");
                     listaConsultas();
                     break;
             }
@@ -1284,8 +1348,9 @@ public class View {
     }
 
     private static void menuInfoConsulta(Pessoa pessoa) {
+        InfoConsultaController.setInfoConsultas();
         Scanner scan = new Scanner(System.in);
-        String toConvert; 
+        String toConvert;
         List<Consulta> consultas = ConsultaController.listarConsultas();
         boolean res;  
         int opc = 0;
@@ -1321,10 +1386,10 @@ public class View {
                             res = isInt(toConvert);
                         }while(res != true);
                         idConsulta = Integer.parseInt(toConvert);
-                        do{
-                            toConvert = scan.nextLine();
-                            res = isInt(toConvert);
-                        }while(res != true);
+//                        do{
+//                            toConvert = scan.nextLine();
+//                            res = isInt(toConvert);
+//                        }while(res != true);
                         System.out.println("Descreva as informações referentes a consulta:");
                         String descricao = scan.nextLine();
                         for(Consulta c: consultas){
@@ -1342,8 +1407,8 @@ public class View {
                     }  
                     break;
                 case 2:
-                    System.out.println("Insira o id da consulta que deseja alterar");
                     listaInfoConsultas(pessoa);
+                    System.out.println("Insira o id da consulta que deseja alterar");
 //                    for(Consulta c: consultas){
 //                        if(c != null){
 //                            if(c.getIdMedico() == pessoa.getId()){
@@ -1372,7 +1437,11 @@ public class View {
                                         System.out.println("ERRO em alterar a Informacao da Consulta....");
                                     }
                                     break;
+                                }else{
+                                    System.out.println("ERROR");
                                 }
+                            }else{
+                                System.out.println("ERROR");
                             }
                         }
                     }
@@ -1386,7 +1455,7 @@ public class View {
                         res = isInt(toConvert);
                     }while(res != true);
                     idConsulta = Integer.parseInt(toConvert);
-                    InfoConsultaController.removeInfoConsultas(idConsulta);
+                    InfoConsultaController.deleteInfoConsultas(idConsulta);
                     break;
                 case 4:
                     listaInfoConsultas(pessoa);
@@ -1737,7 +1806,7 @@ public class View {
                         }while(res != true);
                         i = Integer.parseInt(toConvert);
                         
-                        res = ProcedimentoController.removeProcedimentos(i);
+                        res = ProcedimentoController.deleteProcedimentos(i);
                         if(res == true){
                             System.out.println("Cancelado com sucesso");
                         }else{
