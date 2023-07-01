@@ -143,14 +143,14 @@ public class MedicoController {
                     while (rs2.next()) {
                         Medico medico = new Medico();
                         medico.setId_pessoa(rs2.getInt("id"));
-                        medico.setCrm(rs2.getString("nome"));
-                        medico.setEspecialidade(rs.getString("endereco"));
+                        medico.setCrm(rs2.getString("crm"));
+                        medico.setEspecialidade(rs2.getString("especialidade"));
                         medico.setFranquia(rs2.getInt("franquia"));
                         medico.setUnidade(rs2.getInt("unidade_franquia"));
 
-                        java.sql.Timestamp timestamp2 = rs.getTimestamp("data_criacao");
+                        java.sql.Timestamp timestamp2 = rs2.getTimestamp("data_criacao");
                         medico.setDataCriacao(timestamp2.toLocalDateTime());
-                        java.sql.Timestamp dataMod2 = rs.getTimestamp("data_modificacao");
+                        java.sql.Timestamp dataMod2 = rs2.getTimestamp("data_modificacao");
                         if(dataMod2 != null)
                             medico.setDataModificacao(dataMod2.toLocalDateTime());
                         
@@ -159,7 +159,6 @@ public class MedicoController {
                         if(res == false){
                             throw new RuntimeException();
                         }
-                        salvaMedicos(medico);
                     }
                 }catch (SQLException e) {
                     throw new RuntimeException(e);

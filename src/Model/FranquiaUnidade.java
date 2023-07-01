@@ -94,10 +94,6 @@ public class FranquiaUnidade {
         return id_franquia;
     }
 
-    public void setFranquia(long franquia) {
-        this.id_franquia = id_franquia;
-    }
-
     public String getCidade() {
         return cidade;
     }

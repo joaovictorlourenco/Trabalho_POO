@@ -43,7 +43,7 @@ public class ConsultaController {
     
     
     public static void cadastraConsulta(int idMed, int idPes, LocalDate data, LocalTime hora, int idUnidade) {
-        String sql = "insert into consulta" + "(estado, id_medico, id_pessoa, valor, unidade_franquia, data_cosulta, hora_consulta, data_criacao)" +
+        String sql = "insert into consulta" + "(estado, id_medico, id_pessoa, valor, unidade_franquia, data_consulta, hora_consulta, data_criacao)" +
             "values (?, ?, ?, ? ,?, ?, ?, current_timestamp())";
         try (Connection connection = new DBConnect().getConnection(); 
                 PreparedStatement stmt = connection.prepareStatement(sql)){
@@ -216,10 +216,14 @@ public class ConsultaController {
                 consulta.setValor(rs.getInt("valor"));
                 
                 // convertendo date to local date
-                Date date = rs.getDate("data_consulta");
-                Instant inst = date.toInstant();
-                LocalDate localdate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
+                java.sql.Date date = rs.getDate("data_consulta"); // Obtém a data do result set como java.sql.Date
+                LocalDate localdate = date.toLocalDate(); // Converte para LocalDate
                 consulta.setDataConsulta(localdate);
+                
+//                Date date = rs.getDate("data_consulta");
+//                Instant inst = date.toInstant();
+//                LocalDate localdate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
+//                consulta.setDataConsulta(localdate);
 
                 Time hora = rs.getTime("hora_consulta");
                 consulta.setHorario(hora.toLocalTime());

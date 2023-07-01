@@ -42,6 +42,7 @@ import java.sql.SQLException;
 public class View {
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
         ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
@@ -97,7 +98,7 @@ public class View {
             do{
                 System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
                 toConvert = scan.nextLine();
-                if(toConvert != ""){
+                if(!("".equals(toConvert))){
                     res = isInt(toConvert);
                 }
             }while(res != true);
@@ -1053,7 +1054,7 @@ public class View {
                 System.out.println("não é possivel deletar");
             }else{
                 boolean isMedic = false;
-                if(pessoa.getMedico()==1){
+                if(pessoa.getMedico() == 1){
                     isMedic = true;
                     PessoaController.deletePessoa(i, isMedic);
                 }else {
