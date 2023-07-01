@@ -9,19 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import Model.DBConnect;
 import java.sql.Time;
 import java.sql.Date;
 
 
 import Model.Consulta;
 import Model.DBConnect;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 

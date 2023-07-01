@@ -15,6 +15,7 @@ import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
 import Controller.MedicoController;
 import Controller.ProcedimentoController;
+import Model.Calendario;
 import Model.Consulta;
 import Model.FinanceiroAdm;
 import Model.Franquia;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.TimeUnit;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author yn719471
@@ -47,40 +49,15 @@ public class View {
     public static void main(String[] args) throws SQLException {
         ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
         
+        Calendario calendario = new Calendario();
+        
         boolean res = false;
         int opcLog;
         String toConvert = "";
 //////////////////////////////////////////////////////////////////////////////////////        
-        //// cast dos primeiros usuarios para testes e demonstrações........
-//        for(int indice = 0; indice < 4; indice++){
-//            PessoaController.preCadastroPessoa(indice);
-//        }
-////        Pessoa p = PessoaController.buscarPorId(2);
-////        Medico m = new Medico(p, "CRM", "Especialidade");
-////        m = MedicoController.cadastraMedico(m);
-//        
-//        /// cast de franquias para testes e demonstrações........
-//        for(int indice = 1; indice <= 4; indice++){
-//            FranquiaController.preCadastraFranquia("Franquia"+indice, 4);
-//        }
-//        
-//        
-//        /// cast de unidades de franquias para testes e demonstrações........
-//        for(int indice = 1; indice <= 4; indice++){
-//            FranquiaUnidadeController.preCadastraFranquiaUnidades(indice, 3);
-//        }
-        
 ///////////////////////////////////////////////////////////////////////////////////////
         
         Scanner scan = new Scanner(System.in);
-//        
-//        listaPessoas();
-//        System.out.println(" ");
-//        listaMedicos();
-//        System.out.println(" ");
-//        listarFranquias();
-//        System.out.println(" ");
-//        listarUnidadesFranquia();
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -92,11 +69,20 @@ public class View {
         long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
         timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
 
+
+//        LocalDate data = LocalDate.now();
+//        
+//        data = acrescentaCalendario(data);
+        
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
         do{
+            calendario.acrescentaCalendario();
             do{
                 System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
+                if((calendario.getData()).getDayOfMonth() == 1){
+                    FinanceiroMedicoController.
+                }
                 toConvert = scan.nextLine();
                 if(!("".equals(toConvert))){
                     res = isInt(toConvert);
@@ -175,7 +161,7 @@ public class View {
     private static void inSystem(Pessoa pessoa) throws SQLException {
         
         Scanner scan = new Scanner(System.in);
-        System.out.println("Logado no sistema: \n ===>" + pessoa.toString());
+        System.out.println("Logado no sistema: \n" + pessoa.toString());
         String toConvert;
         int opc;
         boolean res;
@@ -1821,4 +1807,21 @@ public class View {
             }
         }while(opc != 0);
     }
+    
+//    private static LocalDate acrescentaCalendario(LocalDate dataAtual) {
+//        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        String dataFormatada = dataAtual.format(formatoData);
+//        System.out.println("Data atual: " + dataFormatada);
+//
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Informe o número de dias a serem adicionados: ");
+//        int numeroDias = scanner.nextInt();
+//
+//        LocalDate novaData = dataAtual.plusDays(numeroDias);
+//
+//        String novaDataFormatada = novaData.format(formatoData);
+//        System.out.println("Nova data: " + novaDataFormatada);
+//        
+//        return novaData;
+//    }
 }

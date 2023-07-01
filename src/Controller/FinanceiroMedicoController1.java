@@ -7,7 +7,7 @@ package Controller;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.ResultSet; 
+import java.sql.ResultSet;
 import Model.DBConnect;
 
 import Model.Consulta;
@@ -20,11 +20,11 @@ import java.util.List;
  *
  * @author yn719471
  */
-public class FinanceiroMedicoController implements Runnable {
+public class FinanceiroMedicoController1 implements Runnable {
     private static List<FinanceiroMedico> financasMedico = new ArrayList();
     
     private Connection connection;
-    public FinanceiroMedicoController() {
+    public FinanceiroMedicoController1() {
         this.connection = new DBConnect().getConnection();
     }
 //    private static int count = 0;
@@ -133,26 +133,5 @@ public class FinanceiroMedicoController implements Runnable {
             }
         }
         return false;
-    }
-    
-    public static void varreduraFinMed(){
-        ConsultaController.setConsultas();
-        ProcedimentoController.setProcedimentos();
-        
-        for(Consulta c: ConsultaController.consultas){
-            if(c != null){
-                if(c.getEstado() == 4){
-                    cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
-                }
-            }
-        }
-        
-        for(Procedimento p: ProcedimentoController.procedimentos){
-            if(p != null){
-                if(p.getEstado() == 4){
-                    cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
-                }
-            }
-        }
     }
 }

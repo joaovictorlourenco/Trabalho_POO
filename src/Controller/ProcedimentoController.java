@@ -82,6 +82,7 @@ public class ProcedimentoController {
     }
     
     public static Procedimento buscarPorId(int id) {
+        setProcedimentos();
         for(Procedimento p : procedimentos){
             if(p.getIdProcedimento() == id){
                 return p;
@@ -91,11 +92,12 @@ public class ProcedimentoController {
     }
 
     public static List<Procedimento> listarProcedimentos() {
-        setInfoConsultas();
+        setProcedimentos();
         return procedimentos;
     }
 
     public static Procedimento procedimentoExiste(int id) {
+        setProcedimentos();
        for(Procedimento p: procedimentos){
            if(p.getIdProcedimento()== id){
                return p;
@@ -105,7 +107,7 @@ public class ProcedimentoController {
     }
     
             
-    public static void setInfoConsultas(){
+    public static void setProcedimentos(){
         listCleaner();
         try(Connection con = new DBConnect().getConnection(); 
                 PreparedStatement stmt = con.prepareStatement("select * from procedimento")){

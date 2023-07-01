@@ -107,7 +107,6 @@ public class MedicoController {
     public static List<Medico> listarMedicos() {
         setMedicos();
         return medicos;
-//        return Arrays.copyOf(MedicoController.medicos, MedicoController.count);
     }
     
     public static void setMedicos(){
