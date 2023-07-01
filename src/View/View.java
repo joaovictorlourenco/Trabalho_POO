@@ -81,7 +81,7 @@ public class View {
             do{
                 System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
                 if((calendario.getData()).getDayOfMonth() == 1){
-                    FinanceiroMedicoController.
+                    FinanceiroMedicoController.varreduraFinMed()
                 }
                 toConvert = scan.nextLine();
                 if(!("".equals(toConvert))){

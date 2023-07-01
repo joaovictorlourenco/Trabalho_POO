@@ -27,7 +27,6 @@ public class FinanceiroMedicoController implements Runnable {
     public FinanceiroMedicoController() {
         this.connection = new DBConnect().getConnection();
     }
-//    private static int count = 0;
     
     @Override
     public void run() {
@@ -142,6 +141,20 @@ public class FinanceiroMedicoController implements Runnable {
         for(Consulta c: ConsultaController.consultas){
             if(c != null){
                 if(c.getEstado() == 4){
+                    String sql = "insert into financeiro_medico" + "(id, crm, especialidade, franquia, unidade_franquia, data_criacao)" +
+                    "values (?, ?, ?, ? ,?, current_timestamp())";
+                    try (Connection connection = new DBConnect().getConnection(); 
+                            PreparedStatement stmt = connection.prepareStatement(sql)){
+                        stmt.setInt(1, id);
+                        stmt.setString(2, crm);
+                        stmt.setString(3, espec);
+                        stmt.setInt(4, franq);
+                        stmt.setInt(5, unit);
+
+                        stmt.execute();
+                    }catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
                 }
             }
@@ -150,6 +163,20 @@ public class FinanceiroMedicoController implements Runnable {
         for(Procedimento p: ProcedimentoController.procedimentos){
             if(p != null){
                 if(p.getEstado() == 4){
+                    String sql = "insert into financeiro" + "(id, crm, especialidade, franquia, unidade_franquia, data_criacao)" +
+                    "values (?, ?, ?, ? ,?, current_timestamp())";
+                    try (Connection connection = new DBConnect().getConnection(); 
+                            PreparedStatement stmt = connection.prepareStatement(sql)){
+                        stmt.setInt(1, id);
+                        stmt.setString(2, crm);
+                        stmt.setString(3, espec);
+                        stmt.setInt(4, franq);
+                        stmt.setInt(5, unit);
+
+                        stmt.execute();
+                    }catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
                 }
             }
