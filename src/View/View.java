@@ -18,7 +18,6 @@ import Controller.ProcedimentoController;
 import Model.CalendarioAno;
 import Model.Consulta;
 import Model.FinanceiroAdm;
-import Model.FinanceiroMedico;
 import Model.Franquia;
 import Model.FranquiaUnidade;
 import Model.InfoConsulta;
@@ -29,13 +28,8 @@ import Model.Procedimento;
 import controller.PessoaController;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.TimeUnit;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 /**
  *
  * @author yn719471
@@ -77,14 +71,14 @@ public class View {
         
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
+        calendario.acrescentaCalendario();
         do{
-            calendario.acrescentaCalendario();
             do{
-                System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
+                System.out.println("Digite:\n1 para fazer login\n2 para cadastrar\n3 para acrescentar calendario\n0 para sair");
                 if((calendario.getData()).getDayOfMonth() == 1){
-                    FinanceiroMedicoController fmc = new FinanceiroMedicoController();
-                    fmc.varreduraFinMed(calendario.getData());
-                    fmc.pagandoAdministradora(calendario.getData());
+                    FinanceiroMedicoController fmc = new FinanceiroMedicoController(calendario.getData());
+                    fmc.varreduraFinMed();
+                    fmc.pagandoAdministradora();
                 }
                 toConvert = scan.nextLine();
                 if(!("".equals(toConvert))){
@@ -93,7 +87,7 @@ public class View {
             }while(res != true);
             
             opcLog = Integer.parseInt(toConvert);
-            while(opcLog != 1 && opcLog != 2 && opcLog != 0){
+            while(opcLog != 1 && opcLog != 2 && opcLog != 0 && opcLog != 3){
                 do{
                     System.out.println("Digite uma opção válida");
                     toConvert = scan.nextLine();
@@ -145,6 +139,9 @@ public class View {
                     
                 case 0:
                     System.out.println("Finalizando......");
+                    break;
+                case 3:
+                    calendario.acrescentaCalendario();
                     break;
                 default: 
                     System.out.println("Não existe essa opção");

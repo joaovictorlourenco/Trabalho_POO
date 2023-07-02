@@ -49,7 +49,7 @@ public class CalendarioAno {
         for (Consulta c : ConsultaController.listarConsultas()) {
             if(c.getDataConsulta().isBefore(novaData)){
                 try(Connection con = new DBConnect().getConnection(); 
-                    PreparedStatement stmt = con.prepareStatement("update consulta set estado = 4 where id == ?")){
+                    PreparedStatement stmt = con.prepareStatement("update consulta set estado = 4 where id = ?")){
                     stmt.setInt(1, (int) c.getId());
                     stmt.execute();
                 }catch (SQLException e) {
@@ -60,7 +60,7 @@ public class CalendarioAno {
         for (Procedimento p : ProcedimentoController.listarProcedimentos()) {
             if(p.getdataProcedimento().isBefore(novaData)){
                 try(Connection con = new DBConnect().getConnection(); 
-                    PreparedStatement stmt = con.prepareStatement("update procedimento set estado = 4 where id == ?")){
+                    PreparedStatement stmt = con.prepareStatement("update procedimento set estado = 4 where id = ?")){
                     stmt.setInt(1, (int) p.getIdProcedimento());
                     stmt.execute();
                 }catch (SQLException e) {

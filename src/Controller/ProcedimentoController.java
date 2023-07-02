@@ -125,18 +125,18 @@ public class ProcedimentoController {
 
                 
                 // convertendo date to local date
-                Date date = rs.getDate("data_procedimento");
-                Instant inst = date.toInstant();
-                LocalDate localdate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
-                p.setdataProcedimento(localdate);
+                java.sql.Date date = rs.getDate("data_procedimento");
+                LocalDate localDate = date.toLocalDate();
+                p.setdataProcedimento(localDate);
 
-                Time hora = rs.getTime("hora_consulta");
+                Time hora = rs.getTime("hora_procedimento");
                 p.setHorario(hora.toLocalTime());
                                
                 java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
                 p.setDataCriacao(timestamp.toLocalDateTime());
                 java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-                p.setDataModificacao(dataMod.toLocalDateTime());
+                if(dataMod != null)
+                    p.setDataModificacao(dataMod.toLocalDateTime());
                 
                 salvaProcedimentos(p);
             }
