@@ -5,6 +5,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,32 +17,24 @@ public class FinanceiroMedico {
     private long id;
     private long idMedico;
     private long idFranquia;
+    private long idUnidade;
     private double valor;
     private int estado;
-    private LocalDate dataCriacao;
-    private LocalDate dataModificacao;
-    /*
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
+    /**
     ----- estado -----
     1 - Agendado
     2 - Pago
+     * @return 
     */
-    
-    public FinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
-        this.setId();
-        this.setDataCriacao(LocalDate.now());
-        this.setIdMedico(idMedico);
-        this.setIdFranquia(idFranquia);
-        this.setValor(valor);
-        this.setEstado(estado);
-    }   
 
     public long getId() {
         return id;
     }
 
-    public void setId() {
-        serial++;
-        this.id = serial;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public long getIdMedico() {
@@ -60,6 +53,14 @@ public class FinanceiroMedico {
         this.idFranquia = idFranquia;
     }
 
+    public long getIdUnidade() {
+        return idUnidade;
+    }
+
+    public void setIdUnidade(long idUnidade) {
+        this.idUnidade = idUnidade;
+    }
+
     public double getValor() {
         return valor;
     }
@@ -76,19 +77,19 @@ public class FinanceiroMedico {
         this.estado = estado;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public LocalDate getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(LocalDate dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

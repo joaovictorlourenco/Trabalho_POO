@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.CalendarioAno;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,7 +13,10 @@ import Model.DBConnect;
 
 import Model.Consulta;
 import Model.FinanceiroMedico;
+import Model.Franquia;
+import Model.Medico;
 import Model.Procedimento;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,57 +24,36 @@ import java.util.List;
  *
  * @author yn719471
  */
-public class FinanceiroMedicoController implements Runnable {
+//public class FinanceiroMedicoController implements Runnable {
+public class FinanceiroMedicoController {
     private static List<FinanceiroMedico> financasMedico = new ArrayList();
+    private static List<LocalDate> datasAno = new ArrayList();
+    private static LocalDate data;
     
     private Connection connection;
     public FinanceiroMedicoController() {
         this.connection = new DBConnect().getConnection();
     }
-    
-    @Override
-    public void run() {
-        for(Consulta c: ConsultaController.consultas){
-            if(c != null){
-                if(c.getEstado() == 4){
-                    cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
-                }
-            }
-        }
-        for(Procedimento p: ProcedimentoController.procedimentos){
-            if(p != null){
-                if(p.getEstado() == 4){
-                    cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
-                }
-            }
-        }
-        for(FinanceiroMedico fm: financasMedico){
-            if(fm != null){
-                fm = null;
-            }
-        }
+
+    public static List<LocalDate> getDatasAno() {
+        return datasAno;
     }
 
-    
-    
-    public static void cadastraFinanceiroMedico(long idMedico, long idFranquia, double valor, int estado) {
-        boolean registrado = false;
-        for(FinanceiroMedico fm: financasMedico){
-            if(fm != null){
-                if(idMedico == fm.getIdMedico()){
-                    fm.setValor(valor);
-                    registrado = true;
-                }
-            }
-        }
-        if(registrado == false){
-            FinanceiroMedico fm = new FinanceiroMedico(idMedico, idFranquia, valor, estado);
-//            boolean res = salvaFinanceiroMedico(fm)
-//            if (res == true) {
-//                count++;
-//            }
-        }
+    public static void setDatasAno(LocalDate dataMes) {
+        datasAno.add(dataMes);
     }
+
+    public static LocalDate getData() {
+        return data;
+    }
+
+    public static void setData(LocalDate dataMes) {
+        data = dataMes;
+    }
+    
+    public static void salvaFinanceiroMedico(FinanceiroMedico fm) {
+        financasMedico.add(fm);
+    }  
 
     public static List<FinanceiroMedico> listarFinanceiroMedico() {
         return financasMedico;
@@ -79,53 +62,36 @@ public class FinanceiroMedicoController implements Runnable {
 //    public static boolean salvaFinanceiroMedico(FinanceiroMedico fm) {;
 //    }
 
-    public static boolean removeFinanceiroMedico(int id) {
-        Iterator<FinanceiroMedico> it = financasMedico.iterator();
-        while(it.hasNext()){
-            if(it.next().getId() == id){
-                it.remove();
-                return true;
-            }
+    public static boolean deleteFinanceiroMedico(int id) {
+        String sql = "delete from financeiro_medico where id = ?";
+
+        try (Connection connection = new DBConnect().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            stmt.execute();
+
+            System.out.println("Excluído com sucesso");
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-//        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
-//
-//            if (FinanceiroMedicoController.financasMedico[i].getId()== id) {
-//
-//                FinanceiroMedicoController.financasMedico[i] = null;
-//
-//                for (int j = i; j < FinanceiroMedicoController.count - 1; j++) {
-//                    FinanceiroMedicoController.financasMedico[j] = FinanceiroMedicoController.financasMedico[j + 1];
-//                }
-//
-//                FinanceiroMedicoController.count--;
-//
-//                return true;
-//            }
-//        }
-        return false;
     }
 
     public static FinanceiroMedico buscarPorId(int id) {
+        setFinanceiroMedico();
         for(FinanceiroMedico fa: financasMedico){
             if(fa.getId() == id){
                 return fa;
             }
         }
-
-//        for (int i = 0; i < FinanceiroMedicoController.count; i++) {
-//
-//            if (FinanceiroMedicoController.financasMedico[i].getId() == id) {
-//
-//                return FinanceiroMedicoController.financasMedico[i];
-//
-//            }
-//
-//        }
-
+        
         return null;
     }
 
     public static boolean financeiroMedicoExiste(int id) {
+        setFinanceiroMedico();
         for (FinanceiroMedico ic : financasMedico) {
             if (ic.getId() == id) {
                 return true;
@@ -134,28 +100,30 @@ public class FinanceiroMedicoController implements Runnable {
         return false;
     }
     
-    public static void varreduraFinMed(){
+    public static void varreduraFinMed(LocalDate data){
         ConsultaController.setConsultas();
         ProcedimentoController.setProcedimentos();
         
         for(Consulta c: ConsultaController.consultas){
             if(c != null){
                 if(c.getEstado() == 4){
-                    String sql = "insert into financeiro_medico" + "(id, crm, especialidade, franquia, unidade_franquia, data_criacao)" +
+                    Medico m = MedicoController.buscarPorId(c.getIdMedico());
+                    int idFranquia = m.getFranquia();
+                    String sql = "insert into financeiro_medico" + "(id_medico, id_franquia, id_unidade, valor, estado, data_criacao)" +
                     "values (?, ?, ?, ? ,?, current_timestamp())";
                     try (Connection connection = new DBConnect().getConnection(); 
                             PreparedStatement stmt = connection.prepareStatement(sql)){
-                        stmt.setInt(1, id);
-                        stmt.setString(2, crm);
-                        stmt.setString(3, espec);
-                        stmt.setInt(4, franq);
-                        stmt.setInt(5, unit);
+                       
+                        stmt.setInt(1, c.getIdMedico());
+                        stmt.setInt(2, idFranquia);
+                        stmt.setInt(3, c.getUnidade());
+                        stmt.setDouble(4, c.getValor()*0.7);
+                        stmt.setInt(5, 1);
 
                         stmt.execute();
                     }catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    cadastraFinanceiroMedico(c.getIdMedico(), c.getUnidade(), (c.getValor()*0.7), 1);
                 }
             }
         }
@@ -163,23 +131,84 @@ public class FinanceiroMedicoController implements Runnable {
         for(Procedimento p: ProcedimentoController.procedimentos){
             if(p != null){
                 if(p.getEstado() == 4){
-                    String sql = "insert into financeiro" + "(id, crm, especialidade, franquia, unidade_franquia, data_criacao)" +
+                    Medico m = MedicoController.buscarPorId((int) p.getIdMedico());
+                    int idFranquia = m.getFranquia();
+                    String sql = "insert into financeiro_medico" + "(id_medico, id_franquia, id_unidade, valor, estado, data_criacao)" +
                     "values (?, ?, ?, ? ,?, current_timestamp())";
                     try (Connection connection = new DBConnect().getConnection(); 
                             PreparedStatement stmt = connection.prepareStatement(sql)){
-                        stmt.setInt(1, id);
-                        stmt.setString(2, crm);
-                        stmt.setString(3, espec);
-                        stmt.setInt(4, franq);
-                        stmt.setInt(5, unit);
+                        stmt.setInt(1, (int) p.getIdMedico());
+                        stmt.setInt(2, idFranquia);
+                        stmt.setInt(3, (int) p.getIdUnidade());
+                        stmt.setDouble(4, p.getValor()*0.5);
+                        stmt.setInt(5, 1);
 
                         stmt.execute();
                     }catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    cadastraFinanceiroMedico(p.getIdMedico(), p.getIdUnidade(), (p.getValor()/2), 1);
                 }
             }
         }
     }
+    
+    public static void pagandoAdministradora(LocalDate data) {
+        double valorParaAdministradora = 0;
+        for (Franquia f : FranquiaController.listarFranquias()) {
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("select valor, id from financeiro_medico where id_franquia == ?")){
+                stmt.setInt(1, (int) f.getId());
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    double valor = rs.getDouble("valor");
+                    valorParaAdministradora = valorParaAdministradora + (valor * 1.05);
+                    try(Connection con2 = new DBConnect().getConnection(); 
+                            PreparedStatement stmt2 = con2.prepareStatement("update financeiro_medico set estado = 2 where id_franquia == ?")){
+                        stmt2.setInt(1, (int) f.getId());
+                    }catch (SQLException e){
+                        throw new RuntimeException(e);
+                    }
+                }
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println("Data do pagamenta para Administradora: " + data + "\nValor:" + valorParaAdministradora);
+    }
+    
+    public static void setFinanceiroMedico(){
+        listCleaner();
+        try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("select * from financeiro_medico")){
+            ResultSet rs = stmt.executeQuery();
+            // itera no ResultSet
+            while (rs.next()) {
+                FinanceiroMedico fm = new FinanceiroMedico();
+                fm.setId(rs.getInt("id"));
+                fm.setIdMedico(rs.getInt("id_medico"));
+                fm.setIdFranquia(rs.getInt("id_franquia"));
+                fm.setIdUnidade(rs.getInt("id_unidade"));
+                fm.setValor(rs.getDouble("valor"));
+                fm.setEstado(rs.getInt("estado"));
+                               
+                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
+                fm.setDataCriacao(timestamp.toLocalDateTime());
+                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
+                if(dataMod != null)
+                    fm.setDataModificacao(dataMod.toLocalDateTime());
+                salvaFinanceiroMedico(fm);
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        
+    public static void listCleaner(){
+        Iterator<FinanceiroMedico> it = financasMedico.iterator();
+        while(it.hasNext()){
+            it.next();
+            it.remove();
+        }
+    }
+
 }

@@ -15,9 +15,10 @@ import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
 import Controller.MedicoController;
 import Controller.ProcedimentoController;
-import Model.Calendario;
+import Model.CalendarioAno;
 import Model.Consulta;
 import Model.FinanceiroAdm;
+import Model.FinanceiroMedico;
 import Model.Franquia;
 import Model.FranquiaUnidade;
 import Model.InfoConsulta;
@@ -47,9 +48,9 @@ public class View {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
-        ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
+//        ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
         
-        Calendario calendario = new Calendario();
+        CalendarioAno calendario = new CalendarioAno();
         
         boolean res = false;
         int opcLog;
@@ -59,15 +60,15 @@ public class View {
         
         Scanner scan = new Scanner(System.in);
         
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.add(Calendar.MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
-        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.set(Calendar.DAY_OF_MONTH, 1);
+//        calendar.add(Calendar.MONTH, 1);
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//        long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
+//        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
 
 
 //        LocalDate data = LocalDate.now();
@@ -81,7 +82,9 @@ public class View {
             do{
                 System.out.println("Digite 1 para fazer login, 2 para cadastrar ou 0 para sair");
                 if((calendario.getData()).getDayOfMonth() == 1){
-                    FinanceiroMedicoController.varreduraFinMed()
+                    FinanceiroMedicoController fmc = new FinanceiroMedicoController();
+                    fmc.varreduraFinMed(calendario.getData());
+                    fmc.pagandoAdministradora(calendario.getData());
                 }
                 toConvert = scan.nextLine();
                 if(!("".equals(toConvert))){
