@@ -22,7 +22,7 @@ public class DBConnect {
             properties.setProperty("serverTimezone", "UTC");
             properties.setProperty("allowPublicKeyRetrieval","true");
 
-            String con = "jdbc:mysql://localhost/dbconnect";
+            String con = "jdbc:mysql://localhost/poo";
             return DriverManager.getConnection(con, properties);
         }catch(SQLException e) {
             throw new RuntimeException(e);
