@@ -74,7 +74,7 @@ public class View {
         calendario.acrescentaCalendario();
         do{
             do{
-                System.out.println("Digite:\n1 para fazer login\n2 para cadastrar\n3 para acrescentar calendario\n0 para sair");
+                System.out.println("### Digite ###\n1 - para fazer login\n2 - para cadastrar\n3 - para acrescentar calendario\n0 - para sair");
                 if((calendario.getData()).getDayOfMonth() == 1){
                     FinanceiroMedicoController fmc = new FinanceiroMedicoController(calendario.getData());
                     fmc.varreduraFinMed();
