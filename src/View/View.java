@@ -271,8 +271,51 @@ public class View {
      }
      
      private static void CadastrarConta(){
+        Scanner scan = new Scanner(System.in);
+        int opc = -1;
+        boolean res;
+        String toConvert;
+        System.out.println("\n============ Cadastrando  ================");
+        
+        System.out.println("Qual o tipo de Movimentação( 1 - Entrada | 2 - Saida ) :");
+        
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        
+        int tipoMovimento = Integer.parseInt(toConvert);
+        
+        listarFranquias();
+        System.out.println("Qual a Franquia que será atribuida:");
+        
+       do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        
+        int idFranquia = Integer.parseInt(toConvert);
+        
+        
+        listarUnidadesFranquia(idFranquia);
+        
+         System.out.println("Qual a Unidade de Franquia:");
          
-        FinanceiroAdmController.cadastraFinanceiroADM();
+        do{
+            toConvert = scan.nextLine();
+            res = isInt(toConvert);
+        }while(res != true);
+        
+        int idUnidade = Integer.parseInt(toConvert);
+        
+        System.out.println("Sobre o que se trata a movimentação ex: conta de agua, luz, Pagamento:");
+        String descritivoMovimento = scan.nextLine();
+        
+        System.out.println("Qual o valor:");
+        double valor = scan.nextDouble();
+        
+        
+        FinanceiroAdmController.cadastraFinanceiroADM(tipoMovimento, idFranquia, idUnidade, descritivoMovimento, valor);
          
      }
      
@@ -486,8 +529,11 @@ public class View {
     private static void CriandoFranquia() {
         boolean res;
         int idResponsavel;
+        
         String toConvert;
+        
         Scanner scan = new Scanner(System.in);
+        
         System.out.println("digite o nome da Franquia:");
         String nome = scan.nextLine();
         
@@ -622,6 +668,22 @@ public class View {
                 System.out.println("-------------------------------------------------------");
             }
             
+        }
+    
+    }
+    
+    private static void listarUnidadesFranquia(int id){
+        
+        List<FranquiaUnidade> FranquiasUnidades = FranquiaUnidadeController.listarUnidadesFranquia();
+       
+        for(FranquiaUnidade Unidade: FranquiasUnidades){
+            
+            if(Unidade.getFranquia() == id){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(Unidade);
+                System.out.println("-------------------------------------------------------"); 
+            }
+
         }
     
     }
@@ -1077,6 +1139,7 @@ public class View {
         int idUnidFranq;
         boolean res;
         String toConvert;
+        
         do{
             System.out.println("####### Consultas #######");
             System.out.println("0 - Sair do menu de consulta");
@@ -1175,6 +1238,11 @@ public class View {
                     }
                     LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                     
+                    FranquiaUnidade franquiaUnidade = FranquiaUnidadeController.buscarPorId(idUnidFranq);
+                    
+                    //adicionando a Ao Crud direto
+                    FinanceiroAdmController.cadastraFinanceiroADM(1, franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Consulta", 200);
+                            
                     ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertDate, hora, idUnidFranq);
                     
                     listaConsultas();
@@ -1584,6 +1652,11 @@ public class View {
                             System.out.println("HORA Informada NAO VALIDA");
                             break;         
                         }
+                        
+                        FranquiaUnidade franquiaUnidade = FranquiaUnidadeController.buscarPorId(idUnidFranq);
+                        
+                        FinanceiroAdmController.cadastraFinanceiroADM(1, franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Procedimento", 200);
+                        
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                         ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo, idUnidFranq, idMed);
                         listaProcedimentos();
