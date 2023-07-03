@@ -321,50 +321,9 @@ public class PessoaController {
     }
 
     public static List<Pessoa> listarPessoas() {
-        listCleaner();
-        try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement("select * from pessoa")){
-            ResultSet rs = stmt.executeQuery();
-            // itera no ResultSet
-            while (rs.next()) {
-                Pessoa pessoa = new Pessoa();
-                pessoa.setId(rs.getInt("id"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setEndereco(rs.getString("endereco"));
-                pessoa.setCpf(rs.getString("cpf"));
-                pessoa.setTelefone(rs.getString("telefone"));
-                pessoa.setLogin(rs.getString("login"));
-                pessoa.setSenha(rs.getString("senha"));
-                pessoa.setCliente(rs.getInt("cliente"));
-                pessoa.setMedico(rs.getInt("medico"));
-                pessoa.setDono_unidade(rs.getInt("dono_unidade"));
-                pessoa.setDono_franquia(rs.getInt("dono_franquia"));
-                
-                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
-//                pessoa.setDataCriacao(timestamp.toLocalDateTime());;
-//                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
-//                pessoa.setDataModificacao(dataMod.toLocalDateTime());
-////                Timestamp timestamp = new Timestamp(rs.getTimestamp("data_criacao"));
-//                pessoa.setDataCriacao(rs.getTimestamp("data_criacao"));
-                salvaPessoas(pessoa);
-
-            }
-            
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        setPessoas();
         return pessoas;
-//        return Arrays.copyOf(PessoaController.pessoas, PessoaController.count);
     }
-
-//    public static Pessoa buscarPessoaPorCpf(String cpf) {
-//        for(Pessoa p: pessoas){
-//            if(p.getCpf().equals(cpf)){
-//                return p;
-//            }
-//        }
-//        return null;
-//    }
     
     public static void alteraTipoUsuario(int papel, int id, int val) {
         if(papel == 1){
