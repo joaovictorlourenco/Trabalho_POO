@@ -5,6 +5,7 @@
 package Controller;
 
 import Model.Consulta;
+import Model.FinanceiroAdm;
 import Model.FinanceiroMedico;
 import Model.Procedimento;
 import com.itextpdf.text.Document;
@@ -51,8 +52,11 @@ public class RelatorioController {
         document.add(new Paragraph(""));
 
         document.add(createTableFM(id));
-
         
+        document.add(new Paragraph("Parte ADM"));
+        document.add(new Paragraph(""));
+
+        document.add(createTableADM(id));
         document.close();
     }
      
@@ -67,10 +71,13 @@ public class RelatorioController {
 
         document.add(new Paragraph("Relatorio de Financas da Unidade Franquia"));
         document.add(new Paragraph(""));
-
         document.add(createTableFMUnidade(id));
+                
+        document.add(new Paragraph("Parte ADM"));
+        document.add(new Paragraph(""));
+        document.add(createTableADMUnidade(id));
 
-        
+
         document.close();
     }
      
@@ -186,7 +193,116 @@ public class RelatorioController {
         }
         return table;
     }  
+    public static PdfPTable createTableADM(int id) throws SQLException{
     
+        PdfPTable table = new PdfPTable(6);
+        List<FinanceiroAdm> dadosADM = FinanceiroAdmController.DadosRelatorioMensal(id);
+        
+        PdfPCell cell = new PdfPCell(new Paragraph("ID"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("TIPO MOVIMENTO"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("ID FRANQUIA"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("ID UNIDADE"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("DESCRITIVO MOVIMENTO"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("VALOR"));
+        table.addCell(cell);
+        
+        
+        for (FinanceiroAdm Fadm : dadosADM) {
+            for (int j = 0; j <= 5; j++) {
+                switch(j){
+                    case 0:
+                        cell = new PdfPCell(new Paragraph(""+ Fadm.getId()));
+                        table.addCell(cell);
+                        break;
+                    case 1:
+                        cell = new PdfPCell(new Paragraph(Fadm.getTipoMovimento() == 1 ? "Entrada" : "Saida"));
+                        table.addCell(cell);
+                        break;
+                    case 2:
+                        cell = new PdfPCell(new Paragraph(""+Fadm.getIdFranquia() ));
+                        table.addCell(cell);
+                        break;
+                    case 3:
+                        cell = new PdfPCell(new Paragraph(""+ Fadm.getIdUnidade()));
+                        table.addCell(cell);
+                        break;
+                    case 4:
+                        cell = new PdfPCell(new Paragraph(Fadm.getDescritivoMovimento()));
+                        table.addCell(cell);
+                        break;
+                    case 5:
+                        cell = new PdfPCell(new Paragraph("" + Fadm.getValor()));
+                        table.addCell(cell);
+                        break;
+
+                }
+            }
+        }
+        
+        
+        return table;
+    }
+    
+    public static PdfPTable createTableADMUnidade(int id) throws SQLException{
+        
+        List<FinanceiroAdm> dadosADM = FinanceiroAdmController.listarFinanceiroADM();
+
+        PdfPTable table = new PdfPTable(6);
+        
+        PdfPCell cell = new PdfPCell(new Paragraph("ID"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("TIPO MOVIMENTO"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("ID FRANQUIA"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("ID UNIDADE"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("DESCRITIVO MOVIMENTO"));
+        table.addCell(cell);
+        cell = new PdfPCell(new Paragraph("VALOR"));
+        table.addCell(cell);
+        
+        for (FinanceiroAdm Fadm : dadosADM) {
+            if(Fadm.getIdFranquia() == id) {
+                for (int j = 0; j <= 5; j++) {
+                    switch(j){
+                        case 0:
+                            cell = new PdfPCell(new Paragraph(""+ Fadm.getId()));
+                            table.addCell(cell);
+                            break;
+                        case 1:
+                            cell = new PdfPCell(new Paragraph(Fadm.getTipoMovimento() == 1 ? "Entrada" : "Saida"));
+                            table.addCell(cell);
+                            break;
+                        case 2:
+                            cell = new PdfPCell(new Paragraph(""+Fadm.getIdFranquia() ));
+                            table.addCell(cell);
+                            break;
+                        case 3:
+                            cell = new PdfPCell(new Paragraph(""+ Fadm.getIdUnidade()));
+                            table.addCell(cell);
+                            break;
+                        case 4:
+                            cell = new PdfPCell(new Paragraph(Fadm.getDescritivoMovimento()));
+                            table.addCell(cell);
+                            break;
+                        case 5:
+                            cell = new PdfPCell(new Paragraph("" + Fadm.getValor()));
+                            table.addCell(cell);
+                            break;
+                           
+                    }
+                }
+            }
+        }
+        
+        return table;
+    }
     public static PdfPTable createTableFMUnidade(int id) throws SQLException {
         List<FinanceiroMedico> dados = FinanceiroMedicoController.listarFinanceiroMedico();
     	// a table with three columns
