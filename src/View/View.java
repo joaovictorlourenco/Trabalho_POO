@@ -975,7 +975,6 @@ public class View {
         PessoaController.cadastraMed(nome, end, cpf, tel, log, passw, franq, unit, crm, espec);
 
         listaMedicos();
-        listaPessoas();
     }
     
 
