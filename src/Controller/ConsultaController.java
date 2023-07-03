@@ -152,24 +152,6 @@ public class ConsultaController {
                 throw new RuntimeException(e);
             }
         }
-        
-//        for(Consulta c : consultas){
-//            if(c.getId() == idConsulta){
-//                if(idMed != 0){
-//                    c.setIdMedico(idMed);
-//                }
-//                if(dtConsulta != null){
-//                    c.setDataConsulta(dtConsulta);
-//                }
-//                if(hora != null){
-//                    c.setHorario(hora);
-//                }
-//                if(idUniFranq != 0){
-//                    c.setUnidade(idUniFranq);
-//                }
-//                return;
-//            }
-//        }
     }
     
     public static Consulta buscarPorId(int id) {

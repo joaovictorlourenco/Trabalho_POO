@@ -838,25 +838,28 @@ public class View {
                     listarFranquias();
                     System.out.println("Franquia atual(digite id): " + Editar.getFranquia());
                     Editar.setId_franquia(scan.nextInt());
+                    FranquiaUnidadeController.alteraUniFranq(Editar, opc);
 //                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 2:
                     System.out.println("Cidade atual: " + Editar.getCidade());
                     Editar.setEndereço(scan.nextLine());
+                    FranquiaUnidadeController.alteraUniFranq(Editar, opc);                      
 //                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 3:
                     System.out.println("Endereco atual: " + Editar.getEndereço());
                     Editar.setEndereço(scan.nextLine());
-//                    Editar.setDataModificacao(new Date());
+                    FranquiaUnidadeController.alteraUniFranq(Editar, opc);               
                     opc=0;
                     break;
                 case 4:
                     listaPessoas();
                     System.out.println("Responsavel atual(digite id): " + Editar.getId_responsavel());
                     Editar.setId_responsavel(scan.nextLong());
+                    FranquiaUnidadeController.alteraUniFranq(Editar, opc); 
 //                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
@@ -928,26 +931,34 @@ public class View {
                     
                     System.out.println("Nome Atual: "+ Editar.getNome());
                     Editar.setNome(scan.nextLine());
-//                    Editar.setDataModificacao(new Date());
+                    FranquiaController.alteraFranq(Editar, opc);
                     opc=0;
                     break;
                 case 2:
                     System.out.println("Cnpj atual: " + Editar.getCnpj());
                     Editar.setCnpj(scan.nextLine());
-//                    Editar.setDataModificacao(new Date());
+                    FranquiaController.alteraFranq(Editar, opc);
                     opc=0;
                     break;
                 case 3:
                     System.out.println("Cidade atual: " + Editar.getCidade());
                     Editar.setCidade(scan.nextLine());
+                    FranquiaController.alteraFranq(Editar, opc);
 //                    Editar.setDataModificacao(new Date());
                     opc=0;
                     break;
                 case 4:
                     listaPessoas();
+                    System.out.println("Endereco atual: " + Editar.getEndereço());
+                    Editar.setEndereço(scan.nextLine());
+                    FranquiaController.alteraFranq(Editar, opc);
+                    opc=0;
+                    break;
+                case 5:
+                    listaPessoas();
                     System.out.println("Responsavel atual:(digite id) " + Editar.getId_responsavel());
                     Editar.setId_responsavel(scan.nextLong());
-//                    Editar.setDataModificacao(new Date());
+                    FranquiaController.alteraFranq(Editar, opc);
                     opc=0;
                     break;
                 default:
@@ -1085,6 +1096,17 @@ public class View {
             }
         }
     }
+
+    private static void listaMedicosByUniFranq(int uni) {
+        List<Medico> medicos = MedicoController.listarMedicos();
+        for(Medico m: medicos){
+            if(m != null && m.getUnidade() == uni){
+                System.out.println("-------------------------------------------------------");
+                System.out.println(m);
+                System.out.println("-------------------------------------------------------");
+            }
+        }
+    }
     
     private static void listaConsultas() {
         List<Consulta> consultas = ConsultaController.listarConsultas();
@@ -1213,7 +1235,7 @@ public class View {
                         break;
                     }
                     
-                    listaMedicos();
+                    listaMedicosByUniFranq(idUnidFranq);
                     System.out.print("Insira a o id do medico na lista abaixo com quem deseja consultar: ");
                     do{
                         toConvert = scan.nextLine();
@@ -1629,7 +1651,7 @@ public class View {
                             break;
                         }
 
-                        listaMedicos();
+                        listaMedicosByUniFranq(idUnidFranq);
                         System.out.print("Insira a o id do medico na lista abaixo com quem deseja consultar: ");
                         do{
                             toConvert = scan.nextLine();
@@ -1703,7 +1725,7 @@ public class View {
                     break;
                 case 2:
                     if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
-                        listaProcedimentos();
+                        listaConsultas();
                         System.out.print("Insira o id da consulta que irá gerar um procedimento: ");
                         do{
                             toConvert = scan.nextLine();
@@ -1748,7 +1770,6 @@ public class View {
                         ano = Integer.parseInt(dataConsulta[2]);
 
                         LocalDate dtConsulta = LocalDate.of(ano, mes, dia);
-//                        convertData = Date.from(dtConsulta.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         if(dtConsulta.isAfter(dtAtual) == false){
                             System.out.println("DATA INVÁLIDA (DATA PRECISA SER POSTERIOR A DATA ATUAL)");

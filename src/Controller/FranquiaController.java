@@ -184,4 +184,89 @@ public class FranquiaController {
         }
     }
     
+    public static void alteraFranq(Franquia edit, int opc){
+        if(opc == 1){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update franquia set nome = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                stmt.setString(1, edit.getNome());
+                stmt.setInt(2, (int) edit.getId());
+                
+                stmt.execute();
+                
+                System.out.println("Franquia alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(opc == 2){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update franquia set cnpj = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                
+                stmt.setString(1, edit.getCnpj());
+                
+                stmt.setInt(2, (int) edit.getId());
+                
+                stmt.execute();
+                
+                System.out.println("Franquia alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        if(opc == 3){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update franquia set cidade = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                
+                stmt.setString(1, edit.getCidade());
+                stmt.setInt(2, (int) edit.getId());
+                
+                stmt.execute();
+                
+                System.out.println("Franquia alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        if(opc == 4){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update franquia set endereco = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                stmt.setString(1, edit.getEndereço());
+                stmt.setInt(2, (int) edit.getId());
+                
+                stmt.execute();
+                
+                System.out.println("Franquia alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        if(opc == 5){
+            try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("update franquia set id_responsavel = ?, data_modificacao = current_timestamp() where id = ?;")){
+                
+                stmt.setInt(1, (int) edit.getId_responsavel());
+                stmt.setInt(2, (int) edit.getId());
+                
+                stmt.execute();
+                
+                System.out.println("Franquia alterada com sucesso");
+
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+    
 }
