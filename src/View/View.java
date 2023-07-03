@@ -251,6 +251,7 @@ public class View {
         boolean res;
          System.out.println("\n============ Menu Financeiro Administrativo  ================");
          System.out.println("1 - Cadastrar Movimento");
+         System.out.println("2 - Remover um Movimento");
                  
             do{
                 toConvert = scan.nextLine();
@@ -370,7 +371,7 @@ public class View {
                     }else{
                         
                         System.out.println("Ocorreu algum erro");
-                        
+
                     }
                     opcDe = 0;
                     opc = 0;
