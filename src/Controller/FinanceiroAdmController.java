@@ -56,6 +56,36 @@ public class FinanceiroAdmController {
         
     }
     
+    public static List<FinanceiroAdm> DadosRelatorioMensal(int id) throws SQLException{
+    
+        listCleaner();
+        
+        try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("select * from financeiroadm where idFranquia = ?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                FinanceiroAdm fadm = new FinanceiroAdm();
+                fadm.setId(rs.getInt("id"));
+                fadm.setTipoMovimento(rs.getInt("tipoMovimento"));
+                fadm.setIdFranquia(rs.getInt("idFranquia"));
+                fadm.setIdUnidade(rs.getInt("idUnidade"));
+                fadm.setDescritivoMovimento(rs.getString("descritivoMovimento"));
+                fadm.setValor(rs.getDouble("valor"));
+
+                               
+                java.sql.Timestamp timestamp = rs.getTimestamp("dataCriacao");
+                fadm.setDataCriacao(timestamp.toLocalDateTime());
+                java.sql.Timestamp dataMod = rs.getTimestamp("dataModificacao");
+                if(dataMod != null)
+                    fadm.setDataModificacao(dataMod.toLocalDateTime());
+                salvaFinanceiroADM(fadm);
+            }
+        }
+        return FinanceiroAdm;
+    
+    }
+    
     public static boolean salvaFinanceiroADM(FinanceiroAdm mov){
         FinanceiroAdm.add(mov);
         return true;

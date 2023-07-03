@@ -299,7 +299,7 @@ public class View {
      
     private static void listarConta() {
        
-       List<FinanceiroAdm> ContasCadastradas = FinanceiroAdmController.listarFinanceiroADM() ;
+       List<FinanceiroAdm> ContasCadastradas = FinanceiroAdmController.listarFinanceiroADM();
        
         for(FinanceiroAdm conta: ContasCadastradas){
             
