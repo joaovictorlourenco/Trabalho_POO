@@ -257,14 +257,18 @@ public class View {
     }
     
     //menu financeiro 
-     private static void menuFinanceiro(){
-         
+    private static void menuFinanceiro(){
         Scanner scan = new Scanner(System.in);
         String toConvert;
         int opc;
         boolean res;
+    do{
+     
+        listarConta();
          System.out.println("\n============ Menu Financeiro Administrativo  ================");
          System.out.println("1 - Cadastrar Movimento");
+         System.out.println("2 - Remover um Movimento");
+         System.out.println("0 - Sair");
                  
             do{
                 toConvert = scan.nextLine();
@@ -278,11 +282,34 @@ public class View {
                     break;
                 case 2:
                     DeletandoConta();
+                    break;
+                case 0:
+                    opc = 0;
+                    break;
                 default:
                     System.out.println("Não existe essa opção");
                     opc = -1;
+                    break;
             }
+            
+                 
+        }while(opc != 0);
+       
      }
+     
+    private static void listarConta() {
+       
+       List<FinanceiroAdm> ContasCadastradas = FinanceiroAdmController.listarFinanceiroADM() ;
+       
+        for(FinanceiroAdm conta: ContasCadastradas){
+            
+                System.out.println("-------------------------------------------------------");
+                System.out.println(conta);
+                System.out.println("-------------------------------------------------------"); 
+            
+        }
+        
+    }
      
      private static void CadastrarConta(){
         Scanner scan = new Scanner(System.in);
@@ -353,7 +380,7 @@ public class View {
         do{
         
             System.out.println("Insira o id de uma das CONTAS presentes na lista abaixo que deseja excluir:");
-            listarFinanceiroADM();
+            listarConta();
         
         do{
             toConvert = scan.nextLine();
@@ -384,7 +411,7 @@ public class View {
                     }else{
                         
                         System.out.println("Ocorreu algum erro");
-                        
+
                     }
                     opcDe = 0;
                     opc = 0;
@@ -2045,4 +2072,6 @@ public class View {
             }
         }while(opc != 0);
     }
+
+
 }

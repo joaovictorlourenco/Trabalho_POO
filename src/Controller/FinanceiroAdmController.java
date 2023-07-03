@@ -63,28 +63,29 @@ public class FinanceiroAdmController {
     
     public static boolean removeFinanceiroAdm(int id) {
         
-        Iterator<FinanceiroAdm> iterator = FinanceiroAdm.iterator();
-        
-         while(iterator.hasNext()){
-            FinanceiroAdm fa = iterator.next();
-            if(fa.getId() == id){
-                iterator.remove();
-                return true;
-            }
-            
+      String sql = "delete from financeiroadm where id = ?";
+
+        try (Connection connection = new DBConnect().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            stmt.execute();
+            System.out.println("Excluído com sucesso");
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
- 
     public static List<FinanceiroAdm> listarFinanceiroADM() {
 
-        setFranquia();
+        setFinanceiroADM();
         return FinanceiroAdm;
     }
     
     public static FinanceiroAdm buscarPorId(int id) {
-        setFranquia();
+        setFinanceiroADM();
         for(FinanceiroAdm fa: FinanceiroAdm){
             
             if(fa.getId() == id){
@@ -95,10 +96,10 @@ public class FinanceiroAdmController {
         return null;
     }
     
-        public static void setFranquia(){
+        public static void setFinanceiroADM(){
         listCleaner();
         try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement("select * from franquia")){
+                PreparedStatement stmt = con.prepareStatement("select * from financeiroadm")){
                 ResultSet rs = stmt.executeQuery();
             // itera no ResultSet
             while (rs.next()) {
@@ -110,10 +111,10 @@ public class FinanceiroAdmController {
                 mov.setDescritivoMovimento(rs.getString("descritivoMovimento"));
                 mov.setValor(rs.getDouble("valor"));
                 
-                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
+                java.sql.Timestamp timestamp = rs.getTimestamp("dataCriacao");
                 mov.setDataCriacao(timestamp.toLocalDateTime());
                 
-                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
+                java.sql.Timestamp dataMod = rs.getTimestamp("dataModificacao");
                 
                 if(dataMod != null){
                     mov.setDataModificacao(dataMod.toLocalDateTime());
