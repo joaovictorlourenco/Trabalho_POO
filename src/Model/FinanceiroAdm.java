@@ -161,7 +161,7 @@ public class FinanceiroAdm {
 
         String state = tipoMovimento == 1 ? "Entrada" : "Saida" ;
         
-        return "FinanceiroAdm{" + "id=" + id + ", tipoMovimento=" + state + ", idFranquia=" + idFranquia + ", idUnidade=" + idUnidade + ", descritivoMovimento=" + descritivoMovimento + ", valor=" + valor + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
+        return "movimentação{" + "id=" + id + ", tipoMovimento=" + state + ", idFranquia=" + idFranquia + ", idUnidade=" + idUnidade + ", descritivoMovimento=" + descritivoMovimento + ", valor=" + valor + ", dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
     }
     
 }
