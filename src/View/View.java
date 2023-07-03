@@ -1907,7 +1907,31 @@ public class View {
                         }while(res != true);
                         i = Integer.parseInt(toConvert);
                         if (i == 1) {
-                            //
+                            if (pessoa.getMedico() == 1) {
+                                listaPessoas();
+                                System.out.print("DIGITE o id da pessoa que deseja gerar o relatorio: ");
+                                do{
+                                    toConvert = scan.nextLine();
+                                    res = isInt(toConvert);
+                                }while(res != true);
+                                i = Integer.parseInt(toConvert);
+                                Pessoa p = PessoaController.buscarPorId(i);
+                                if (p != null) {
+                                    RelatorioController r = new RelatorioController();
+                                    r.setResult("RelatorioConsultasProcedimentos/RelatorioConsultaProcedimentos_" + p.getNome() + "_" + p.getCpf() + ".pdf");
+                                    r.createPdfConsultasProcedimentos(r.result, i);
+                                    break;
+                                }
+                                else{
+                                    System.out.println("FRANQUIA COM ESSE ID NAO EXISTE");
+                                    break;
+                                }
+                            } else {
+                                RelatorioController r = new RelatorioController();
+                                r.setResult("RelatorioConsultasProcedimentos/RelatorioConsultaProcedimentos_" + pessoa.getNome() + "_" + pessoa.getCpf() + ".pdf");
+                                r.createPdfConsultasProcedimentos(r.result, (int) pessoa.getId());
+                                break;
+                            }
                         } else if (i != 0) {
                             System.out.println("NAO EXISTE ESSA OPCAO");
                             break;
@@ -1948,6 +1972,7 @@ public class View {
                             System.out.println("NAO EXISTE ESSA OPCAO");
                             break;
                         }
+                        break;
                     }else{
                         System.out.println("Sem permissao");
                     }
@@ -1962,19 +1987,37 @@ public class View {
                             res = isInt(toConvert);
                         }while(res != true);
                         i = Integer.parseInt(toConvert);
-                        if (i == 1) {
+                        if (i == 1) { 
+                            listarUnidadesFranquia();
+                            System.out.print("DIGITE o id da franquia que deseja gerar o relatorio: ");
+                            do{
+                                toConvert = scan.nextLine();
+                                res = isInt(toConvert);
+                            }while(res != true);
+                            i = Integer.parseInt(toConvert);
+                            FranquiaUnidade fu = FranquiaUnidadeController.buscarPorId(i);
+                            if (fu != null) {
+                                RelatorioController r = new RelatorioController();
+                                r.setResult("FinanceirosMensaisUnidadeFranquia/reportMensalUnidadeFranq_" + i + ".pdf");
+                                r.createPdfMensalUnidadeFranq(r.result, i);
+                            }
+                            else{
+                                System.out.println("FRANQUIA COM ESSE ID NAO EXISTE");
+                                break;
+                            }
                             //
                         } else if (i != 0) {
                             System.out.println("NAO EXISTE ESSA OPCAO");
                             break;
                         }
+                        break;
                     }else{
                         System.out.println("Sem permissao");
                     }
                     break;
                 case 4:
                     if(pessoa.getMedico() == 1){
-                        System.out.println("1 - Gerar relatorio de valores recebido pelo medico");
+                        System.out.println("1 - Gerar relatorio de valores recebido do MEDICO");
                         System.out.println("0 - SAIR");
                         System.out.print("DIGITE SUA opcao: ");
                         do{
@@ -1983,11 +2026,14 @@ public class View {
                         }while(res != true);
                         i = Integer.parseInt(toConvert);
                         if (i == 1) {
-                            //
+                            RelatorioController r = new RelatorioController();
+                            r.setResult("RelatorioPagamentoMedico/relatorioPagamentoMedico_" + pessoa.getNome() + "_" + pessoa.getCpf() + ".pdf");
+                            r.createPdfPagamentoMedico(r.result, (int) pessoa.getId());
                         } else if (i != 0) {
                             System.out.println("NAO EXISTE ESSA OPCAO");
                             break;
                         }
+                        break;
                     }else{
                         System.out.println("Sem permissao");
                     }
