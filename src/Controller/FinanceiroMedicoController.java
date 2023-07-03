@@ -29,6 +29,7 @@ import java.util.List;
 public class FinanceiroMedicoController {
     private static List<FinanceiroMedico> financasMedico = new ArrayList();
     private static LocalDate data;
+
     
     private Connection connection;
     public FinanceiroMedicoController(LocalDate data) {
@@ -44,11 +45,38 @@ public class FinanceiroMedicoController {
         data = dataMes;
     }
     
+    public static List<FinanceiroMedico> DadosRelatorioMensal(int id) throws SQLException {
+        listCleaner();
+        try(Connection con = new DBConnect().getConnection(); 
+                PreparedStatement stmt = con.prepareStatement("select * from financeiro_medico where id_franquia = ?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                FinanceiroMedico fm = new FinanceiroMedico();
+                fm.setId(rs.getInt("id"));
+                fm.setIdMedico(rs.getInt("id_medico"));
+                fm.setIdFranquia(rs.getInt("id_franquia"));
+                fm.setIdUnidade(rs.getInt("id_unidade"));
+                fm.setValor(rs.getDouble("valor"));
+                fm.setEstado(rs.getInt("estado"));
+                               
+                java.sql.Timestamp timestamp = rs.getTimestamp("data_criacao");
+                fm.setDataCriacao(timestamp.toLocalDateTime());
+                java.sql.Timestamp dataMod = rs.getTimestamp("data_modificacao");
+                if(dataMod != null)
+                    fm.setDataModificacao(dataMod.toLocalDateTime());
+                salvaFinanceiroMedico(fm);
+            }
+        }
+        return financasMedico;
+    }
+    
     public static void salvaFinanceiroMedico(FinanceiroMedico fm) {
         financasMedico.add(fm);
     }  
 
     public static List<FinanceiroMedico> listarFinanceiroMedico() {
+        setFinanceiroMedico();
         return financasMedico;
     }
 
@@ -149,31 +177,33 @@ public class FinanceiroMedicoController {
         double valorParaAdministradora = 0;
         for (Franquia f : FranquiaController.listarFranquias()) {
             try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement("select valor, id from financeiro_medico where id_franquia = ?")){
+                PreparedStatement stmt = con.prepareStatement("select valor from financeiro_medico where id_franquia = ?")){
                 stmt.setInt(1, (int) f.getId());
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     double valor = rs.getDouble("valor");
-                    valorParaAdministradora = valorParaAdministradora + (valor * 1.05);
+                    valorParaAdministradora = valorParaAdministradora + (valor * .05);
                     try(Connection con2 = new DBConnect().getConnection(); 
                             PreparedStatement stmt2 = con2.prepareStatement("update financeiro_medico set estado = 2 where id_franquia = ?")){
                         stmt2.setInt(1, (int) f.getId());
+                        stmt2.execute();
                     }catch (SQLException e){
                         throw new RuntimeException(e);
                     }
                 }
+                String sql = "insert into registro_pagamento_administradora" + "(id_franquia, valor, data_pagamento, data_criacao)" +
+                    "values (?, ?, ?, current_timestamp())";
+                try(Connection con2 = new DBConnect().getConnection(); 
+                    PreparedStatement stmt2 = con2.prepareStatement(sql)){
+                    stmt2.setInt(1, (int) f.getId());
+                    stmt2.setDouble(2, (valorParaAdministradora + 1000.00));
+                    java.sql.Date sqlDate = Date.valueOf(data);
+                    stmt2.setDate(3, sqlDate);
+                    stmt2.execute();
+                }catch (SQLException e){
+                    throw new RuntimeException(e);
+                }
             }catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            String sql = "insert into registro_pagamento_administradora" + "(id_franquia, valor, data_pagamento, data_criacao)" +
-                "values (?, ?, ?, current_timestamp())";
-            try(Connection con = new DBConnect().getConnection(); 
-                PreparedStatement stmt = con.prepareStatement(sql)){
-                stmt.setInt(1, (int) f.getId());
-                stmt.setDouble(2, (valorParaAdministradora + 1000.00));
-                java.sql.Date sqlDate = Date.valueOf(data);
-                stmt.setDate(3, sqlDate);
-            }catch (SQLException e){
                 throw new RuntimeException(e);
             }
             System.out.println("Data do pagamenta para Administradora: " + data + "\nValor:" + (valorParaAdministradora + 1000.00));
