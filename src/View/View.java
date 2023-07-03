@@ -4,6 +4,17 @@
  */
 package View;
 
+
+// Imports para o PDF
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+
+
 import Controller.ConsultaController;
 import static Controller.ConsultaController.consultaExiste;
 import Controller.FinanceiroAdmController;
@@ -15,6 +26,7 @@ import static Controller.FranquiaUnidadeController.unidadeExiste;
 import Controller.InfoConsultaController;
 import Controller.MedicoController;
 import Controller.ProcedimentoController;
+import Controller.RelatorioController;
 import Model.CalendarioAno;
 import Model.Consulta;
 import Model.FinanceiroAdm;
@@ -26,6 +38,7 @@ import java.util.Scanner;
 import Model.Pessoa;
 import Model.Procedimento;
 import controller.PessoaController;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -41,7 +54,7 @@ public class View {
      * @param args the command line arguments
      * @throws java.sql.SQLException
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, DocumentException, IOException {
 //        ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
         
         CalendarioAno calendario = new CalendarioAno();
@@ -69,7 +82,8 @@ public class View {
         calendario.acrescentaCalendario();
         do{
             do{
-                System.out.println("### Digite ###\n1 - para fazer login\n2 - para cadastrar\n3 - para acrescentar calendario\n0 - para sair");
+                System.out.println("###########\n1 - para fazer login\n2 - para cadastrar\n3 - para acrescentar calendario\n0 - para sair");
+                System.out.print("DIGITE sua opcao: ");
                 if((calendario.getData()).getDayOfMonth() == 1){
                     FinanceiroMedicoController fmc = new FinanceiroMedicoController(calendario.getData());
                     fmc.varreduraFinMed();
@@ -147,13 +161,13 @@ public class View {
     }
 
     ///// Função para o chamar o MENU para o usuario CONECTADO
-    private static void logado(Pessoa pessoa) throws SQLException {
+    private static void logado(Pessoa pessoa) throws SQLException, DocumentException, IOException {
         System.out.println("=============== Success ==============");
         inSystem(pessoa);
     }
 
     ///////// MENU DO SISTEMA ///////////////////
-    private static void inSystem(Pessoa pessoa) throws SQLException {
+    private static void inSystem(Pessoa pessoa) throws SQLException, DocumentException, IOException {
         
         Scanner scan = new Scanner(System.in);
         System.out.println("Logado no sistema: \n" + pessoa.toString());
@@ -1852,10 +1866,11 @@ public class View {
         }while(opc != 0);
     }
 
-    private static void menuRelatorios(Pessoa pessoa) {
+    private static void menuRelatorios(Pessoa pessoa) throws DocumentException, IOException, SQLException {
         Scanner scan = new Scanner(System.in);
         String toConvert;
         int opc;
+        int i;
         boolean res;
         do{
             System.out.println("################# MENU RELATORIOS ###################");
@@ -1883,28 +1898,96 @@ public class View {
                     break;
                 case 1:
                     if(pessoa.getDono_franquia() == 1 ){
-                        // gerar opcoes e relatorios
+                        System.out.println("1 - Gerar relatorio de consultas e procedimento");
+                        System.out.println("0 - SAIR");
+                        System.out.print("DIGITE SUA opcao: ");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        if (i == 1) {
+                            //
+                        } else if (i != 0) {
+                            System.out.println("NAO EXISTE ESSA OPCAO");
+                            break;
+                        }
                     }else{
                         System.out.println("Sem permissao");
                     }
                     break;
                 case 2:
                     if(pessoa.getDono_franquia() == 1 ){
-                        // gerar opcoes e relatorios
+                        System.out.println("1 - Gerar relatorio de dados financeiros mensais da FRANQUIA");
+                        System.out.println("0 - SAIR");
+                        System.out.print("DIGITE SUA opcao: ");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        if (i == 1) {
+                            listarFranquias();
+                            System.out.print("DIGITE o id da franquia que deseja gerar o relatorio: ");
+                            do{
+                                toConvert = scan.nextLine();
+                                res = isInt(toConvert);
+                            }while(res != true);
+                            i = Integer.parseInt(toConvert);
+                            Franquia f = FranquiaController.buscaPorId(i);
+                            if (f != null) {
+                                RelatorioController r = new RelatorioController();
+                                r.setResult("FinanceirosMensaisFranquia/reportMensalFranq_" + i + ".pdf");
+                                r.createPdfMensalFranq(r.result, i);
+                            }
+                            else{
+                                System.out.println("FRANQUIA COM ESSE ID NAO EXISTE");
+                                break;
+                            }
+                        } else if (i != 0) {
+                            System.out.println("NAO EXISTE ESSA OPCAO");
+                            break;
+                        }
                     }else{
                         System.out.println("Sem permissao");
                     }
                     break;
                 case 3:
                     if(pessoa.getDono_unidade()== 1){
-                        //
+                        System.out.println("1 - Gerar relatorio de dados financeiros mensais da UNIDADE DE FRANQUIA");
+                        System.out.println("0 - SAIR");
+                        System.out.print("DIGITE SUA opcao: ");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        if (i == 1) {
+                            //
+                        } else if (i != 0) {
+                            System.out.println("NAO EXISTE ESSA OPCAO");
+                            break;
+                        }
                     }else{
                         System.out.println("Sem permissao");
                     }
                     break;
                 case 4:
                     if(pessoa.getMedico() == 1){
-                        //
+                        System.out.println("1 - Gerar relatorio de valores recebido pelo medico");
+                        System.out.println("0 - SAIR");
+                        System.out.print("DIGITE SUA opcao: ");
+                        do{
+                            toConvert = scan.nextLine();
+                            res = isInt(toConvert);
+                        }while(res != true);
+                        i = Integer.parseInt(toConvert);
+                        if (i == 1) {
+                            //
+                        } else if (i != 0) {
+                            System.out.println("NAO EXISTE ESSA OPCAO");
+                            break;
+                        }
                     }else{
                         System.out.println("Sem permissao");
                     }
