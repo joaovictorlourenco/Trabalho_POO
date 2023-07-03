@@ -40,7 +40,7 @@ public class CalendarioAno {
         System.out.println("Data atual: " + dataFormatada);
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Informe o número de dias a serem adicionados: ");
+        System.out.print("Informe o numero de dias a serem adicionados: ");
         int numeroDias = scanner.nextInt();
 
         LocalDate novaData = getData().plusDays(numeroDias);

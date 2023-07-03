@@ -63,11 +63,6 @@ public class View {
 //        calendar.set(Calendar.SECOND, 0);
 //        long initialDelay = calendar.getTimeInMillis() - System.currentTimeMillis();
 //        timer.scheduleAtFixedRate((Runnable) new FinanceiroMedicoController(), initialDelay, 1, TimeUnit.MILLISECONDS );
-
-
-//        LocalDate data = LocalDate.now();
-//        
-//        data = acrescentaCalendario(data);
         
         System.out.println("\n######## Bem vindo ao sistema de gerenciamento de clinicas ########");
         System.out.println(" ");
@@ -89,7 +84,7 @@ public class View {
             opcLog = Integer.parseInt(toConvert);
             while(opcLog != 1 && opcLog != 2 && opcLog != 0 && opcLog != 3){
                 do{
-                    System.out.println("Digite uma opção válida");
+                    System.out.println("Digite uma opcao valida");
                     toConvert = scan.nextLine();
                     res = isInt(toConvert);
                 }while(res != true);
@@ -98,10 +93,10 @@ public class View {
             
             switch (opcLog){
                 case 1:
-                    System.out.println("Digite seu login:");
+                    System.out.print("Digite seu login: ");
                     String login = scan.nextLine();
                     
-                    System.out.println("Digite sua senha:");
+                    System.out.print("Digite sua senha: ");
                     String senha = scan.nextLine();
                     
                     Pessoa logPessoa = PessoaController.login(login, senha);
@@ -114,22 +109,22 @@ public class View {
                     break;
                     
                 case 2:
-                    System.out.println("digite seu nome:");
+                    System.out.print("digite seu nome: ");
                     String nome = scan.nextLine();
 
-                    System.out.println("digite seu endereço:");
+                    System.out.print("digite seu endereco: ");
                     String end = scan.nextLine();
 
-                    System.out.println("digite seu CPF:");
+                    System.out.print("digite seu CPF: ");
                     String cpf = scan.nextLine();
 
-                    System.out.println("digite seu telefone:");
+                    System.out.print("digite seu telefone: ");
                     String tel = scan.nextLine();
 
-                    System.out.println("digite seu login:");
+                    System.out.print("digite seu login: ");
                     String log = scan.nextLine();
                     
-                    System.out.println("digite seu sua senha:");
+                    System.out.print("digite seu sua senha: ");
                     String passw = scan.nextLine();
 
                     PessoaController.cadastraPessoa(nome, end, cpf, tel, log, passw);
@@ -144,7 +139,7 @@ public class View {
                     calendario.acrescentaCalendario();
                     break;
                 default: 
-                    System.out.println("Não existe essa opção");
+                    System.out.println("Nao existe essa opcao");
                     
                     
             }
@@ -179,12 +174,14 @@ public class View {
             }
             System.out.println("5 - Menu Consultas");
             if(pessoa.getMedico() == 1){
-                System.out.println("6 - Menu Informações de Consulta");
+                System.out.println("6 - Menu Informacoes de Consulta");
             }
             System.out.println("7 - Menu Procedimentos");
             if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade() == 1){
                 System.out.println("8 - Menu Financeiro ADM");
-            
+            }
+            if(pessoa.getDono_franquia() == 1){
+                System.out.println("9 - Menu Relatorios");
             }
 
             do{
@@ -202,7 +199,7 @@ public class View {
                     if(pessoa.getDono_franquia() == 1 || pessoa.getDono_unidade()== 1){
                         criandoMedico();
                     }else{
-                        System.out.println("Sem permissão");
+                        System.out.println("Sem permissao");
                     }
                     break;
                 case 2:
@@ -235,8 +232,11 @@ public class View {
                         menuFinanceiro();
                      }
                     break;
+                case 9:
+                    menuRelatorios(pessoa);
+                    break;
                 default:
-                    System.out.println("Não existe essa opção");
+                    System.out.println("Nao existe essa opcao");
                     opc = -1;
                 }
             }while(opc != 0);
@@ -973,8 +973,8 @@ public class View {
         boolean res;
         int i;
         int papel;
-        System.out.println("A seguir escolha um usuario cadastrado da lista abaixo e insira seu respectivo id para alteração:");
         listaPessoas();
+        System.out.print("Escolha um usuario cadastrado da lista e insira seu respectivo id para alteração: ");
 
         do{
             toConvert = scan.nextLine();
@@ -996,7 +996,7 @@ public class View {
             i = Integer.parseInt(toConvert);
 //            i = Integer.parseInt(scan.nextLine());
             while(i != 0 && i != 1){
-                System.out.println("Digite uma opção válida");
+                System.out.print("Digite uma opção válida: ");
                 do{
                     toConvert = scan.nextLine();
                     res = isInt(toConvert);
@@ -1013,7 +1013,7 @@ public class View {
             }while(res != true);
             papel = Integer.parseInt(toConvert);
             while(papel != 1 && papel != 2 && papel != 3){
-                System.out.println("Digite uma opção válida");
+                System.out.print("Digite uma opção válida: ");
                 do{
                     toConvert = scan.nextLine();
                     res = isInt(toConvert);
@@ -1074,7 +1074,7 @@ public class View {
         System.out.println("########################################################################");
         listaPessoas();
         listaMedicos();
-        System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir:");
+        System.out.print("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir: ");
         
         do{
             toConvert = scan.nextLine();
@@ -1089,7 +1089,7 @@ public class View {
                 
                 System.out.println("########################################################################");
                 listaPessoas();
-                System.out.println("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair:");
+                System.out.print("Insira o id de uma das pessoas presentes na lista abaixo que deseja excluir ou 0 para sair: ");
                 
                 do{
                     toConvert = scan.nextLine();
@@ -1159,8 +1159,8 @@ public class View {
                     break;
                     
                 case 1:
-                    System.out.println("Insira o id da unidade que irá consultar");
                     listarUnidadesFranquia();
+                    System.out.print("Insira o id da unidade que irá consultar: ");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1173,8 +1173,8 @@ public class View {
                         break;
                     }
                     
-                    System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
                     listaMedicos();
+                    System.out.print("Insira a o id do medico na lista abaixo com quem deseja consultar: ");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1188,7 +1188,7 @@ public class View {
                     }
                     
                     System.out.println("Insira o DIA, MES e ANO de sua consulta no seguinte formato");
-                    System.out.println("DD/MM/YYYY");
+                    System.out.print("DD/MM/YYYY : ");
                     toConvert = scan.nextLine();
                     dataConsulta = toConvert.split("/");
                     res = isInt(dataConsulta[0]);
@@ -1222,7 +1222,7 @@ public class View {
                     }
                     
                     System.out.println("Insira o HORARIO da sua consulta entre 8H - 19H");
-                    System.out.println("No seguinte formato: HH:mm");
+                    System.out.print("No seguinte formato: HH:mm : ");
                     toConvert = scan.nextLine();
                     horaConsulta = toConvert.split(":");
                     
@@ -1241,7 +1241,7 @@ public class View {
                     FranquiaUnidade franquiaUnidade = FranquiaUnidadeController.buscarPorId(idUnidFranq);
                     
                     //adicionando a Ao Crud direto
-                    FinanceiroAdmController.cadastraFinanceiroADM(1, franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Consulta", 200);
+                    FinanceiroAdmController.cadastraFinanceiroADM(1, (int) franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Consulta", 200);
                             
                     ConsultaController.cadastraConsulta(idMed, (int)p.getId(), convertDate, hora, idUnidFranq);
                     
@@ -1260,7 +1260,7 @@ public class View {
                         listaConsultas();
                     }
                     System.out.println("########################################################################");
-                    System.out.println("Insira o id da consulta que deseja alterar");
+                    System.out.print("Insira o id da consulta que deseja alterar: ");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1289,7 +1289,7 @@ public class View {
                                 break;
                             case 1:
                                 listarUnidadesFranquia();
-                                System.out.println("Informe a unidade de franquia que deseja: ");
+                                System.out.print("Informe a unidade de franquia que deseja: ");
                                 do{
                                     toConvert = scan.nextLine();
                                     res = isInt(toConvert);
@@ -1299,8 +1299,8 @@ public class View {
                                 ConsultaController.alteraConsulta(idConsulta, idUnidFranq, 0, null, null);
                                 break;
                             case 2:
-                                 System.out.println("Insira o DIA, MES e ANO de sua consulta no seguinte formato");
-                                System.out.println("DD/MM/YYYY");
+                                 System.out.print("Insira o DIA, MES e ANO de sua consulta no seguinte formato");
+                                System.out.print("DD/MM/YYYY :");
                                 toConvert = scan.nextLine();
                                 dataConsulta = toConvert.split("/");
                                 res = isInt(dataConsulta[0]);
@@ -1333,8 +1333,8 @@ public class View {
                                     break;
                                 }
 
-                                System.out.println("Insira o HORARIO da sua consulta entre 8H - 19H");
-                                System.out.println("No seguinte formato: HH:mm");
+                                System.out.print("Insira o HORARIO da sua consulta entre 8H - 19H");
+                                System.out.print("No seguinte formato: HH:mm : ");
                                 toConvert = scan.nextLine();
                                 horaConsulta = toConvert.split(":");
 
@@ -1353,7 +1353,7 @@ public class View {
                                 break;
                             case 3:
                                 listaMedicos();
-                                System.out.println("insira o ID do medico de desejo:");
+                                System.out.print("insira o ID do medico de desejo: ");
                                 do{
                                     toConvert = scan.nextLine();
                                     res = isInt(toConvert);
@@ -1366,7 +1366,6 @@ public class View {
                     break;
                 case 3:
                     System.out.println("########################################################################");
-//                    System.out.println("Insira o id da consulta que deseja cancelar");
                     if(p.getDono_franquia() == 1 || p.getDono_unidade() == 1){
                         listaConsultas();
                     }else if(p.getMedico() == 1){
@@ -1374,7 +1373,7 @@ public class View {
                     }else{
                         listaConsultas();
                     }
-                    System.out.println("Insira o id da consulta que deseja cancelar");
+                    System.out.print("Insira o id da consulta que deseja cancelar: ");
                     do{
                         toConvert = scan.nextLine();
                         res = isInt(toConvert);
@@ -1435,7 +1434,7 @@ public class View {
                                 }
                             }
                         }       
-                        System.out.println("Informe o id da Consulta");
+                        System.out.print("Informe o id da Consulta: ");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1445,7 +1444,7 @@ public class View {
 //                            toConvert = scan.nextLine();
 //                            res = isInt(toConvert);
 //                        }while(res != true);
-                        System.out.println("Descreva as informações referentes a consulta:");
+                        System.out.print("Descreva as informações referentes a consulta: ");
                         String descricao = scan.nextLine();
                         for(Consulta c: consultas){
                             if(c != null){
@@ -1463,7 +1462,7 @@ public class View {
                     break;
                 case 2:
                     listaInfoConsultas(pessoa);
-                    System.out.println("Insira o id da consulta que deseja alterar");
+                    System.out.print("Insira o id da consulta que deseja alterar: ");
 //                    for(Consulta c: consultas){
 //                        if(c != null){
 //                            if(c.getIdMedico() == pessoa.getId()){
@@ -1482,7 +1481,7 @@ public class View {
                         if(c != null){
                             if(c.getIdMedico() == pessoa.getId()){
                                 if(idConsulta == c.getId()){
-                                    System.out.println("Insira a nova descricao");
+                                    System.out.print("Insira a nova descricao: ");
                                     String descricao = scan.nextLine();
                                     res = InfoConsultaController.alteraInfoConsulta(descricao, idConsulta); 
                                     if(res == true){
@@ -1570,14 +1569,14 @@ public class View {
                     break;
                 case 1:    
                     if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
-                        System.out.println("Insira o nome do Procedimento");
+                        System.out.print("Insira o nome do Procedimento: ");
                         nome = scan.nextLine();
 
-                        System.out.println("Insira o laudo do Procedimento");
+                        System.out.print("Insira o laudo do Procedimento: ");
                         laudo = scan.nextLine();
                         
-                        System.out.println("Insira o id da unidade que irá consultar");
                         listarUnidadesFranquia();
+                        System.out.print("Insira o id da unidade que ira consultar: ");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1590,8 +1589,8 @@ public class View {
                             break;
                         }
 
-                        System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
                         listaMedicos();
+                        System.out.print("Insira a o id do medico na lista abaixo com quem deseja consultar: ");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1604,8 +1603,8 @@ public class View {
                             break;
                         }
 
-                        System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
-                        System.out.println("DD/MM/YYYY");
+                        System.out.print("Insira o DIA, MES e ANO do seu procedimento no seguinte formato: ");
+                        System.out.print("DD/MM/YYYY : ");
                         toConvert = scan.nextLine();
                         dataConsulta = toConvert.split("/");
                         res = isInt(dataConsulta[0]);
@@ -1637,8 +1636,8 @@ public class View {
                             break;
                         }
 
-                        System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
-                        System.out.println("No seguinte formato: HH:mm");
+                        System.out.print("Insira o HORARIO do Procedimento entre 8H - 19H");
+                        System.out.print("No seguinte formato: HH:mm : ");
                         toConvert = scan.nextLine();
                         horaConsulta = toConvert.split(":");
 
@@ -1655,7 +1654,7 @@ public class View {
                         
                         FranquiaUnidade franquiaUnidade = FranquiaUnidadeController.buscarPorId(idUnidFranq);
                         
-                        FinanceiroAdmController.cadastraFinanceiroADM(1, franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Procedimento", 200);
+                        FinanceiroAdmController.cadastraFinanceiroADM(1, (int) franquiaUnidade.getFranquia(), idUnidFranq, "Entrada de Procedimento", 200);
                         
                         LocalTime hora = LocalTime.of(Integer.parseInt(horaConsulta[0]),Integer.parseInt(horaConsulta[1]),0);
                         ProcedimentoController.cadastraProcedimento(nome, dtConsulta, hora, laudo, idUnidFranq, idMed);
@@ -1665,7 +1664,7 @@ public class View {
                 case 2:
                     if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
                         listaProcedimentos();
-                        System.out.println("Insira o id da consulta que irá gerar um procedimento");
+                        System.out.print("Insira o id da consulta que irá gerar um procedimento: ");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1677,42 +1676,14 @@ public class View {
                             break;
                         }
                         
-                        System.out.println("Insira o nome do Procedimento");
+                        System.out.print("Insira o nome do Procedimento: ");
                         nome = scan.nextLine();
                         
-                        System.out.println("Insira o laudo do Procedimento");
+                        System.out.print("Insira o laudo do Procedimento: ");
                         laudo = scan.nextLine();
                         
-//                        System.out.println("Insira o id da unidade que irá consultar");
-//                        listarUnidadesFranquia();
-//                        do{
-//                            toConvert = scan.nextLine();
-//                            res = isInt(toConvert);
-//                        }while(res != true);
-//
-//                        int idUnidFranq = Integer.parseInt(toConvert);
-//                        res = unidadeExiste(idUnidFranq);
-//                        if(res == false){
-//                            System.out.println("id inválido");
-//                            break;
-//                        }
-//
-//                        System.out.println("Insira a o id do medico na lista abaixo com quem deseja consultar");
-//                        listaMedicos();
-//                        do{
-//                            toConvert = scan.nextLine();
-//                            res = isInt(toConvert);
-//                        }while(res != true);
-//
-//                        int idMed = Integer.parseInt(toConvert);
-//                        res = MedicoController.medicoExiste(idMed);
-//                        if(res == false){
-//                            System.out.println("id inválido");
-//                            break;
-//                        }
-
-                        System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
-                        System.out.println("DD/MM/YYYY");
+                        System.out.print("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
+                        System.out.print("DD/MM/YYYY: ");
                         toConvert = scan.nextLine();
                         dataConsulta = toConvert.split("/");
                         res = isInt(dataConsulta[0]);
@@ -1744,8 +1715,8 @@ public class View {
                             break;
                         }
 
-                        System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
-                        System.out.println("No seguinte formato: HH:mm");
+                        System.out.print("Insira o HORARIO do Procedimento entre 8H - 19H");
+                        System.out.print("No seguinte formato: HH:mm : ");
                         toConvert = scan.nextLine();
                         horaConsulta = toConvert.split(":");
 
@@ -1766,8 +1737,8 @@ public class View {
                     break;
                 case 3:
                     if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
-                        System.out.println("Informe o ID da consulta que deseja ALTERAR");
                         listaProcedimentos();
+                        System.out.print("Informe o ID da consulta que deseja ALTERAR: ");
                         do{
                             toConvert = scan.nextLine();
                             res = isInt(toConvert);
@@ -1786,18 +1757,18 @@ public class View {
                             opc = Integer.parseInt(toConvert);
                             switch(opc){
                                 case 1:
-                                    System.out.println("Informe o novo NOME");
+                                    System.out.print("Informe o novo NOME: ");
                                     nome = scan.nextLine();
                                     p.setNome(nome);
                                     break;
                                 case 2:
-                                    System.out.println("Informe o novo LAUDO");
+                                    System.out.print("Informe o novo LAUDO: ");
                                     laudo = scan.nextLine();
                                     p.setLaudo(laudo);
                                     break;
                                 case 3:
-                                    System.out.println("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
-                                    System.out.println("DD/MM/YYYY");
+                                    System.out.print("Insira o DIA, MES e ANO do seu procedimento no seguinte formato");
+                                    System.out.print("DD/MM/YYYY : ");
                                     toConvert = scan.nextLine();
                                     dataConsulta = toConvert.split("/");
                                     res = isInt(dataConsulta[0]);
@@ -1829,8 +1800,8 @@ public class View {
                                         break;
                                     }
 
-                                    System.out.println("Insira o HORARIO do Procedimento entre 8H - 19H");
-                                    System.out.println("No seguinte formato: HH:mm");
+                                    System.out.print("Insira o HORARIO do Procedimento entre 8H - 19H");
+                                    System.out.print("No seguinte formato: HH:mm : ");
                                     toConvert = scan.nextLine();
                                     horaConsulta = toConvert.split(":");
 
@@ -1857,8 +1828,8 @@ public class View {
                     break;
                 case 4:
                     if(pessoa.getMedico() == 1 || pessoa.getDono_unidade() == 1 || pessoa.getDono_franquia() == 1){
-                        System.out.println("Informe o ID da consulta que deseja CANCELAR");
                         listaProcedimentos();
+                        System.out.print("Informe o ID da consulta que deseja CANCELAR: ");
                         
                         do{
                             toConvert = scan.nextLine();
@@ -1880,21 +1851,69 @@ public class View {
             }
         }while(opc != 0);
     }
-    
-//    private static LocalDate acrescentaCalendario(LocalDate dataAtual) {
-//        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        String dataFormatada = dataAtual.format(formatoData);
-//        System.out.println("Data atual: " + dataFormatada);
-//
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Informe o número de dias a serem adicionados: ");
-//        int numeroDias = scanner.nextInt();
-//
-//        LocalDate novaData = dataAtual.plusDays(numeroDias);
-//
-//        String novaDataFormatada = novaData.format(formatoData);
-//        System.out.println("Nova data: " + novaDataFormatada);
-//        
-//        return novaData;
-//    }
+
+    private static void menuRelatorios(Pessoa pessoa) {
+        Scanner scan = new Scanner(System.in);
+        String toConvert;
+        int opc;
+        boolean res;
+        do{
+            System.out.println("################# MENU RELATORIOS ###################");
+            System.out.println("0 - SAIR");
+            System.out.println("1 - Relatorio de consultas e procedimento");
+            if(pessoa.getDono_franquia() == 1){
+                System.out.println("2 - Relatorio de dados financeiros mensais da FRANQUIA");
+            }
+            if(pessoa.getDono_unidade() == 1){
+                System.out.println("3 - Relatorio de dados financeiros mensais da UNIDADE DE FRANQUIA");
+            }
+            if(pessoa.getMedico() == 1){
+                System.out.println("4 - Relatorio de valores recebido pelo medico");
+            }
+
+            do{
+                toConvert = scan.nextLine();
+                res = isInt(toConvert);
+            }while(res != true);
+            opc = Integer.parseInt(toConvert);
+            
+            switch(opc){
+                case 0:
+                    opc = 0;
+                    break;
+                case 1:
+                    if(pessoa.getDono_franquia() == 1 ){
+                        // gerar opcoes e relatorios
+                    }else{
+                        System.out.println("Sem permissao");
+                    }
+                    break;
+                case 2:
+                    if(pessoa.getDono_franquia() == 1 ){
+                        // gerar opcoes e relatorios
+                    }else{
+                        System.out.println("Sem permissao");
+                    }
+                    break;
+                case 3:
+                    if(pessoa.getDono_unidade()== 1){
+                        //
+                    }else{
+                        System.out.println("Sem permissao");
+                    }
+                    break;
+                case 4:
+                    if(pessoa.getMedico() == 1){
+                        //
+                    }else{
+                        System.out.println("Sem permissao");
+                    }
+                    break;
+                default:
+                    System.out.println("Nao existe essa opcao");
+                    opc = -1;
+                    break;
+            }
+        }while(opc != 0);
+    }
 }
